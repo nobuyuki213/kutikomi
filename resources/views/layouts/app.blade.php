@@ -13,12 +13,15 @@
 
 		<link rel="stylesheet" href="{{ asset('css/style.css')}}">
 
+
 		{{-- Minty css --}}
 		<link href="https://stackpath.bootstrapcdn.com/bootswatch/4.1.1/minty/bootstrap.min.css" rel="stylesheet" integrity="sha384-4eGtnTOp6je5m6l1Zcp2WUGR9Y7kJZuAiD3Pk2GAW3uNRgHQSIqcrcAxBipzlbWP" crossorigin="anonymous">
 
-
 		<!--Font Awesome-->
 		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css">
+
+		{{-- Social Buttons for Bootstrap --}}
+		<link rel="stylesheet" href="{{ asset('css/bootstrap-social.css')}}">
 	</head>
 
 

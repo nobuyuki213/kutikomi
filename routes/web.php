@@ -23,3 +23,7 @@ Route::post('signup', 'Auth\RegisterController@register')->name('signup.post');
 Route::post('login', 'Auth\LoginController@login')->name('login.post');
 // ログアウト実行
 Route::get('logout', 'Auth\LoginController@logout')->name('logout.get');
+
+// ソーシャル登録＆ログインの実装
+Route::get('login/{provider}', 'Auth\SocialAccountController@redirectToProvider');
+Route::get('login/{provider}/callback', 'Auth\SocialAccountController@handleProviderCallback');
