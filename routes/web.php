@@ -11,9 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'WelcomeController@index');
 
 // サインイン/ログインページ
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login.get');
@@ -27,3 +25,5 @@ Route::get('logout', 'Auth\LoginController@logout')->name('logout.get');
 // ソーシャル登録＆ログインの実装
 Route::get('login/{provider}', 'Auth\SocialAccountController@redirectToProvider');
 Route::get('login/{provider}/callback', 'Auth\SocialAccountController@handleProviderCallback');
+
+Route::resource('places', 'PlacesController', ['only' => ['index', 'show', 'create']]);

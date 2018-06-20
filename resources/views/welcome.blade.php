@@ -24,6 +24,32 @@
 
 @section('content')
 
-テスト
+@if(Session::has('message'))
+  メッセージ：{{ session('message') }}
+@endif
+
+<div class="card">
+	<div class="card-header">住所から探す</div>
+	@if (count($cities) > 0)
+		<?php $key = 0; ?>
+		@foreach ($cities as $cities)
+			@if ($cities->isNotEmpty())
+				<div class="card-body pb-2">
+					<h6 class="card-text">{{ $lines[$key].' 行' }}</h6>
+				</div>
+				<ul class="list-inline row mx-1">
+					@foreach ($cities as $city)
+						<li class="list-inline-item col-lg-3 col-6 mr-0 p-3">
+							<a href="#"><i class="fas fa-map-marker-alt"></i> <small>{{ $city->name }}</small></a>
+							<small class="d-block" style="font-size: 0.5rem;">{{ $city->name_furi }}</small>
+							<p class="d-block mb-0" style="font-size: 0.5rem;">{{ $city->places()->count().' 件' }}</p>
+						</li>
+					@endforeach
+				</ul>
+			@endif
+		<?php $key++; ?>
+		@endforeach
+	@endif
+</div>
 
 @endsection
