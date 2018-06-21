@@ -9,10 +9,24 @@
 		<title>@yield('title')-kuticomi</title>
 
 		<!-- Bootstrap CSS -->
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" id="bootstrap-css">
 
-		<link rel="stylesheet" href="{{ asset('css/style.css')}}">
+		@if (Request::is('hirosima/*'))
+			<style type="text/css">
+			body{background:#f9f9f9;}
+			#wrapper{padding:1.5rem 0;}
+			.navbar-expand-lg .navbar-nav.side-nav{flex-direction: column;}
+			.card{margin-bottom: 15px; border-radius:0; box-shadow: 0 3px 5px rgba(0,0,0,.1); }
+/*			.header-top{box-shadow: 0 3px 5px rgba(0,0,0,.1)}
+*/
+			@media(min-width:992px) {
+			#wrapper{margin-left: 300px;padding: 1.5rem 15px 15px;}
+			.navbar-nav.side-nav{background: #F3969A;box-shadow: 2px 1px 2px rgba(0,0,0,.1);position:fixed;top:56px;flex-direction: column!important;left:0;width:300px;overflow-y:auto;bottom:0;overflow-x:hidden;padding-bottom:40px}
+			}
+			</style>
+		@endif
 
+		<link rel="stylesheet" type="text/css" href="{{ asset('css/style.css')}}">
 
 		{{-- Minty css --}}
 		<link href="https://stackpath.bootstrapcdn.com/bootswatch/4.1.1/minty/bootstrap.min.css" rel="stylesheet" integrity="sha384-4eGtnTOp6je5m6l1Zcp2WUGR9Y7kJZuAiD3Pk2GAW3uNRgHQSIqcrcAxBipzlbWP" crossorigin="anonymous">
@@ -22,23 +36,41 @@
 
 		{{-- Social Buttons for Bootstrap --}}
 		<link rel="stylesheet" href="{{ asset('css/bootstrap-social.css')}}">
+
+
 	</head>
 
 
-	<body style="padding-top: 2.5rem;">
-		<header id="header">
+	<body style="padding-top: 3rem;">
+		@if (Request::is('hirosima/*'))
+		<div id="wrapper">
+			<header id="header">
 
-			@include('commons.navbar')
+				@include('commons.admin_navbar')
 
-		</header><!-- /header -->
+			</header><!-- /header -->
 
-			@yield('cover')
+			<div class="container-fluid">
 
-		<div class="container">
+				@yield('content_f')
 
-			@yield('content')
-
+			</div>
 		</div>
+		@else
+			<header id="header">
+
+				@include('commons.navbar')
+
+			</header><!-- /header -->
+
+				@yield('cover')
+
+			<div class="container">
+
+				@yield('content')
+
+			</div>
+		@endif
 
 		<!-- jQuery -->
 		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>

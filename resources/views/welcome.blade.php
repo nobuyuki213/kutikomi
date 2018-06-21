@@ -40,7 +40,7 @@
 				<ul class="list-inline row mx-1">
 					@foreach ($cities as $city)
 						<li class="list-inline-item col-lg-3 col-6 mr-0 p-3">
-							<a href="#"><i class="fas fa-map-marker-alt"></i> <small>{{ $city->name }}</small></a>
+							{!! Html::decode(link_to_route('cities.show', '<i class="fas fa-map-marker-alt"></i> <small>'.$city->name.'</small>', ['id' => $city->id])) !!}
 							<small class="d-block" style="font-size: 0.5rem;">{{ $city->name_furi }}</small>
 							<p class="d-block mb-0" style="font-size: 0.5rem;">{{ $city->places()->count().' 件' }}</p>
 						</li>

@@ -27,3 +27,7 @@ Route::get('login/{provider}', 'Auth\SocialAccountController@redirectToProvider'
 Route::get('login/{provider}/callback', 'Auth\SocialAccountController@handleProviderCallback');
 
 Route::resource('places', 'PlacesController', ['only' => ['index', 'show', 'create']]);
+
+Route::group(['prefix' => 'hirosima'], function(){
+	Route::resource('cities', 'CitiesController', ['only' => ['show']]);
+});
