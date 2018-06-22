@@ -12,18 +12,7 @@
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" id="bootstrap-css">
 
 		@if (Request::is('hirosima/*'))
-			<style type="text/css">
-			body{background:#f9f9f9;}
-			#wrapper{padding:1.5rem 0;}
-			.navbar-expand-lg .navbar-nav.side-nav{flex-direction: column;}
-			.card{margin-bottom: 15px; border-radius:0; box-shadow: 0 3px 5px rgba(0,0,0,.1); }
-/*			.header-top{box-shadow: 0 3px 5px rgba(0,0,0,.1)}
-*/
-			@media(min-width:992px) {
-			#wrapper{margin-left: 300px;padding: 1.5rem 15px 15px;}
-			.navbar-nav.side-nav{background: #F3969A;box-shadow: 2px 1px 2px rgba(0,0,0,.1);position:fixed;top:56px;flex-direction: column!important;left:0;width:300px;overflow-y:auto;bottom:0;overflow-x:hidden;padding-bottom:40px}
-			}
-			</style>
+			<link rel="stylesheet" type="text/css" href="{{ asset('css/admin-style.css')}}">
 		@endif
 
 		<link rel="stylesheet" type="text/css" href="{{ asset('css/style.css')}}">

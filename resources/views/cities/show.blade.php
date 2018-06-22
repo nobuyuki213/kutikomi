@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', '〇〇のスポット')
+@section('title', $city->name.'のスポット')
 
 @section('content_f')
 
@@ -40,6 +40,7 @@
 				</div>
 				<div class="card-footer">
 					詳細ページリンク（ボタンor範囲指定扱い）
+					{!! Html::decode(link_to_route('places.show', '<i class="fas fa-map-marker-alt"></i> <small>'.$place->name.'</small>', ['id' => $place->id])) !!}
 				</div>
 			</div>
 

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Place;
+use App\City;
 
 class PlacesController extends Controller
 {
@@ -49,6 +51,15 @@ class PlacesController extends Controller
     public function show($id)
     {
         //
+        $place = Place::find($id);
+        $city = $place->city()->get();
+
+        $data = [
+            'place' => $place,
+            'city' => $city,
+        ];
+
+        return view('places.show', $data);
     }
 
     /**
