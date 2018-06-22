@@ -8,11 +8,10 @@
 	＜パンくずリスト生成＞
 </div>
 
-以下は投稿用のステップ用
-	<nav class="row">
+	<nav>
 		<ol class="cd-breadcrumb cd-multi-steps text-bottom count">
 			<li class="visited"><a href="#0">Home</a></li>
-			<li class="current"><em>Gallery</em></a></li>
+			<li class="current"><em>Gallery</em></li>
 			<li><em>Web</em></li>
 			<li><em>Project</em></li>
 		</ol>

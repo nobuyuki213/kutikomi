@@ -116,7 +116,7 @@ Basic Style
 .cd-breadcrumb li > *, .cd-multi-steps li > * {
   /* single step */
   display: inline-block;
-  font-size: 1.0rem;
+  font-size: 0.8rem;
   color: #2c3f4c;
 }
 .cd-breadcrumb li.current > *, .cd-multi-steps li.current > * {
@@ -180,7 +180,7 @@ Basic Style
     margin: 0 1em;
   }
   .cd-breadcrumb li > *, .cd-multi-steps li > * {
-    font-size: 1.2rem;
+    font-size: 1.0rem;
   }
 }
 
@@ -380,7 +380,7 @@ Multi steps indicator
   }
 
   .cd-multi-steps.text-top li, .cd-multi-steps.text-bottom li {
-    width: 80px;
+    width: 160px;
     text-align: center;
   }
   .cd-multi-steps.text-top li::after, .cd-multi-steps.text-bottom li::after {
@@ -464,7 +464,7 @@ Add a counter to the multi-steps indicator
     height: 26px;
     width: 26px;
     line-height: 26px;
-    font-size: 1.0rem;
+    font-size: 0.8rem;
     color: #ffffff;
   }
 

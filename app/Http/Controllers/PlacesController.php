@@ -95,4 +95,32 @@ class PlacesController extends Controller
     {
         //
     }
+
+    /*
+    * place review search page show
+     */
+    public function search()
+    {
+        $keyword = request()->keyword;
+
+        if ($keyword == null){
+            return view('places.search');
+
+        } else {
+            $places = '';
+            $places = Place::PlaceSearch($keyword)->paginate(5);
+
+            if ($places->isNotEmpty()){
+
+                return view('places.search', [
+                    'keyword' => $keyword,
+                    'places' => $places,
+                ]);
+
+            } else {
+                return view('places.search')
+                        ->with('message', '※該当する場所がありませんでした');
+            }
+        }
+    }
 }
