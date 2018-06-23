@@ -34,6 +34,7 @@ Route::group(['prefix' => 'hirosima/cities'], function(){
 	Route::resource('places', 'PlacesController', ['only' => ['index', 'show']]);
 });
 Route::group(['prefix' => 'places/review/input'], function(){
-	Route::get('search', 'PlacesController@search')->name('places.search');
+	Route::get('search', 'PlacesController@search')->name('places.review');
+	Route::get('search_add', 'PlacesController@searchAdd')->name('places.search_add');
 
 });

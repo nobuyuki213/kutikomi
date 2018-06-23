@@ -104,23 +104,36 @@ class PlacesController extends Controller
         $keyword = request()->keyword;
 
         if ($keyword == null){
-            return view('places.search');
+            return view('places.review');
 
         } else {
             $places = '';
-            $places = Place::PlaceSearch($keyword)->paginate(5);
+            $places = Place::PlaceSearch($keyword)->paginate(10);
 
             if ($places->isNotEmpty()){
 
-                return view('places.search', [
+                return view('places.review', [
                     'keyword' => $keyword,
                     'places' => $places,
                 ]);
 
             } else {
-                return view('places.search')
-                        ->with('message', '※該当する場所がありませんでした');
+                $message = '※該当する場所がありませんでした';
+
+                return view('places.review', [
+                    'keyword' => $keyword,
+                    'message' => $message,
+                ]);
             }
         }
+    }
+
+    public function searchAdd()
+    {
+        $cities = City::paginate(10);
+
+        return view('places.search_add', [
+            'cities' => $cities,
+        ]);
     }
 }

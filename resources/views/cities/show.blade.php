@@ -6,7 +6,7 @@
 
 <div class="row">
 	<div class="col px-2">
-		<h3 class="mx-1"><i class="fas fa-map-marker-alt"></i> {{ $city->name }}を探す</h3>
+		<h2 class="mx-1 mt-2"><i class="fas fa-map-marker-alt"></i> {{ $city->name }}を探す</h2>
 		<small class="mx-1">{{ $city->name_furi }}</small>
 
 		@foreach ($places as $place)
