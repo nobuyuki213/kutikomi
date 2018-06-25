@@ -11,6 +11,13 @@
 |
 */
 
+//session利用
+//placeの閲覧履歴ページ
+Route::get('history', 'WelcomeController@historyGet')->name('history.get');
+//placeの検索履歴保存（本番はこのルーティン名は不要になると思われるが作成によって使える可能性もあるので保留）
+Route::post('session', 'WelcomeController@session_put')->name('session.post');
+ //session利用ここまで
+
 Route::get('/', 'WelcomeController@index');
 
 // サインイン/ログインページ

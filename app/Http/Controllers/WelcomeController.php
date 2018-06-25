@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\City;
 use App\Place;
+use Session;
 
 class WelcomeController extends Controller
 {
@@ -40,4 +41,23 @@ class WelcomeController extends Controller
 
 		return view('welcome', $data);
 	}
+
+	// sessionテスト用ここから
+
+	public function historyGet(Request $request)
+	{
+		$id = $request->session()->getId();
+		$s_places = $request->session()->all();
+		// Session::forget('place');
+		return view('history', ['s_places' => $s_places, 'id' => $id]);
+	}
+
+	public function search_put(Request $request)
+	{
+		$keyword = $request->keyword;
+		$request->session()->put('keyword', $keyword);
+		return redirect('/session'); //本番はページ遷移はしない
+	}
+
+		// sessionテスト用ここまで
 }

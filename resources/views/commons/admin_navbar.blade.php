@@ -32,7 +32,7 @@
 				<a class="nav-link" href="#">お気に入り</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" href="#">閲覧履歴</a>
+				{!! link_to_route('history.get', '閲覧履歴', null, ['class' => 'nav-link']) !!}
 			</li>
 			@if (Auth::check())
 				<li class="nav-item dropdown">
