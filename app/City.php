@@ -6,16 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class City extends Model
 {
-    //
+    //複数代入の設定
     protected $fillable = [
     	'name', 'name_furi',
     ];
-
+    //Cityに該当する複数のplaceを取得
     public function places()
     {
     	return $this->hasMany(Place::class);
     }
-
     // ローカルスコープの定義
     /*
     *あ行だけに限定するクエリスコープ

@@ -34,12 +34,12 @@
 		<?php $key = 0; ?>
 		@foreach ($cities as $cities)
 			@if ($cities->isNotEmpty())
-				<div class="card-body pb-2">
+				<div class="card-body">
 					<h6 class="card-text">{{ $lines[$key].' 行' }}</h6>
 				</div>
-				<ul class="list-inline row mx-1">
+				<ul class="list-inline row mx-1 mb-0">
 					@foreach ($cities as $city)
-						<li class="list-inline-item col-lg-3 col-6 mr-0 p-3">
+						<li class="list-inline-item col-lg-3 col-6 mr-0 py-2 px-3">
 							{!! Html::decode(link_to_route('cities.show', '<i class="fas fa-map-marker-alt"></i> <small>'.$city->name.'</small>', ['id' => $city->id])) !!}
 							<small class="d-block" style="font-size: 0.5rem;">{{ $city->name_furi }}</small>
 							<p class="d-block mb-0" style="font-size: 0.5rem;">{{ $city->places()->count().' 件' }}</p>
@@ -51,5 +51,7 @@
 		@endforeach
 	@endif
 </div>
+
+	@include('tags.tag_full', ['tags' => $tags])
 
 @endsection

@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Tag;
 use App\City;
+use App\Place;
 
-class CitiesController extends Controller
+class TagsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +16,12 @@ class CitiesController extends Controller
      */
     public function index()
     {
-        //
+        //全てtagを取得
+        $tags = Tag::all();
+        $data = [
+            'tags' => $tags,
+        ];
+        return view('tags.index', $data);
     }
 
     /**
@@ -46,24 +53,8 @@ class CitiesController extends Controller
      */
     public function show($id)
     {
-        //
-        $city = City::find($id);
-        $places = $city->places()->get();
-        // plaseに該当するtagを取得
-        foreach ($places as $key => $place) {
-            $tag = $place->tags()->get();
-            $tags[] = $tag;
-        }
-
-        $date = [
-            'city' => $city,
-            'places' => $places,
-        ];
-        if (!empty($tags)){
-            $date += ['tags' => $tags];
-        }
-
-        return view('cities.show', $date);
+        //タグ付済みのtagsを取得
+        $tagged = Tag::Tagged()->get(); //（ローカルスコープ Tagged()
     }
 
     /**

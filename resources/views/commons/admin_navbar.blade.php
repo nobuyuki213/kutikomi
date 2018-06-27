@@ -19,12 +19,15 @@
 			<li class="nav-item">
 				<a class="nav-link" href="#">Pricing</a>
 			</li>
-			<li class="nav-item px-2">
+			<li class="nav-item px-lg-1">
 				<form class="form-group">
 					<input type="search" class="form-control mb-2" placeholder="Search" aria-label="検索...">
 					<button type="submit" class="btn btn-info border">Search</button>
 				</form>
 			</li>
+			@if (!empty($tags))
+				@include('tags.tag_side', ['tags' => $tags])
+			@endif
 		</ul>
 
 		<ul class="navbar-nav ml-md-auto d-md-flex">

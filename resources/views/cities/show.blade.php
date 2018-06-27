@@ -36,7 +36,12 @@
 					<h5 class="card-title">Try Other</h5>
 					<h6 class="card-subtitle mb-2 text-muted">Bootstrap 4.0.0 Snippet by pradeep330</h6>
 					<p class="card-text"></p>
-					<a href="https://bootsnipp.com/pradeep330" class="card-link">link</a>
+					<i class="fas fa-tags"{{--  style="color: #F3969A;" --}}></i>
+					@foreach ($place->tags as $tag)
+						<a href="#" class="badge badge-pill badge-info p-1 my-1">
+							<h6 class="mb-0 px-1"># {{ $tag->name }}</h6>
+						</a>
+					@endforeach
 				</div>
 				<div class="card-footer">
 					詳細ページリンク（ボタンor範囲指定扱い）

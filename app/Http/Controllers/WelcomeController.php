@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\City;
 use App\Place;
+use App\Tag;
 use Session;
 
 class WelcomeController extends Controller
@@ -12,6 +13,7 @@ class WelcomeController extends Controller
 	//
 	public function index()
 	{
+		// city名50音順別で取得
 		$lines = ['あ', 'か', 'さ', 'た', 'な', 'は', 'ま', 'や', 'ら', 'わ',];
 		$city = City::LineA()->get(); //あ行取得（ローカルスコープ
 		$cities[] = $city;
@@ -33,10 +35,13 @@ class WelcomeController extends Controller
 		$cities[] = $city;
 		$city = City::LineWa()->get(); //わ行取得（ローカルスコープ
 		$cities[] = $city;
+		// 全てのtagを取得
+		$tags = Tag::all();
 
 		$data = [
 			'cities' => $cities,
 			'lines' => $lines,
+			'tags' => $tags,
 		];
 
 		return view('welcome', $data);
