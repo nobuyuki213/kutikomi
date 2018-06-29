@@ -8,7 +8,7 @@
 
 @section('breadcrumbs')
 	<nav area-label="breadcrumbs-list">
-		<div class="row mb-2 bg-primary border-top">
+		<div class="mb-2 bg-primary border-top">
 			<ol class="breadcrumb container my-0">
 			{!! Html::decode(Breadcrumbs::render('place', $place)) !!}
 			</ol>
@@ -64,7 +64,7 @@
 </div>
 <div class="container px-2" style="height:1000px;" id="container">
 	<div class="content row">
-		<div class="content-main col-md-8">
+		<div class="content-main col-lg-8">
 			{{-- ここから review --}}
 			<div class="review card my-2">
 				<div class="card-header text-center">
@@ -130,7 +130,7 @@
 			</div>
 		</div>
 		{{-- ここから sidecolumn --}}
-		<div class="content-side col-md-4">
+		<div class="content-side col-lg-4">
 			<div class="card my-2">
 				<h5 class="card-header">ヘッダのタイトル</h5>
 				<div class="card-body">

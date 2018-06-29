@@ -27,16 +27,15 @@
 
 	<body style="padding-top: 4.5rem;">
 
-		<div id="wrapper">
+		<div id="wrapper" class="px-0">
 			<header id="header">
 
 				@yield('navbar')
 
 			</header><!-- /header -->
 			<main>
-				<div style="font-size:0.8rem;">
-					@yield('breadcrumbs')
-				</div>
+
+				@yield('breadcrumbs')
 
 				@yield('cover')
 

@@ -9,18 +9,23 @@ Breadcrumbs::register('login', function($breadcrumbs){
 	$breadcrumbs->parent('top');
 	$breadcrumbs->push('<i class="fas fa-sign-in-alt"></i> ログイン/ユーザー登録', route('login.get'));
 });
-//top > cities > [places]
+//top > city > [places]
 Breadcrumbs::register('city', function($breadcrumbs, $city){
 	$breadcrumbs->parent('top');
 	$breadcrumbs->push('(広島) <i class="fas fa-map-marker-alt"></i> '.$city->name, route('cities.show', $city));
 });
-//top > cities > place > [show]
+//top > city > place > [show]
 Breadcrumbs::register('place', function($breadcrumbs, $place){
 	$breadcrumbs->parent('city', $place->city);
 	$breadcrumbs->push('<i class="fas fa-map-pin"></i> '.$place->name, route('places.show', $place));
 });
-//top > tags > [places]
+//top > tags
+Breadcrumbs::register('tags', function($breadcrumbs){
+	$breadcrumbs->parent('top');
+	$breadcrumbs->push('タグ一覧', route('tags.index'));
+});
+//top > tag > [places]
 Breadcrumbs::register('tag', function($breadcrumbs, $tag){
 	$breadcrumbs->parent('top');
-	$breadcrumbs->push('<i class="fas fa-tags"></i> '.$tag->name.'スポット', route('cities.show', $tag));
+	$breadcrumbs->push('<i class="fas fa-tags"></i> '.$tag->name.'スポット', route('tags.show', $tag));
 });

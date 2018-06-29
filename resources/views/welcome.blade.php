@@ -19,7 +19,7 @@
 		<input type="text" class="form-control border-info" placeholder="廿日市市" aria-label="..." aria-describedby="button-addon2"　style="border: 2px;">
 		<div class="input-group-append">
 			<button type="button" id="button-addon2" class="btn btn-outline-info">
-				<i class="fas fa-search fa-sm"> 検索</i>
+				<i class="fas fa-search fa-sm"></i> 検索
 			</button>
 		</div>
 	</div>
