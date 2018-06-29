@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top py-lg-3">
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top py-3">
 	<a class="navbar-brand" href="/">LOGO</a>
 	<button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#Navber" aria-controls="Navber" aria-expanded="false" aria-label="ナビゲーションの切替">
 		<span class="navbar-toggler-icon"></span>

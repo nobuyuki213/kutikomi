@@ -11,9 +11,7 @@
 		<!-- Bootstrap CSS -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" id="bootstrap-css">
 
-		@if (Request::is('hirosima/*'))
-			<link rel="stylesheet" type="text/css" href="{{ asset('css/admin-style.css')}}">
-		@endif
+		@yield('stylesheet')
 
 		<link rel="stylesheet" type="text/css" href="{{ asset('css/style.css')}}">
 
@@ -21,45 +19,28 @@
 		<link href="https://stackpath.bootstrapcdn.com/bootswatch/4.1.1/minty/bootstrap.min.css" rel="stylesheet" integrity="sha384-4eGtnTOp6je5m6l1Zcp2WUGR9Y7kJZuAiD3Pk2GAW3uNRgHQSIqcrcAxBipzlbWP" crossorigin="anonymous">
 
 		<!--Font Awesome-->
-		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css">
+		<script defer src="https://use.fontawesome.com/releases/v5.0.13/js/all.js"></script>
 
 		{{-- Social Buttons for Bootstrap --}}
 		<link rel="stylesheet" href="{{ asset('css/bootstrap-social.css')}}">
-
-
 	</head>
 
+	<body style="padding-top: 4.5rem;">
 
-	<body style="padding-top: 3rem;">
-		@if (Request::is('hirosima/*'))
 		<div id="wrapper">
 			<header id="header">
 
-				@include('commons.admin_navbar')
+				@yield('navbar')
 
 			</header><!-- /header -->
-
-			<div class="container-fluid">
-
-				@yield('content_f')
-
-			</div>
-		</div>
-		@else
-			<header id="header">
-
-				@include('commons.navbar')
-
-			</header><!-- /header -->
+			<main>
 
 				@yield('cover')
 
-			<div class="container">
-
 				@yield('content')
 
-			</div>
-		@endif
+			</main>
+		</div>
 
 		<!-- jQuery -->
 		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
@@ -81,6 +62,13 @@
 			});
 		});
 		</script>
+		<script>
+			$('[data-toggle="popover"]').popover()
+		</script>
+		<script>
+			$('[data-toggle="tooltip"]').tooltip()
+		</script>
+		@yield('scroll')
 	</body>
 
 </html>

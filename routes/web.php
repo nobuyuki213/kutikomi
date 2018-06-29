@@ -10,7 +10,10 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+// テスト用
+Route::get('test', function(){
+	return view('test');
+});
 //session利用
 //placeの閲覧履歴ページ
 Route::get('history', 'WelcomeController@historyGet')->name('history.get');

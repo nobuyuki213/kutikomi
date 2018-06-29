@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\City;
+use App\Tag;
 
 class CitiesController extends Controller
 {
@@ -49,16 +50,15 @@ class CitiesController extends Controller
         //
         $city = City::find($id);
         $places = $city->places()->get();
-        // plaseに該当するtagを取得
-        foreach ($places as $key => $place) {
-            $tag = $place->tags()->get();
-            $tags[] = $tag;
-        }
-
+        // Cityに属するPlaseに、1つ以上存在するtagのみを取得-tag_side用
+        $tags = Tag::whereHas('places', function ($query) use ($city) {
+            $query->where('city_id', $city->id);
+        })->take(5)->get();
         $date = [
             'city' => $city,
             'places' => $places,
         ];
+        // plaseに該当するtagが空でなければ、dataに追加
         if (!empty($tags)){
             $date += ['tags' => $tags];
         }

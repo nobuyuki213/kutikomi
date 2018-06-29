@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', $city->name.'のスポット')
+@section('title', $tag->name.'のタグ付きスポット')
 
 @section('stylesheet')
 	<link rel="stylesheet" type="text/css" href="{{ asset('css/admin-style.css')}}">
@@ -12,19 +12,20 @@
 
 @section('content')
 <div class="container-fluid">
-
+	<div>
+		パンくずリストスペース
+	</div>
 	<div class="row">
 		<div class="col px-2">
-			<h2 class="mx-1 mt-2"><i class="fas fa-map-marker-alt"></i> {{ $city->name }}を探す</h2>
-			<small class="mx-1">{{ $city->name_furi }}</small>
+			<h2 class="mx-1 mt-2"><i class="fas fa-tags"></i> {{ $tag->name }}タグ付きスポット</h2>
 
 			@if (!empty($places))
 				@foreach ($places as $place)
 
 					<div class="card mt-2">
 						<div class="card-header clearfix">
-							<p class="float-right mb-0 pt-1"><i class="far fa-star fa-2x"></i></p>
-							<h4 class="mb-0"><span class="align-middle">{{ $place->name }}</span></h4>
+							<h4 class="float-left mb-0">{{ $place->name }}</h4>
+							<p class="float-right mb-0 pt-1">お気に入りアイコン</p>
 						</div>
 						<div class="card-body">
 
@@ -63,6 +64,5 @@
 			@endif
 		</div>
 	</div>
-
 </div>
 @endsection

@@ -53,8 +53,16 @@ class TagsController extends Controller
      */
     public function show($id)
     {
-        //タグ付済みのtagsを取得
-        $tagged = Tag::Tagged()->get(); //（ローカルスコープ Tagged()
+        $tag = Tag::find($id);
+        $places = $tag->places()->get();
+        // 1つ以上Plaseに存在するtagのみを取得-tag_side用
+        $tags = Tag::has('places')->get();
+        $data = [
+            'tag' => $tag,
+            'places' => $places
+        ];
+        $data += ['tags' => $tags,];
+        return view('tags.show', $data);
     }
 
     /**
