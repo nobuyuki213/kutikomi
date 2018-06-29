@@ -21,7 +21,7 @@ Route::get('history', 'WelcomeController@historyGet')->name('history.get');
 Route::post('session', 'WelcomeController@session_put')->name('session.post');
  //session利用ここまで
 
-Route::get('/', 'WelcomeController@index');
+Route::get('/', 'WelcomeController@index')->name('top');
 
 // サインイン/ログインページ
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login.get');

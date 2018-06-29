@@ -1,4 +1,4 @@
-<nav class="navbar header-top fixed-top navbar-expand-lg navbar-dark bg-primary py-lg-3">
+<nav class="navbar header-top fixed-top navbar-expand-lg navbar-dark bg-primary py-3">
 	<a class="navbar-brand" href="/">LOGO</a>
 	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText"
 	aria-expanded="false" aria-label="Toggle navigation">

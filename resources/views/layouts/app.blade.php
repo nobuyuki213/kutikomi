@@ -12,7 +12,7 @@
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" id="bootstrap-css">
 
 		@yield('stylesheet')
-
+		{{-- My css --}}
 		<link rel="stylesheet" type="text/css" href="{{ asset('css/style.css')}}">
 
 		{{-- Minty css --}}
@@ -34,6 +34,9 @@
 
 			</header><!-- /header -->
 			<main>
+				<div style="font-size:0.8rem;">
+					@yield('breadcrumbs')
+				</div>
 
 				@yield('cover')
 

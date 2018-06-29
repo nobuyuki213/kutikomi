@@ -10,11 +10,18 @@
 	@include('commons.admin_navbar')
 @endsection
 
+@section('breadcrumbs')
+	<nav area-label="breadcrumbs-list">
+		<div class="row mb-2 bg-primary border-top">
+			<ol class="breadcrumb my-0">
+			{!! Html::decode(Breadcrumbs::render('tag', $tag)) !!}
+			</ol>
+		</div>
+	</nav>
+@endsection
+
 @section('content')
 <div class="container-fluid">
-	<div>
-		パンくずリストスペース
-	</div>
 	<div class="row">
 		<div class="col px-2">
 			<h2 class="mx-1 mt-2"><i class="fas fa-tags"></i> {{ $tag->name }}タグ付きスポット</h2>

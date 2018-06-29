@@ -1,9 +1,19 @@
 @extends('layouts.app')
 
-@section('title', 'login')
+@section('title', 'ログイン/ユーザー登録')
 
 @section('navbar')
 	@include('commons.navbar')
+@endsection
+
+@section('breadcrumbs')
+	<nav area-label="breadcrumbs-list">
+		<div class="mb-2 bg-primary border-top">
+			<ol class="breadcrumb container my-0">
+			{!! Html::decode(Breadcrumbs::render('login')) !!}
+			</ol>
+		</div>
+	</nav>
 @endsection
 
 @section('content')

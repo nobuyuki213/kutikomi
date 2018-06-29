@@ -6,11 +6,18 @@
 	@include('commons.navbar')
 @endsection
 
+@section('breadcrumbs')
+	<nav area-label="breadcrumbs-list">
+		<div class="row mb-2 bg-primary border-top">
+			<ol class="breadcrumb container my-0">
+			{!! Html::decode(Breadcrumbs::render('place', $place)) !!}
+			</ol>
+		</div>
+	</nav>
+@endsection
+
 @section('content')
 <div class="placehead container">
-	<div class="mt-3">
-		＜パンくずリストスペース＞
-	</div>
 {{-- 	<nav>
 		<ol class="cd-breadcrumb cd-multi-steps text-bottom count">
 			<li class="visited"><a href="#0">Home</a></li>

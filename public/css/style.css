@@ -42,7 +42,7 @@
 	letter-spacing: 0.15em;
 }
 
-/*place-showページ口コミ用*/
+/*place-showページ口コミ用文字表示制限*/
 #p-show-kuti {
 	overflow : hidden;
 	text-overflow: ellipsis;
