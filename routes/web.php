@@ -48,7 +48,7 @@ Route::resource('tags', 'TagsController', ['only' => ['index', 'show']]);
 
 // レビュー
 Route::group(['prefix' => 'places/review/input'], function(){
-	Route::get('search', 'PlacesController@search')->name('places.review');
+	Route::get('search', 'PlacesController@multiSearch')->name('places.review');
 	Route::get('search_add', 'PlacesController@searchAdd')->name('places.search_add');
 
 });

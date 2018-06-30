@@ -104,53 +104,45 @@ class PlacesController extends Controller
         //
     }
 
-    /*
-    * review step1-1　場所選択を名前検索で探す値の取得の実行
+    /**
+     * review step1-1　場所選択を名前検索で探す値の取得の実行
+     * placesから複数単語のキーワード検索結果による分岐を実行
      */
-    public function search()
+    public function multiSearch(Request $request)
     {
-        // リクエストから検索のキーワードを取得
-        $keyword = request()->keyword;
+        $places = Place::search($request);
+        $message = $places['message'];
+        $places = $places['places'];
 
-        // 空検索や初期アクセス時の場合は、ビューに遷移
-        if ($keyword == null){
-            $user_id = request()->session()->getId(); //＜＝＝＝＝テスト用
-            return view('places.review', ['user_id' => $user_id]); //＜＝＝＝＝テスト用
-
-        /*検索キーワードがあれば、placeモデルから該当する値を取得
-        *※placesSearchはクエリスコープ使用
-        */
+        if($message) {
+            // 検索結果が該当しない場合=messageが存在する場合true
+            return view('places.review', [
+                'places' => $places,
+                'keywords' =>array_merge($request->input(), $request->session()->getOldInput()),
+                'message' => $message,
+            ]);
         } else {
-            $places = '';
-            $places = Place::PlaceSearch($keyword)->paginate(10);
-
-            // 検索キーワードに該当し配列として取得できた場合の処理
-            if ($places->isNotEmpty()){
-                $user_id = request()->session()->getId(); //＜＝＝＝＝テスト用
-                return view('places.review', [
-                    'keyword' => $keyword,
-                    'places' => $places,
-                    'user_id' => $user_id, //＜＝＝＝＝テスト用
-                ]);
-
-            // 検索キーワードに該当しなかった場合の処理
-            } else {
-                $message = '※該当する場所がありませんでした';
-                $user_id = request()->session()->getId(); //＜＝＝＝＝テスト用
-                return view('places.review', [
-                    'keyword' => $keyword,
-                    'message' => $message,
-                    'user_id' => $user_id, //＜＝＝＝＝テスト用
-                ]);
-            }
+            return view('places.review', [
+                'places' => $places,
+                'keywords' =>array_merge($request->input(), $request->session()->getOldInput()),
+            ]);
         }
     }
-
     /*
-    * review step1-2 場所選択を住所から探す値の取得の実行
+    * review step1-2 場所選択を住所から探すcitiesの取得
      */
-    public function searchAdd()
+    public function searchAdd(Request $request)
     {
+        // dd($request->key_id);
+        if ($request->key_id != null) {
+            $city = City::find($request->key_id);
+            $places = $city->places()->paginate(5);
+
+            return view('places.search_add', [
+                'places' => $places,
+            ]);
+        }
+
         $cities = City::paginate(10);
 
         return view('places.search_add', [

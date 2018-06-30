@@ -18,19 +18,22 @@
 	</div>
 	{!! Form::open(['route' => 'places.review', 'method' => 'get']) !!}
 	<div class="form-group row mx-auto">
-		{!! Form::text('keyword', empty($keyword) ? old('keyword') : $keyword, ['class' => 'form-control form-control-lg offset-sm-1 col-sm-8 ml-auto my-1']) !!}
+		{!! Form::text('keywords', empty($keywords['keywords']) ? old('keywords') : $keywords['keywords'], ['class' => 'form-control form-control-lg offset-sm-1 col-sm-8 ml-auto my-1']) !!}
 		{!! Form::button('<i class="fas fa-search fa-sm"></i> 検索', ['class' => 'btn btn-secondary  btn-lg col-sm-2 mr-auto m-1', 'type' => 'submit']) !!}
 	</div>
 	{!! Form::close()!!}
-	<div>
-		@if (empty($keyword) ? false : true)
-			@if (empty($message) ? false : true)
-				<p class="offset-sm-1">{{ $message }}</p>
-			@else
-				@include('places.search_place_list', ['places' => $places])
-			@endif
+	@if (isset($keywords['keywords']))
+		@if (isset($message))
+		<div class="bg-secondary offset-sm-1 col-sm-10 px-0" style="border: 0.3rem solid #F3969A;">
+			<div class="card border-secondary">
+				<div class="card-header">{{ $message }}</div>
+			</div>
+		</div>
+		@else
+		<div>
+			@include('places.search_place_list', ['places' => $places])
+		</div>
 		@endif
-	</div>
-
+	@endif
 </div>
 @endsection

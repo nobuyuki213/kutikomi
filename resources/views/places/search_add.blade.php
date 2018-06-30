@@ -13,9 +13,17 @@
 
 	@include('commons.search_tab', [])
 
-	<div>
-		@include('cities.search_city_list', ['cities' => $cities])
-	</div>
+	@if (isset($places))
+		<div>
+			@include('places.search_place_list', ['places' => $places])
+		</div>
+	@elseif (isset($cities))
+		<div>
+			@include('cities.search_city_list', ['cities' => $cities])
+		</div>
+	@else
+		テスト
+	@endif
 
 </div>
 @endsection
