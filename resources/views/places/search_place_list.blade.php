@@ -2,11 +2,14 @@
 	<div class="card border-secondary">
 		<div class="card-header">該当する場所は{{ $places->count() > 0 ? ' '.$places->count().' 件ありました。' : 'ありませんでした。'}}</div>
 		<ul class="list-group list-group-flush">
-			@foreach ($places as $place)
+			@foreach ($places as $key => $place)
 			<li class="list-group-item list-group-item-action p-0">
-				<a href="#" class="d-block p-4" style="text-decoration:none;">
+			{!! Form::open(['route' => 'reviews.create', 'method' => 'get', 'name' =>"form{$key}"]) !!}
+				{!! Form::hidden('place', $place->id) !!}
+				<a href="javascript:form{{$key}}.submit()" class="d-block p-4" style="text-decoration:none;">
 					{{ $place->name }}
 				</a>
+			{!! Form::close() !!}
 			</li>
 			@endforeach
 		</ul>

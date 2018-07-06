@@ -9,7 +9,7 @@
 @section('content')
 <div class="container">
 
-	@include('commons.step_navi', [])
+	@include('commons.step_navi1', [])
 
 	@include('commons.search_tab', [])
 
@@ -22,7 +22,7 @@
 			@include('cities.search_city_list', ['cities' => $cities])
 		</div>
 	@else
-		テスト
+		該当ありません。これが表示される場合は不備がありますので原因を調べてください。
 	@endif
 
 </div>

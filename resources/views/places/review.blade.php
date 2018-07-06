@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', '口コミ投稿')
+@section('title', 'レビューの場所選択')
 
 @section('navbar')
 	@include('commons.navbar')
@@ -9,7 +9,7 @@
 @section('content')
 <div class="container">
 
-	@include('commons.step_navi', [])
+	@include('commons.step_navi1', [])
 
 	@include('commons.search_tab', [])
 

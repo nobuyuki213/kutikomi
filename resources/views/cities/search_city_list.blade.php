@@ -1,11 +1,11 @@
-<div style="border: 0.3rem solid #F3969A; background-color: #F3969A;">
+<div class="bg-secondary" style="border: 0.3rem solid #F3969A;">
 	<div class="card border-secondary">
 		<div class="card-header">住所で探す</div>
 		<ul class="list-group list-group-flush">
 			@foreach ($cities as $key => $city)
 			<li class="list-group-item list-group-item-action clearfix p-0">
 			{!! Form::open(['route' => 'places.search_add', 'method' => 'get', 'name' => "form{$key}"]) !!}
-				{!! Form::hidden('key_id', $city->id) !!}
+				{!! Form::hidden('city', $city->id) !!}
 				<a href="javascript:form{{$key}}.submit()" class="d-block p-4" style="text-decoration:none;">
 					{{ $city->name }}
 					<span class="badge badge-pill badge-primary float-right">{{ $city->places()->count() }}</span>

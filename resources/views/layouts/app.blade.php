@@ -19,7 +19,9 @@
 		<link href="https://stackpath.bootstrapcdn.com/bootswatch/4.1.1/minty/bootstrap.min.css" rel="stylesheet" integrity="sha384-4eGtnTOp6je5m6l1Zcp2WUGR9Y7kJZuAiD3Pk2GAW3uNRgHQSIqcrcAxBipzlbWP" crossorigin="anonymous">
 
 		<!--Font Awesome-->
-		<script defer src="https://use.fontawesome.com/releases/v5.0.13/js/all.js"></script>
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+
+
 
 		{{-- Social Buttons for Bootstrap --}}
 		<link rel="stylesheet" href="{{ asset('css/bootstrap-social.css')}}">
@@ -70,7 +72,7 @@
 		<script>
 			$('[data-toggle="tooltip"]').tooltip()
 		</script>
-		@yield('scroll')
+		@yield('script')
 	</body>
 
 </html>

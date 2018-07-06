@@ -19,7 +19,7 @@
 			{{ print_r(session()->getId()) }}
 		</pre>
 
-		{{ session('url') }}
+		{{ session('url[0]') }}
 
 		{!! Form::open(['route' => 'session.post']) !!}
 		<div class="form-group">

@@ -37,6 +37,9 @@
 			<li class="nav-item">
 				{!! link_to_route('history.get', '閲覧履歴', null, ['class' => 'nav-link']) !!}
 			</li>
+			<li class="nav-item">
+				{{ link_to_route('places.review', '口コミを投稿する', null, ['class' => 'nav-link']) }}
+			</li>
 			@if (Auth::check())
 				<li class="nav-item dropdown">
 					<a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -50,7 +53,7 @@
 				</li>
 			@else
 				<li class="nav-item">
-					{{ link_to_route('login.get', 'ログイン/ユーザー登録', null, ['class' => 'nav-link']) }}
+					{{ link_to_route('login', 'ログイン/ユーザー登録', null, ['class' => 'nav-link']) }}
 				</li>
 			@endif
 		</ul>

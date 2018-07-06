@@ -7,17 +7,22 @@ Breadcrumbs::register('top', function($breadcrumbs){
 //top > login
 Breadcrumbs::register('login', function($breadcrumbs){
 	$breadcrumbs->parent('top');
-	$breadcrumbs->push('<i class="fas fa-sign-in-alt"></i> ログイン/ユーザー登録', route('login.get'));
+	$breadcrumbs->push('<i class="fas fa-sign-in-alt"></i> ログイン/ユーザー登録', route('login'));
 });
 //top > city > [places]
 Breadcrumbs::register('city', function($breadcrumbs, $city){
 	$breadcrumbs->parent('top');
-	$breadcrumbs->push('(広島) <i class="fas fa-map-marker-alt"></i> '.$city->name, route('cities.show', $city));
+	$breadcrumbs->push('(広島) <i class="fas fa-map-marker-alt"></i> '.$city->name, route('cities.show', $city->id));
 });
 //top > city > place > [show]
 Breadcrumbs::register('place', function($breadcrumbs, $place){
 	$breadcrumbs->parent('city', $place->city);
-	$breadcrumbs->push('<i class="fas fa-map-pin"></i> '.$place->name, route('places.show', $place));
+	$breadcrumbs->push('<i class="fas fa-map-pin"></i> '.$place->name, route('places.show', $place->id));
+});
+//top > city > place > [show] > reviews
+Breadcrumbs::register('review', function($breadcrumbs, $place){
+	$breadcrumbs->parent('place', $place);
+	$breadcrumbs->push('口コミ一覧', route('place.reviews', $place->id));
 });
 //top > tags
 Breadcrumbs::register('tags', function($breadcrumbs){

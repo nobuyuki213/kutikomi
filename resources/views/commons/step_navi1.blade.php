@@ -16,6 +16,7 @@
 </div>
 
 <div>
+	<span class="badge badge-pill badge-secondary">Step1</span>
 	<h5>レビューする場所や施設を選ぶ</h5>
 	<hr>
 </div>

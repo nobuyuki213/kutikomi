@@ -21,6 +21,31 @@ class Place extends Model
     {
     	return $this->belongsToMany(Tag::class, 'place_tag', 'place_id', 'tag_id')->withTimestamps();
     }
+    // place に対する複数の review と 中間テーブルの type を合わせて取得
+    public function reviews()
+    {
+        return $this->belongsToMany(Review::class)->withPivot('type')->withTimestamps();
+    }
+    // place に対してタイプが good の review　のみを取得
+    public function good_reviews()
+    {
+        return $this->reviews()->where('type', 'good');
+    }
+    // place に対してタイプが bad の review　のみを取得
+    public function bad_reviews()
+    {
+        return $this->reviews()->where('type', 'bad');
+    }
+    // place に対する 作成日が最新の review を取得
+    public function reviews_latest()
+    {
+        return $this->reviews()->latest('reviews.created_at');
+    }
+    // place に対する null を除く rating の平均値を取得
+    public function reviews_rating_avg()
+    {
+        return $this->reviews()->whereNotNull('rating')->avg('rating');
+    }
 
     /**＜place検索機能実装＞
      * placesから複数単語検索

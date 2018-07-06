@@ -17,66 +17,64 @@
 @endsection
 
 @section('content')
-<div class="placehead container">
-{{-- 	<nav>
-		<ol class="cd-breadcrumb cd-multi-steps text-bottom count">
-			<li class="visited"><a href="#0">Home</a></li>
-			<li class="current"><em>Gallery</em></li>
-			<li><em>Web</em></li>
-			<li><em>Project</em></li>
-		</ol>
-	</nav> --}}
-	<div class="row mt-3">
-		<div class="col px-2">
-			<div class="card">
-				<img class="card-img-top" src="..." alt="カードの画像">
-				<div class="card-body clearfix">
-					<P class="float-right"><i class="far fa-star fa-2x"></i></p>
-					<h5 class="card-title">{{ $place->name }}</h5>
-					<p class="card-text">＜口コミ平均点＞＜口コミ件数＞</p>
-					<p class="card-text">＜タグ＞やplaceに関する関連情報</p>
-					<p class="card-text"><small class="text-muted">最終更新3分前</small></p>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-<div class="navbar bg-dark my-3 px-1 pb-0" id="nav-scroll">
-	<div class="nav-scroller box-shadow mx-auto">
-		<nav class="nav-underline">
-			<ul class="nav nav-tabs">
-				<li class="nav-item"><a href="#" class="nav-link active">概要</a></li>
-				<li>
-					<a class="nav-link" href="#">
-                    <i class="far fa-comments fa-lg"></i> <span>レビュー</span>
-                    <span class="badge badge-pill bg-light align-text-bottom text-secondary">27</span>
-                    </a>
-                </li>
-				<li class="nav-item"><a href="#" class="nav-link"><i class="far fa-images fa-lg"></i> <span>フォト</span></a></li>
-				<li class="nav-item"><a href="#" class="nav-link"><i class="fas fa-map-marker-alt fa-lg"></i> <span>マップ</span></a></li>
-				<li class="nav-item"><a href="#" class="nav-link"  data-offset="0,5" data-placement="right" data-toggle="tooltip" title="マップ"><i class="fas fa-map-marker-alt fa-lg"></i></a></li>
-				<li class="nav-item"><a href="#" class="nav-link">リンク1</a></li>
-				<li class="nav-item"><a href="#" class="nav-link">リンク2</a></li>
-				<li class="nav-item"><a href="#" class="nav-link disabled">無効</a></li>
-			</ul>
-		</nav>
-	</div>
-</div>
-<div class="container px-2" style="height:1000px;" id="container">
+
+	@include('commons.place_show_header', ['place' => $place])
+
+	@include('commons.place_show_navscroll', ['place' => $place])
+
+<div class="container" id="container" style="height:1000px;">
 	<div class="content row">
-		<div class="content-main col-lg-8">
+		<div class="content-main col-lg-8 px-2">
 			{{-- ここから review --}}
 			<div class="review card my-2">
 				<div class="card-header text-center">
 					<div class="">
 						<div class="fa-5x text-secondary">
-							<i class="far fa-comment-dots fa-flip-horizontal"></i>
+							<i class="far fa-comment fa-flip-horizontal"></i>
 						</div>
-						<h3>{{ $place->name }}の口コミ <span class="badge badge-pill bg-light align-text-bottom text-secondary">27</span></h3>
+						<div class="">
+							<h3 class="d-inline-block">{{ $place->name }}の口コミ <span class="align-text-top badge badge-pill bg-white border border-secondary text-secondary">全 {{ $place->reviews->count() }}件</span></h3>
+						</div>
 					</div>
 				</div>
 				<div class="card-body">
-					<div class="media mt-2 border-bottom">
+
+					<div class="px-3 my-0">
+					@forelse ($place->reviews_latest as $review)
+						@if ($loop->index == 3)
+							@break
+						@endif
+						<div class="row border-bottom py-2">
+							<div class="balloon5 col-md-1 col-2 px-1">
+								<div class="faceicon">
+									★ここに画像を入れる <img~>★
+								</div>
+							</div>
+							<div class="chatting card-text col-md-11 col-10 px-0">
+								<div class="says border-secondary">
+										<small id="c-show-kuti">{{ $review->comment }}</small>
+								</div>
+							</div>
+							<div class="clearfix w-100">{{-- ＊＊＊＊＊＊このレビューが0の場合、投稿者名と点数を表示するかどうか要検討＊＊＊＊＊ --}}
+								<div class="float-left">
+									<small>{{ $review->user->name }}</small>
+								</div>
+								<div class="float-right">
+									<small>
+										@include('commons.static_rating', ['params' => empty($review->rating) ? 0 : $review->rating])
+									</small>
+									<h6 class="d-inline-block font-weight-bold text-secondary">
+											{{ empty($review->rating) ? 0 : $review->rating }}
+									</h6>
+								</div>
+							</div>
+						</div>
+					@empty
+						<small>こちらはレビューがありません。</small>
+					@endforelse
+					</div>
+
+					<div class="media mt-2 border-bottom">{{-- ＊＊＊＊＊上記のレビュー表示のスタイルとどちらのパターンで表示するか要検討＊＊＊＊＊ --}}
 						<a href="#" class="mr-3">
 							<img src="..." alt="顔アイコン">
 						</a>
@@ -85,13 +83,13 @@
 								口コミ文がここに入る　口コミ文がここに入る　口コミ文がここに入る　口コミ文がここに入る　口コミ文がここに入る　口コミ文がここに入る　口コミ文がここに入る　口コミ文がここに入る　（途中表示を・・・にする）
 							</div>
 							<div>
-								<P class="mt-0 text-right">＜口コミ平均点＞</P>
+								<P class="mt-0 text-right">＜この口コミの点＞</P>
 							</div>
 						</div><!-- /.media-body -->
 					</div><!-- /.media -->
 				</div>
-				<div class="card-footer">
-					全ての口コミ（〇〇件）を見る（ボタンタイプ）
+				<div class="card-footer p-0">
+					{!! link_to_route('place.reviews', '全ての口コミ（'.$place->reviews->count().'件）を見る', ['id' => $place->id], ['class' => 'btn btn-outline-primary btn-lg btn-block py-2 rounded-0']) !!}
 				</div>
 			</div>
 			{{-- ここから photo --}}
@@ -116,7 +114,7 @@
 				<div class="card-header text-center">
 					<div class="">
 						<div class="fa-5x text-secondary">
-							<i class="fas fa-map-marker-alt" data-fa-transform="shrink-9 down-2 right-2" data-fa-mask="fas fa-map"></i>
+							<i class="fas fa-map-marked"></i>
 						</div>
 						<h3>{{ $place->name }}のマップ <span class="badge badge-pill bg-light align-text-bottom text-secondary">27</span></h3>
 					</div>
@@ -130,7 +128,7 @@
 			</div>
 		</div>
 		{{-- ここから sidecolumn --}}
-		<div class="content-side col-lg-4">
+		<div class="content-side col-lg-4 pl-lg-4 px-2">
 			<div class="card my-2">
 				<h5 class="card-header">ヘッダのタイトル</h5>
 				<div class="card-body">
@@ -144,67 +142,8 @@
 
 @endsection
 
-@section('scroll')
-	<script>
-        $(function () {
-            $(window).scroll(function () {
-                if ($(this).scrollTop() > 232) {
-                    $('#nav-scroll').addClass('is-fixed');
-                    $('#container').css('margin-top','5.6rem');
-                } else {
-                    $('#nav-scroll').removeClass('is-fixed');
-                    $('#container').css('margin-top','');
-                }
-            });
-        });
-    </script>
-    <style>
-        /*スクロールしたら、このCSSを適用し、ナビゲーションバーの位置を固定する*/
-        .is-fixed {
-            position: fixed;
-            top: 47px;
-            left: 0;
-            z-index: 1;
-            width: 100%;
-        }
-        /*セカンドナビのサイドすくルール用*/
-        .nav-scroller {
-			position: relative;
-			z-index: 2;
-			height: 3rem;
-			overflow-y: hidden;
-        }
+@section('script')
 
-        .nav-scroller .nav {
-			display: -ms-flexbox;
-			display: flex;
-			-ms-flex-wrap: nowrap;
-			flex-wrap: nowrap;
-			padding-bottom: 1rem;
-			margin-top: -1px;
-			overflow-x: auto;
-			text-align: center;
-			white-space: nowrap;
-			-webkit-overflow-scrolling: touch;
-        }
+	@include('commons.place_show_script')
 
-        .nav-underline .nav-link {
-			padding-top: .5rem;
-			padding-bottom: .75rem;
-			padding-left: 1.4rem;
-			padding-right: 1.4rem;
-			font-size: 1.2rem;
-			color: #fff;
-        }
-
-        .nav-underline .nav-link:hover {
-			background: #fff;
-			color: #F3969A;
-        }
-
-        .nav-underline .active {
-			font-weight: 1000;
-			color: #F3969A;
-        }
-    </style>
 @endsection

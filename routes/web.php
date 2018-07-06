@@ -24,7 +24,7 @@ Route::post('session', 'WelcomeController@session_put')->name('session.post');
 Route::get('/', 'WelcomeController@index')->name('top');
 
 // サインイン/ログインページ
-Route::get('login', 'Auth\LoginController@showLoginForm')->name('login.get');
+Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 // サインイン実行
 Route::post('signup', 'Auth\RegisterController@register')->name('signup.post');
 // ログイン実行
@@ -36,12 +36,21 @@ Route::get('logout', 'Auth\LoginController@logout')->name('logout.get');
 Route::get('login/{provider}', 'Auth\SocialAccountController@redirectToProvider');
 Route::get('login/{provider}/callback', 'Auth\SocialAccountController@handleProviderCallback');
 
+Route::group(['middleware' => ['auth']], function(){
+	Route::resource('users', 'UsersController', ['only' => ['show']]);
+});
+
 Route::group(['prefix' => 'hirosima'], function(){
 	Route::resource('cities', 'CitiesController', ['only' => ['show']]);
 });
 
 Route::group(['prefix' => 'hirosima/cities'], function(){
 	Route::resource('places', 'PlacesController', ['only' => ['index', 'show']]);
+	//ログイン認証必要ルーティン
+	Route::group(['middleware' => ['auth']], function (){
+		Route::get('places/{id}/reviews', 'PlacesController@reviews')->name('place.reviews');
+	});
+
 });
 
 Route::resource('tags', 'TagsController', ['only' => ['index', 'show']]);
@@ -50,5 +59,9 @@ Route::resource('tags', 'TagsController', ['only' => ['index', 'show']]);
 Route::group(['prefix' => 'places/review/input'], function(){
 	Route::get('search', 'PlacesController@multiSearch')->name('places.review');
 	Route::get('search_add', 'PlacesController@searchAdd')->name('places.search_add');
-
+	//以下のレビュー登録ページへはのちに会員遷移できないよう Route::group(['middleware' => ['auth']], function () {    });を追加する※上記の search のルーティングも含めるか要検討
+	Route::group(['middleware' => ['auth']], function () {
+		Route::resource('reviews', 'ReviewsController', ['only' => ['create', 'store']]);
+		Route::post('reviews/confirm', 'ReviewsController@confirm')->name('reviews.confirm');
+	});
 });

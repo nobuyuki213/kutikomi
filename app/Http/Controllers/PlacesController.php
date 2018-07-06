@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Place;
 use App\City;
+use App\Review;
 use Session;
 
 class PlacesController extends Controller
@@ -94,6 +95,23 @@ class PlacesController extends Controller
     }
 
     /**
+     * place show reviews page
+     *
+     */
+    public function reviews($id)
+    {
+        $place = Place::find($id);
+        $reviews = $place->reviews_latest()->get();
+
+        $data = [
+            'place' => $place,
+            'reviews' => $reviews,
+        ];
+
+        return view('places.show_reviews', $data);
+    }
+
+    /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
@@ -134,8 +152,8 @@ class PlacesController extends Controller
     public function searchAdd(Request $request)
     {
         // dd($request->key_id);
-        if ($request->key_id != null) {
-            $city = City::find($request->key_id);
+        if ($request->city != null) {
+            $city = City::find($request->city);
             $places = $city->places()->paginate(5);
 
             return view('places.search_add', [
