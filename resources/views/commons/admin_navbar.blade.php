@@ -41,19 +41,22 @@
 				{{ link_to_route('places.review', '口コミを投稿する', null, ['class' => 'nav-link']) }}
 			</li>
 			@if (Auth::check())
-				<li class="nav-item dropdown">
-					<a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					{{ Auth::user()->name }}
+				<li class="nav-item dropdown pl-5">
+					<a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="position:relative;">
+						<img src="{{ asset('storage/avatars/'. Auth::user()->avatar) }}" class="img-fluid rounded-circle" style="width:2.5rem;position:absolute;top:-2px;left:-38px;" alt="user-small-icon">
+						<i class="far fa-user" style="font-size:1.5rem;"></i>
 					</a>
 					<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-						<a class="dropdown-item" href="#">{{ Auth::user()->name }}</a>
+						<h6 class="dropdown-header">{{ Auth::user()->name }}</h6>
 						<div class="dropdown-divider"></div>
-						{{ link_to_route('logout.get', 'ログアウト', null, ['class' => 'dropdown-item']) }}
+						{!! link_to_route('users.show', 'マイページ', ['id' => Auth::user()->id], ['class' => 'dropdown-item']) !!}
+						<div class="dropdown-divider"></div>
+						{!! link_to_route('logout.get', 'ログアウト', null, ['class' => 'dropdown-item']) !!}
 					</div>
 				</li>
 			@else
 				<li class="nav-item">
-					{{ link_to_route('login', 'ログイン/ユーザー登録', null, ['class' => 'nav-link']) }}
+					{!! link_to_route('login', 'ログイン/ユーザー登録', null, ['class' => 'nav-link']) !!}
 				</li>
 			@endif
 		</ul>

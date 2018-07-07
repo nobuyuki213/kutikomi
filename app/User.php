@@ -37,6 +37,7 @@ class User extends Authenticatable
     {
         return $this->hasMany(Review::class);
     }
+
     /**
      * user に属する review と rating の保存と
      * review と place の関係性(place_review中間テーブル)を type good で保存

@@ -38,6 +38,7 @@ Route::get('login/{provider}/callback', 'Auth\SocialAccountController@handleProv
 
 Route::group(['middleware' => ['auth']], function(){
 	Route::resource('users', 'UsersController', ['only' => ['show']]);
+	Route::post('profile', 'UploadController@updateAvatar')->name('update.avatar');
 });
 
 Route::group(['prefix' => 'hirosima'], function(){

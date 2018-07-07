@@ -45,7 +45,17 @@ class UsersController extends Controller
      */
     public function show($id)
     {
-        //
+        // ログイン済みかの確認
+        if (\Auth::check()){
+            // ログイン中のユーザーから情報を取得する
+            $user = \Auth::user();
+            $reviews = $user->reviews()->get();
+
+            return view('users.show', [
+                'user' => $user,
+                'reviews' => $reviews,
+            ]);
+        }
     }
 
     /**

@@ -204,8 +204,19 @@
 		-webkit-line-clamp: 1;
 	}
 }
+/*ドロップダウンhoverで表示*/
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
 
-/*パンくずリスト ステップアップリスト*/
+/*user-page 幅狭い版*/
+@media(min-width:65em){
+	#user-page{
+		max-width:62rem;
+	}
+}
+
+/*review投稿用 パンくずリスト ステップアップリスト*/
 /* --------------------------------
 
 Primary style
