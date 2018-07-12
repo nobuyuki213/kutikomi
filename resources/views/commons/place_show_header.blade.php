@@ -1,10 +1,23 @@
-<div class="placeheader container">
+<div class="place-header container">
 	<div class="row mt-3">
 		<div class="col px-2">
 			<div class="card">
-				<img class="card-img-top" src="..." alt="カードの画像">
+
+				@forelse ($place->reviews as $review)
+					@if ($loop->index == 1)
+						@break
+					@endif
+						@if ($review->photos->isNotEmpty())
+							<img class="card-img-top img-fluid" src="{{ asset('/storage/places/' . $place->id . '/' . $review->photos->whereNotIn('original', null)->random()->original ) }}" alt="place-orignal-photo" style="width:100%;height:200px;object-fit:cover;">
+						@endif
+				@empty
+
+				@endforelse
+
 				<div class="card-body clearfix p-md-4 p-2">
-					<P class="float-right"><i class="far fa-star fa-2x"></i></p>
+
+					@include('commons.favorite', ['place' => $place])
+
 					<h4 class="card-title">{{ $place->name }}</h4>
 					<div class="places-status mb-1">
 
@@ -17,8 +30,17 @@
 							<i class="far fa-comment-dots fa-flip-horizontal fa-lg"></i> <span class=" text-secondary">{{ $place->reviews->count() }}</span> 件
 						</h6>
 					</div>
-					<p class="card-text">＜タグ＞やplaceに関する関連情報</p>
-					<p class="card-text"><small class="text-muted">最終更新3分前</small></p>
+					<div class="tags-status mt-3">
+						<i class="fas fa-tags"></i>
+						@foreach ($place->tags as $tag)
+							<a href="{!! route('tags.show', ['tag' => $tag]) !!}" class="badge badge-pill badge-info p-1 my-1">
+								<h6 class="card-text mb-0 px-1"># {{ $tag->name }}</h6>
+							</a>
+						@endforeach
+						<p class="card-text float-md-right mt-2">
+							<small><i class="fas fa-map-marker-alt"></i> {{ $place->city->name }}</small>
+						</p>
+					</div>
 				</div>
 			</div>
 		</div>

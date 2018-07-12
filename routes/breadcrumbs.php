@@ -24,6 +24,11 @@ Breadcrumbs::register('review', function($breadcrumbs, $place){
 	$breadcrumbs->parent('place', $place);
 	$breadcrumbs->push('口コミ一覧', route('place.reviews', $place->id));
 });
+//top > city > place > [show] > photos
+Breadcrumbs::register('photo', function($breadcrumbs, $place){
+	$breadcrumbs->parent('place', $place);
+	$breadcrumbs->push('フォト一覧', route('place.photos', $place->id));
+});
 //top > tags
 Breadcrumbs::register('tags', function($breadcrumbs){
 	$breadcrumbs->parent('top');

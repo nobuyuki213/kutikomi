@@ -11,12 +11,22 @@ class Place extends Model
     protected $fillable = [
     	'city_id', 'name', 'description',
     ];
-    //placeに属するcityを取得
+    /**
+     * リレーション定義
+     */
+    // place に該当する複数の user 達を取得
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'place_user', 'place_id', 'user_id')
+                    ->withPivot('type')
+                    ->withTimestamps();
+    }
+    // placeに属するcityを取得
     public function city()
     {
     	return $this->belongsTo(City::class);
     }
-    //placeに対する複数のtagsを取得
+    // placeに対する複数のtagsを取得
     public function tags()
     {
     	return $this->belongsToMany(Tag::class, 'place_tag', 'place_id', 'tag_id')->withTimestamps();
@@ -26,6 +36,11 @@ class Place extends Model
     {
         return $this->belongsToMany(Review::class)->withPivot('type')->withTimestamps();
     }
+
+    /**
+     * 加工定義
+     */
+
     // place に対してタイプが good の review　のみを取得
     public function good_reviews()
     {
@@ -45,6 +60,15 @@ class Place extends Model
     public function reviews_rating_avg()
     {
         return $this->reviews()->whereNotNull('rating')->avg('rating');
+    }
+    // place に対する reviews　の中で photo が存在しているのを取得
+    public function reviews_with_photos()
+    {
+        return $this->reviews()
+                    ->whereExists(function ($q) {
+                    $q->from('photos')
+                      ->whereRaw('photos.review_id = reviews.id');
+                  })->get();
     }
 
     /**＜place検索機能実装＞

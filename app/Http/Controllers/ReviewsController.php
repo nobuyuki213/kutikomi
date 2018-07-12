@@ -55,8 +55,9 @@ class ReviewsController extends Controller
                 'bad_rating' => 'required_unless:bad_comment,null,|integer',
                 //bad_comment フィールドの値が null(空＝未入力)なら このフィールドで required のバリデートを実行する|nullを許可|文字列であること|同一の内容じゃない|文字列が5文字以上（minの値は別途変更）
                 'good_comment' => 'required_if:bad_comment,null,|nullable|string|unique:reviews,comment|min:5',
-                'bad_comment' => 'required_if:good_comment,null,|nullable|string|unique:reviews,comment|min:5'
+                'bad_comment' => 'required_if:good_comment,null,|nullable|string|unique:reviews,comment|min:5',
             ]);
+
             $data = [
                 'place' => Place::find($request->place),
                 'request' => $request,
@@ -72,10 +73,6 @@ class ReviewsController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
-     * Auth:user() から review する user を取得
-     * $request に good_comment が 存在 するか
-     * user が review した good_comment と rating を 保存
-     * review に紐づく place のリレーションを attach で type を 選択 して 保存
      */
     public function store(Request $request)
     {
@@ -86,8 +83,15 @@ class ReviewsController extends Controller
             $user = \Auth::user();
             // $request で受け取った placeのid を変数に代入する
             $placeId = $request->place;
-            // good_commentの作成保存や関係性やtypeなどを実行
-            $user->toReview($request, $placeId);
+            // good_commentの作成保存や関係性やtypeなどを実行と 戻り値の revireインスタンスを $data 変数に代入 toReview は Usermodelに記述
+            $data = $user->toReview($request, $placeId);
+            // dd($data);
+            // $request に photo が 存在しているかを確認
+            if ($request->hasFile('photo')){
+                // 存在していれば photo の画像保存等を実行 $request と $data の中に reviewインスタンスを含めて渡している　photo は UploadController に記述
+                app()->make('App\Http\Controllers\UploadController')->photo($request, $data);
+            }
+
             // *****以下は仮設置のため今後変更の必要性あり*****
             $data = [
                 'request' => $request,

@@ -12,15 +12,15 @@
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" id="bootstrap-css">
 
 		@yield('stylesheet')
-		{{-- My css --}}
+
+		{{-- My CSS --}}
 		<link rel="stylesheet" type="text/css" href="{{ asset('css/style.css')}}">
 
-		{{-- Minty css --}}
+		{{-- Minty CSS --}}
 		<link href="https://stackpath.bootstrapcdn.com/bootswatch/4.1.1/minty/bootstrap.min.css" rel="stylesheet" integrity="sha384-4eGtnTOp6je5m6l1Zcp2WUGR9Y7kJZuAiD3Pk2GAW3uNRgHQSIqcrcAxBipzlbWP" crossorigin="anonymous">
 
 		<!--Font Awesome-->
 		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
-
 
 
 		{{-- Social Buttons for Bootstrap --}}

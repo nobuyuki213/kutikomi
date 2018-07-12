@@ -2,6 +2,13 @@
 
 @section('title', $place->name.'の口コミ・評価一覧')
 
+@section('stylesheet')
+	{{-- PhotoSwipe Core CSS --}}
+	<link rel="stylesheet" href="{{ asset('js/PhotoSwipe-master/dist/photoswipe.css') }}">
+	{{-- PhotoSwipe Skin CSS --}}
+	<link rel="stylesheet" href="{{ asset('js/PhotoSwipe-master/dist/default-skin/default-skin.css') }}">
+@endsection
+
 @section('navbar')
 	@include('commons.navbar')
 @endsection
@@ -22,7 +29,7 @@
 
 	@include('commons.place_show_navscroll', ['place' => $place])
 
-<div class="container"　id="container" style="height:1000px;">
+<div class="container" id="container" style="height:1000px;">
 	<div class="contant row">
 		<div class="content-main col-lg-8 px-2">
 			<div class="review card my-2 border-0">
@@ -36,7 +43,7 @@
 				</div>
 				<div class="reviews-main card-body px-0">
 
-					@include('reviews.reviews', ['reviews' => $reviews])
+					@include('reviews.reviews', ['place' => $place, 'reviews' => $reviews])
 
 				</div>
 				<div class="card-footer">
@@ -56,4 +63,10 @@
 
 	@include('commons.place_show_script')
 
+	{{-- PhotoSwipe Core javascript --}}
+	<script src="{{ asset('js/PhotoSwipe-master/dist/photoswipe.min.js') }}"></script>
+	{{-- PhotoSwipe UI javascript --}}
+	<script src="{{ asset('js/PhotoSwipe-master/dist/photoswipe-ui-default.min.js') }}"></script>
+	{{-- PhotoSwipe (追加外部ファイル) --}}
+	<script src="{{ asset('js/PhotoSwipe-master/dist/photoswipe-sub.js') }}"></script>
 @endsection

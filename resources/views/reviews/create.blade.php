@@ -2,6 +2,10 @@
 
 @section('title', 'レビューの投稿')
 
+@section('stylesheet')
+
+@endsection
+
 @section('navbar')
 	@include('commons.navbar')
 @endsection
@@ -26,15 +30,16 @@
 {{-- errorテスト --}}
 <div class="jumbotron jumbotron-fluid">
 	<div class="container">
-		{!! Form::open(['route' => 'reviews.confirm']) !!}
+		{!! Form::open(['route' => 'reviews.confirm', 'files' => 'true']) !!}
 		{!! Form::hidden('place', $place->id) !!}
 		<div class="review-create card border-secondary mb-3">
-			<div class="card-header border-secondary bg-transparent">ヘッダ</div>
+			<div class="card-header border-secondary bg-transparent">
+				<h4 class="card-title mb-0"><i class="far fa-edit"></i> レビューを書く</h4>
+			</div>
 			<div class="card-body px-2">
 				{{-- ここからレビュー --}}
-				<h4 class="card-title"><i class="far fa-check-circle"></i> レビューを書く</h4>
 				<div class="accordion" id="accordion" role="tablist" aria-multiselectable="true">
-{{-- ここからgoodコメント --}}
+					{{-- ここからgoodコメント --}}
 					<div class="card border-0">
 						<div class="card-header bg-success" role="tab" id="heading1">
 							<h5 class="mb-0">
@@ -45,16 +50,17 @@
 						</div><!-- /.card-header -->
 						<div id="collapse1" class=@if ($errors->has('good_comment') || $errors->has('good_rating')) "collapse show" @else "collapse" @endif role="tabpanel" aria-labelledby="heading1">
 							<div class="card-body px-md-3 px-1">
+								<h5 class="card-title"><i class="far fa-check-circle"></i> 良かった点を書きましょう</h5>
 								<div class="form-group">
-									{!! Form::textarea('good_comment', old('good_comment'), empty($errors->has('good_comment')) ? ['class' => 'form-control', 'placeholder' => '良い点を教えてください'] : ['class' => 'form-control is-invalid']) !!}
+									{!! Form::textarea('good_comment', old('good_comment'), empty($errors->has('good_comment')) ? ['class' => 'form-control', 'placeholder' => '良かった点を教えてください'] : ['class' => 'form-control is-invalid']) !!}
 									<div class="invalid-feedback">{{ $errors->first('good_comment') }}</div>
 								</div>
 								<div class="card card-body border-bottom rounded my-3 p-3">
 									<p class="bg-success text-white px-3 py-2">記入のヒント</p>
 									<p>どんな場所にあるか？店員の接客はどうか？施設の清潔感はどうか？</p>
 								</div>
-{{-- ここからgoodレーティング --}}
-								<h4 class="card-title"><i class="far fa-check-circle"></i> 良かった点を評価する</h4>
+								{{-- ここからgoodレーティング --}}
+								<h5 class="card-title"><i class="far fa-check-circle"></i> 良かった点を評価する</h5>
 								<div class="form-group">
 									<div class="custom-control custom-radio pl-0">
 										<div class="evaluation">
@@ -81,7 +87,7 @@
 							</div><!-- /.card-body -->
 						</div><!-- /.collapse -->
 					</div><!-- /.card -->
-{{-- ここからbadコメント --}}
+					{{-- ここからbadコメント --}}
 					<div class="card border-0 mt-1">
 						<div class="card-header bg-danger border border-danger" role="tab" id="heading2">
 							<h5 class="mb-0">
@@ -92,6 +98,7 @@
 						</div><!-- /.card-header -->
 						<div id="collapse2" class=@if ($errors->has('bad_comment') || $errors->has('bad_rating')), "collapse show" @else "collapse" @endif role="tabpanel" aria-labelledby="heading2">
 							<div class="card-body px-md-3 px-1 pb-0">
+								<h5 class="card-title"><i class="far fa-check-circle"></i> 気になる点を書きましょう</h5>
 								<div class="form-group">
 									{!! Form::textarea('bad_comment', old('bad_comment'), empty($errors->has('bad_comment')) ? ['class' => 'form-control', 'placeholder' => '気になる点を教えてください'] : ['class' => 'form-control is-invalid']) !!}
 									<div class="invalid-feedback">{{ $errors->first('bad_comment') }}</div>
@@ -100,8 +107,8 @@
 									<p class="bg-danger text-white px-3 py-2">記入のヒント</p>
 									<p>どんな場所にあるか？店員の接客はどうか？施設の清潔感はどうか？</p>
 								</div>
-{{-- ここからbadレーティング --}}
-								<h4 class="card-title"><i class="far fa-check-circle"></i> 気になる点を評価する</h4>
+								{{-- ここからbadレーティング --}}
+								<h5 class="card-title"><i class="far fa-check-circle"></i> 気になる点を評価する</h5>
 								<div class="form-group">
 									<div class="custom-control custom-radio pl-0">
 										<div class="evaluation">
@@ -175,4 +182,5 @@
 			});
 		});
 	</script>
+
 @endsection

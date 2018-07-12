@@ -74,19 +74,23 @@
 }
 /*review投稿ページのopen＆closeのアイコンの設定*/
 #accordion .card-header a[data-toggle="collapse"].collapsed::after {
-	display: none;
-	font-family: "Font Awesome 5 Regular";
-	content: "\f358";/* chevron-down */
+	/*display: none;*/
+	font-family: "Font Awesome 5 Free";
+	font-weight: 900;
+	content: "\f078";/* chevron-down */
+	float: right;
 }
 #accordion .card-header a[data-toggle="collapse"]::after {
-	display: none;
-	font-family: "Font Awesome 5 Solid";
-	content: "\f35b";/* chevron-up */
+	/*display: none;*/
+	font-family: "Font Awesome 5 Free";
+	font-weight: 900;
+	content: "\f077";/* chevron-up */
+	float: right;
 }
-#accordion .card-header a .svg-inline--fa[data-fa-pseudo-element] {
+/*#accordion .card-header a .svg-inline--fa[data-fa-pseudo-element] {
 	float: right;
 	color: white;
-}
+}* svg 用 の font表示
 
 /*review投稿ページのrating星設定設定*/
 .evaluation{
@@ -129,20 +133,20 @@
 /*顔アイコン+口コミ枠*/
 .balloon5 {
 	width: 100%;
-	margin-top: 0.5em;
+	margin: auto;
 	overflow: hidden;
 }
 
 .balloon5 .faceicon {
 	float: left;
-	margin-right: -90px;
-	width: 80px;
+	/*margin-right: -90px;*/
+	max-width: 45px;
 }
 
 .balloon5 .faceicon img{
-	width: 100%;
+	max-width: 100%;
 	height: auto;
-	border: solid 3px #d7ebfe;
+	/*border: solid 3px #d7ebfe;*/
 	border-radius: 50%;
 }
 
@@ -153,7 +157,7 @@
 .says {
  	position: relative;
 	display: inline-block;
- 	margin: 0.5em 0 1.0em 15px;
+ 	margin: 0.5em 0 0.5em 0.5em;
 	padding: 7px 10px;
 	min-width: 120px;
  	max-width: 100%;
@@ -187,6 +191,7 @@
 	margin: 0;
 	padding: 0;
 }
+
 /*cities-showページ口コミ用文字表示制限*/
 #c-show-kuti {
 	overflow : hidden;
@@ -204,6 +209,7 @@
 		-webkit-line-clamp: 1;
 	}
 }
+/*navbar*/
 /*ドロップダウンhoverで表示*/
 .dropdown:hover .dropdown-menu {
     display: block;

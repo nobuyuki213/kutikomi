@@ -2,6 +2,11 @@
 
 @section('title', $place->name.'の口コミ･評価')
 
+@section('stylesheet')
+	{{-- slider-pro CSS--}}
+	<link rel="stylesheet" href="{{ asset('css/slider-pro.min.css') }}"/>
+@endsection
+
 @section('navbar')
 	@include('commons.navbar')
 @endsection
@@ -37,7 +42,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="card-body">
+				<div class="review-pickup card-body">
 
 					<div class="px-3 my-0">
 					@forelse ($place->reviews_latest as $review)
@@ -47,7 +52,7 @@
 						<div class="row border-bottom py-2">
 							<div class="balloon5 col-md-1 col-2 px-1">
 								<div class="faceicon">
-									★ここに画像を入れる <img~>★
+									<img src="{{ asset('storage/avatars/' . $review->user->avatar) }}" class="img-fluid" alt="user-icon">
 								</div>
 							</div>
 							<div class="chatting card-text col-md-11 col-10 px-0">
@@ -70,23 +75,12 @@
 							</div>
 						</div>
 					@empty
-						<small>こちらはレビューがありません。</small>
+						<div class="col">
+							<small>こちらはレビューがありません。</small>
+						</div>
 					@endforelse
 					</div>
 
-					<div class="media mt-2 border-bottom">{{-- ＊＊＊＊＊上記のレビュー表示のスタイルとどちらのパターンで表示するか要検討＊＊＊＊＊ --}}
-						<a href="#" class="mr-3">
-							<img src="..." alt="顔アイコン">
-						</a>
-						<div class="media-body">
-							<div class="" id="p-show-kuti">
-								口コミ文がここに入る　口コミ文がここに入る　口コミ文がここに入る　口コミ文がここに入る　口コミ文がここに入る　口コミ文がここに入る　口コミ文がここに入る　口コミ文がここに入る　（途中表示を・・・にする）
-							</div>
-							<div>
-								<P class="mt-0 text-right">＜この口コミの点＞</P>
-							</div>
-						</div><!-- /.media-body -->
-					</div><!-- /.media -->
 				</div>
 				<div class="card-footer p-0">
 					{!! link_to_route('place.reviews', '全ての口コミ（'.$place->reviews->count().'件）を見る', ['id' => $place->id], ['class' => 'btn btn-outline-primary btn-lg btn-block py-2 rounded-0']) !!}
@@ -97,16 +91,50 @@
 				<div class="card-header text-center">
 					<div class="">
 						<div class="fa-5x text-secondary">
-							<i class="far fa-images"></i>
+							<i class="fas fa-camera-retro"></i></i>
 						</div>
-						<h3>{{ $place->name }}のフォト <span class="badge badge-pill bg-light align-text-bottom text-secondary">27</span></h3>
+						<h3>{{ $place->name }}のフォト <span class="align-text-top badge badge-pill bg-white border border-secondary text-secondary">{{ $place->reviews_with_photos()->count() }}枚</span></h3>
 					</div>
 				</div>
-				<div class="card-body">
-					ここにフォト（フォトの配列方法、表示方法は要検討）
+				<div class="card-body p-0">
+
+					@if ($place->reviews_with_photos()->isNotEmpty())
+					<div class="slider-pro" id="slider2">
+						<div class="sp-slides">
+							@foreach ($reviews_with_photos as $review)
+							@if ($loop->index == 3)
+								@break
+							@endif
+							<div class="sp-slide">
+								@foreach ($review->photos as $photo)
+								@if ($loop->index == 1)
+									@break
+								@endif
+									<img class="sp-image" src="{{ asset('storage/places/'.$place->id.'/'.$photo->original ) }}">
+								@endforeach
+							</div>
+							@endforeach
+						</div>
+						<div class="sp-thumbnails">
+							@foreach ($reviews_with_photos as $review)
+							@if ($loop->index == 3)
+								@break
+							@endif
+							<div class="sp-thumbnail">
+								<img class="sp-image" src="{{ asset('storage/places/'.$place->id.'/'.$review->photos()->value('thumbnail') ) }}">
+							</div>
+							@endforeach
+						</div>
+					</div>
+					@else
+					<div class="not-image text-center">
+						<h5>こちらは写真がありません。</h5>
+					</div>
+					@endif
+
 				</div>
-				<div class="card-footer">
-					全てのフォト（〇〇件）を見る（ボタンタイプ）
+				<div class="card-footer p-0">
+					{!! link_to_route('place.photos', '全ての口コミ（'.$place->reviews_with_photos()->count().'件）を見る', ['id' => $place->id], ['class' => 'btn btn-outline-primary btn-lg btn-block py-2 rounded-0']) !!}
 				</div>
 			</div>
 			{{-- ここから map --}}
@@ -145,5 +173,28 @@
 @section('script')
 
 	@include('commons.place_show_script')
+
+	{{-- slider-pro --}}
+	<script src="{{ asset('js/jquery.sliderPro.min.js') }}"></script>
+	<script>
+		$( document ).ready(function( $ ) {
+			$('#slider2').sliderPro({
+				width:743,
+				buttons: false,
+				shuffle: true,
+				// arrows: true,
+				// fullScreen: true,
+				thumbnailWidth: 250,
+				thumbnailHeight: 60,
+				slideDistance:0,
+				breakpoints: {
+					480: {
+						thumbnailWidth: 135,
+						thumbnailHeigit: 40
+					}
+				}
+			});
+		});
+	</script>
 
 @endsection

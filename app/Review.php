@@ -11,6 +11,9 @@ class Review extends Model
     protected $fillable = [
     	'user_id', 'comment', 'rating',
     ];
+    /**
+     * リレーション定義
+     */
     // review が所属する user を取得
     public function user()
     {
@@ -31,6 +34,12 @@ class Review extends Model
     {
     	return $this->places()->where('type', 'bad');
     }
+    // review に対する複数の photo を取得
+    public function photos()
+    {
+        return $this->hasMany(Photo::class);
+    }
+
 
     /**
      * review の投稿日からの経過日時を取得
@@ -60,10 +69,10 @@ class Review extends Model
     	}
     	else {
     		if ($now->year == $c_at->year) {
-				return $c_at->format('Y年m月d日');
+				return $c_at->format('Y年n月j日');
     		}
     		else {
-    			return $c_at->format('m月d日');
+    			return $c_at->format('n月j日');
     		}
     	}
     }

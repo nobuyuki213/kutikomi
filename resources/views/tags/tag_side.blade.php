@@ -1,4 +1,4 @@
-<li class="nav-item px-lg-1">
+<li class="nav-item">
 	<div class="card card-body bg-light p-2">
 		<P class="align-middle mb-2"><i class="fas fa-tags"></i> 人気のタグ</P>
 		<div>

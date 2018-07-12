@@ -55,10 +55,12 @@ class PlacesController extends Controller
         //
         $place = Place::find($id);
         $city = $place->city()->get();
+        $reviews_with_photos = $place->reviews_with_photos()->shuffle()->all();
 
         $data = [
             'place' => $place,
             'city' => $city,
+            'reviews_with_photos' => $reviews_with_photos,
         ];
         //sessionテスト用
         //sessinoにキー名placesが存在するか確認
@@ -109,6 +111,22 @@ class PlacesController extends Controller
         ];
 
         return view('places.show_reviews', $data);
+    }
+
+    /**
+     * place show photos page
+     */
+    public function photos($id)
+    {
+        $place = Place::find($id);
+        $reviews_with_photos = $place->reviews_with_photos();
+
+        $data = [
+            'place' => $place,
+            'reviews_with_photos' => $reviews_with_photos,
+        ];
+
+        return view('places.show_photos', $data);
     }
 
     /**

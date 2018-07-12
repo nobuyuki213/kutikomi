@@ -18,7 +18,7 @@
 			@if (Auth::check())
 				<li class="nav-item dropdown pl-5">
 					<a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="position:relative;">
-						<img src="{{ asset('storage/avatars/'. Auth::user()->avatar) }}" class="img-fluid rounded-circle" style="width:2.5rem;position:absolute;top:-2px;left:-38px;" alt="user-small-icon">
+						<img src="{{ asset('storage/avatars/'. Auth::user()->avatar) }}" class="img-fluid rounded-circle" style="width:2.5rem;position:absolute;top:0px;left:-38px;" alt="user-small-icon">
 						<i class="far fa-user" style="font-size:1.5rem;"></i>
 					</a>
 					<div class="dropdown-menu dropdown-menu-right border-primary" aria-labelledby="navbarDropdown">

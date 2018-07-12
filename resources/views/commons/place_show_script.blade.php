@@ -17,13 +17,13 @@
         position: fixed;
         top: 47px;
         left: 0;
-        z-index: 1;
+        z-index: 3;
         width: 100%;
     }
     /*セカンドナビのサイドスクロール用*/
     .nav-scroller {
 		position: relative;
-		z-index: 2;
+		z-index: 4;
 		height: 3rem;
 		overflow-y: hidden;
     }

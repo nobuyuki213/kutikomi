@@ -8,7 +8,7 @@
 	<div class="collapse navbar-collapse" id="navbarText">
 
 		<ul class="navbar-nav side-nav">
-			<li class="nav-item">
+{{-- 			<li class="nav-item">
 				<a class="nav-link" href="#">Home
 					<span class="sr-only">(current)</span>
 				</a>
@@ -18,8 +18,8 @@
 			</li>
 			<li class="nav-item">
 				<a class="nav-link" href="#">Pricing</a>
-			</li>
-			<li class="nav-item px-lg-1">
+			</li> --}}
+			<li class="nav-item">
 				<form class="form-group">
 					<input type="search" class="form-control mb-2" placeholder="Search" aria-label="検索...">
 					<button type="submit" class="btn btn-info border">Search</button>
@@ -43,7 +43,7 @@
 			@if (Auth::check())
 				<li class="nav-item dropdown pl-5">
 					<a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="position:relative;">
-						<img src="{{ asset('storage/avatars/'. Auth::user()->avatar) }}" class="img-fluid rounded-circle" style="width:2.5rem;position:absolute;top:-2px;left:-38px;" alt="user-small-icon">
+						<img src="{{ asset('storage/avatars/'. Auth::user()->avatar) }}" class="img-fluid rounded-circle" style="width:2.5rem;position:absolute;top:0px;left:-38px;" alt="user-small-icon">
 						<i class="far fa-user" style="font-size:1.5rem;"></i>
 					</a>
 					<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">

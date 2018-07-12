@@ -21,6 +21,7 @@ Route::get('history', 'WelcomeController@historyGet')->name('history.get');
 Route::post('session', 'WelcomeController@session_put')->name('session.post');
  //session利用ここまで
 
+// top
 Route::get('/', 'WelcomeController@index')->name('top');
 
 // サインイン/ログインページ
@@ -39,6 +40,12 @@ Route::get('login/{provider}/callback', 'Auth\SocialAccountController@handleProv
 Route::group(['middleware' => ['auth']], function(){
 	Route::resource('users', 'UsersController', ['only' => ['show']]);
 	Route::post('profile', 'UploadController@updateAvatar')->name('update.avatar');
+
+	Route::group(['prefix' => 'users/{id}'], function(){
+		Route::post('favorite', 'UserFavoriteController@store')->name('user.favorite');
+		Route::delete('unfavorite', 'UserFavoriteController@destroy')->name('user.unfavorite');
+
+	});
 });
 
 Route::group(['prefix' => 'hirosima'], function(){
@@ -50,6 +57,7 @@ Route::group(['prefix' => 'hirosima/cities'], function(){
 	//ログイン認証必要ルーティン
 	Route::group(['middleware' => ['auth']], function (){
 		Route::get('places/{id}/reviews', 'PlacesController@reviews')->name('place.reviews');
+		Route::get('places/{id}/photos', 'PlacesController@photos')->name('place.photos');
 	});
 
 });

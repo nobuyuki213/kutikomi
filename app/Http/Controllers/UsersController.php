@@ -49,7 +49,7 @@ class UsersController extends Controller
         if (\Auth::check()){
             // ログイン中のユーザーから情報を取得する
             $user = \Auth::user();
-            $reviews = $user->reviews()->get();
+            $reviews = $user->reviews()->orderBy('created_at', 'desc')->get();
 
             return view('users.show', [
                 'user' => $user,
