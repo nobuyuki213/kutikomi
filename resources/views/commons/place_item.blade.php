@@ -68,9 +68,9 @@
 			<div class="tags-status">
 				<i class="fas fa-tags"></i>
 				@foreach ($place->tags as $tag)
-					<a href="{!! route('tags.show', ['tag' => $tag]) !!}" class="badge badge-pill badge-info p-1 my-1">
+					<span class="badge badge-pill badge-info p-1 my-1">
 						<h6 class="mb-0 px-1"># {{ $tag->name }}</h6>
-					</a>
+					</span>
 				@endforeach
 			</div>
 		</div>

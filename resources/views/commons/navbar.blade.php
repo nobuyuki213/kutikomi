@@ -8,9 +8,9 @@
 		<ul class="navbar-nav ml-auto">
 			<li class="nav-item">
 				@if (Auth::check())
-				<a class="nav-link" href="#">お気に入り</a>
+					{!! link_to_route('users.show', 'お気に入り', ['id' => Auth::user()->id], ['class' => 'nav-link']) !!}
 				@else
-				<a class="nav-link" href="#">お気に入り</a>
+					{!! link_to_route('login', 'お気に入り', null, ['class' => 'nav-link', 'data-toggle' => 'popover', 'data-trigger' => 'hover', 'data-placement' => 'bottom', 'data-content' => 'お気に入りはログインが必要です']) !!}
 				@endif
 			</li>
 			<li class="nav-item">
@@ -42,9 +42,9 @@
 				<a class="nav-link disabled" href="#">無効</a>
 			</li> --}}
 		</ul>
-		<form class="form-inline my-2 my-lg-0">
+		{{-- <form class="form-inline my-2 my-lg-0">
 			<input type="search" class="form-control mr-sm-2" placeholder="Search" aria-label="検索...">
 			<button type="submit" class="btn btn-secondary my-2 my-sm-0">Search</button>
-		</form>
+		</form> --}}
 	</div><!-- /.navbar-collapse -->
 </nav>

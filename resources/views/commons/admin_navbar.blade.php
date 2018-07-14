@@ -41,9 +41,9 @@
 		<ul class="navbar-nav ml-md-auto d-md-flex">
 			<li class="nav-item">
 				@if (Auth::check())
-				<a class="nav-link" href="#">お気に入り</a>
+					{!! link_to_route('users.show', 'お気に入り', ['id' => Auth::user()->id], ['class' => 'nav-link']) !!}
 				@else
-				<a class="nav-link" href="#">お気に入り</a>
+					{!! link_to_route('login', 'お気に入り', null, ['class' => 'nav-link', 'data-toggle' => 'popover', 'data-trigger' => 'hover', 'data-placement' => 'bottom', 'data-content' => 'お気に入りはログインが必要です']) !!}
 				@endif
 			</li>
 			<li class="nav-item">

@@ -25,8 +25,8 @@
 	<div class="col px-0">
 		<div class="card">
 			<div class="card-body p-2 p-md-3">
-				<span class="badge badge-pill badge-secondary my-2 align-top"><i class="fas fa-search"></i></span>
-				<h4 class="d-inline mx-1 mt-2 align-bottom">"{{ $keywords }}"</h4>
+				<span class="badge badge-pill badge-secondary my-1 align-top"><i class="fas fa-search"></i></span>
+				<h5 class="d-inline mx-1 mt-2 align-bottom">"{{ $keywords }}"</h5>
 			</div>
 		</div>
 		@if (isset($keywords))
