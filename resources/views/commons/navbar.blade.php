@@ -7,7 +7,11 @@
 	<div class="collapse navbar-collapse" id="Navber">
 		<ul class="navbar-nav ml-auto">
 			<li class="nav-item">
+				@if (Auth::check())
 				<a class="nav-link" href="#">お気に入り</a>
+				@else
+				<a class="nav-link" href="#">お気に入り</a>
+				@endif
 			</li>
 			<li class="nav-item">
 				{!! link_to_route('history.get', '閲覧履歴', null, ['class' => 'nav-link']) !!}

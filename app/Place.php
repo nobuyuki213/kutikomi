@@ -61,7 +61,7 @@ class Place extends Model
     {
         return $this->reviews()->whereNotNull('rating')->avg('rating');
     }
-    // place に対する reviews　の中で photo が存在しているのを取得
+    // place に対する reviews の中で photo が存在している review を取得
     public function reviews_with_photos()
     {
         return $this->reviews()
@@ -76,7 +76,7 @@ class Place extends Model
      */
     public function scopesearch($query, $request)
     {
-        $places = self::query();
+        $places_query = self::query();
         $hasParam = true;
         $search_keywords;
 
@@ -94,8 +94,9 @@ class Place extends Model
             }
             $count = count($search_keywords);
             // name, description それぞれにwhere旬で検索
-            $places = $places
-                ->where(function($query)use($search_keywords) {
+            $places = $places_query->where(function($query)use($search_keywords){
+
+                $query->where(function($query)use($search_keywords) {
                     foreach ($search_keywords as $key => $search_keyword) {
                         $query->where('name', 'like', $search_keyword);
                     }
@@ -103,16 +104,25 @@ class Place extends Model
                     foreach ($search_keywords as $key => $search_keyword) {
                         $query->where('description', 'like', $search_keyword);
                     }
-                })->paginate(5);
+                });
+
+            });
+            if ($request->has('tagword')) {
+                $places = $places_query->whereHas('tags', function($query) use ($request) {
+                    $query->where('tags.name', $request->tagword);
+                });
+            }
+
+            $places = $places_query->paginate(5);
         } else {
             $hasParam = false;
-            $places = $places;
+            $places = $places_query;
         }
         // それぞれの値をひとまとめにする配列を準備する
         $data = [];
         // 初期表示にメッセージができないようにする
         if($places->count() <= 0 && $hasParam) {
-            $data['message'] = $request->keywords . "に該当する場所はありませんでした。";
+            $data['message'] = '"'.$request->keywords.'"' . "に該当する場所はありませんでした。";
         } else {
             $data['message'] = "";
         }

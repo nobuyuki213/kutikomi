@@ -37,6 +37,7 @@ Route::get('logout', 'Auth\LoginController@logout')->name('logout.get');
 Route::get('login/{provider}', 'Auth\SocialAccountController@redirectToProvider');
 Route::get('login/{provider}/callback', 'Auth\SocialAccountController@handleProviderCallback');
 
+// user
 Route::group(['middleware' => ['auth']], function(){
 	Route::resource('users', 'UsersController', ['only' => ['show']]);
 	Route::post('profile', 'UploadController@updateAvatar')->name('update.avatar');
@@ -47,6 +48,8 @@ Route::group(['middleware' => ['auth']], function(){
 
 	});
 });
+// search
+Route::get('search', 'SearchController@search')->name('search');
 
 Route::group(['prefix' => 'hirosima'], function(){
 	Route::resource('cities', 'CitiesController', ['only' => ['show']]);
@@ -65,9 +68,9 @@ Route::group(['prefix' => 'hirosima/cities'], function(){
 Route::resource('tags', 'TagsController', ['only' => ['index', 'show']]);
 
 // レビュー
-Route::group(['prefix' => 'places/review/input'], function(){
-	Route::get('search', 'PlacesController@multiSearch')->name('places.review');
-	Route::get('search_add', 'PlacesController@searchAdd')->name('places.search_add');
+Route::group(['prefix' => 'places/review'], function(){
+	Route::get('input/search', 'PlacesController@multiSearch')->name('places.review');
+	Route::get('input/search_add', 'PlacesController@searchAdd')->name('places.search_add');
 	//以下のレビュー登録ページへはのちに会員遷移できないよう Route::group(['middleware' => ['auth']], function () {    });を追加する※上記の search のルーティングも含めるか要検討
 	Route::group(['middleware' => ['auth']], function () {
 		Route::resource('reviews', 'ReviewsController', ['only' => ['create', 'store']]);

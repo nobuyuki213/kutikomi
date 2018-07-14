@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\City;
+use App\Place;
 use App\Tag;
 
 class CitiesController extends Controller
@@ -45,7 +46,7 @@ class CitiesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
         //
         $city = City::find($id);
@@ -54,16 +55,27 @@ class CitiesController extends Controller
         $tags = Tag::whereHas('places', function ($query) use ($city) {
             $query->where('city_id', $city->id);
         })->take(5)->get();
-        $date = [
+        // $request に tagword が存在しているか確認
+        if ($request->has('tagword')){
+            // tag-name の条件に一致する tag と紐づく place のみを取得
+            $places = Place::whereHas('tags', function ($query) use ($request) {
+                $query->where('tags.name', $request->tagword);
+            })->get();
+        }
+        $data = [
             'city' => $city,
             'places' => $places,
         ];
-        // plaseに該当するtagが空でなければ、dataに追加
+        // plaseに該当するtagが空でなければ、$dataに tags を追加
         if (!empty($tags)){
-            $date += ['tags' => $tags];
+            $data += ['tags' => $tags];
+            //$request に tagword が存在していれば、 $data に tagword を追加
+            if (!empty($request->tagword)){
+                $data += ['tagword' => $request->tagword];
+            }
         }
 
-        return view('cities.show', $date);
+        return view('cities.show', $data);
     }
 
     /**

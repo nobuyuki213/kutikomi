@@ -19,20 +19,32 @@
 			<li class="nav-item">
 				<a class="nav-link" href="#">Pricing</a>
 			</li> --}}
+			{!!  Form::open(['route' => 'search', 'method' => 'get']) !!}
 			<li class="nav-item">
-				<form class="form-group">
-					<input type="search" class="form-control mb-2" placeholder="Search" aria-label="検索...">
-					<button type="submit" class="btn btn-info border">Search</button>
-				</form>
+				<div class="form-group">
+					<div class="input-group mb-3">
+						{!! Form::text('keywords', empty($keywords) ? old('keywords') : $keywords, ['class' => 'form-control border border-info py-3', 'placeholder' => '施設名など', 'aria-describedby' => "button-addon2"]) !!}
+						<div class="input-group-append">
+							{!! Form::button('<i class="fas fa-search fa-lg"></i>', ['class' => 'btn btn-info px-3', 'id' => 'button-addon2', 'type' => 'submit']) !!}
+						</div>
+					</div>
+				</div>
 			</li>
-			@if (!empty($tags))
+			{!! Form::close() !!}
+			@if (!empty($tags) && $tags->isNotEmpty())
+			<li class="nav-item">
 				@include('tags.tag_side', ['tags' => $tags])
+			</li>
 			@endif
 		</ul>
 
 		<ul class="navbar-nav ml-md-auto d-md-flex">
 			<li class="nav-item">
+				@if (Auth::check())
 				<a class="nav-link" href="#">お気に入り</a>
+				@else
+				<a class="nav-link" href="#">お気に入り</a>
+				@endif
 			</li>
 			<li class="nav-item">
 				{!! link_to_route('history.get', '閲覧履歴', null, ['class' => 'nav-link']) !!}
@@ -46,7 +58,7 @@
 						<img src="{{ asset('storage/avatars/'. Auth::user()->avatar) }}" class="img-fluid rounded-circle" style="width:2.5rem;position:absolute;top:0px;left:-38px;" alt="user-small-icon">
 						<i class="far fa-user" style="font-size:1.5rem;"></i>
 					</a>
-					<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+					<div class="dropdown-menu dropdown-menu-right border-primary" aria-labelledby="navbarDropdown">
 						<h6 class="dropdown-header">{{ Auth::user()->name }}</h6>
 						<div class="dropdown-divider"></div>
 						{!! link_to_route('users.show', 'マイページ', ['id' => Auth::user()->id], ['class' => 'dropdown-item']) !!}

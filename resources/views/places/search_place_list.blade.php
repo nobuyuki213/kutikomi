@@ -4,7 +4,7 @@
 		<ul class="list-group list-group-flush">
 			@foreach ($places as $key => $place)
 			<li class="list-group-item list-group-item-action p-0">
-			{!! Form::open(['route' => 'reviews.create', 'method' => 'get', 'name' =>"form{$key}"]) !!}
+			{!! Form::open(['route' => 'reviews.create', 'method' => 'get', 'name' => "form{$key}"]) !!}
 				{!! Form::hidden('place', $place->id) !!}
 				<a href="javascript:form{{$key}}.submit()" class="d-block p-4" style="text-decoration:none;">
 					{{ $place->name }}

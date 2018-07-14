@@ -9,6 +9,17 @@ Breadcrumbs::register('login', function($breadcrumbs){
 	$breadcrumbs->parent('top');
 	$breadcrumbs->push('<i class="fas fa-sign-in-alt"></i> ログイン/ユーザー登録', route('login'));
 });
+//top > Search
+Breadcrumbs::register('search', function($breadcrumbs, $keywords = null, $tagword = null){
+	$breadcrumbs->parent('top');
+	if (!empty($keywords && $tagword)){
+		$breadcrumbs->push('" '.$keywords.' " で " '.$tagword.' " タグを含むスポット', route('search'));
+	} elseif (!empty($keywords)) {
+		$breadcrumbs->push('" '.$keywords.' " を含むスポット', route('search'));
+	} else {
+		$breadcrumbs->push('検索スポット', route('search'));
+	}
+});
 //top > city > [places]
 Breadcrumbs::register('city', function($breadcrumbs, $city){
 	$breadcrumbs->parent('top');
