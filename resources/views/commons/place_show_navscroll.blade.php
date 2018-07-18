@@ -18,7 +18,11 @@
 	                    <span class="badge badge-pill bg-light align-text-bottom text-secondary">{{ $place->reviews_with_photos()->count() }}</span>
 					</a>
 				</li>
-				<li class="nav-item"><a href="#" class="nav-link"><i class="fas fa-map-marked"></i> <span>マップ</span></a></li>
+				<li class="nav-item">
+					<a href="{{ route('place.map', ['id' => $place->id]) }}" class="{{ Request::is('hirosima/cities/places/*/map') ? 'nav-link active' : 'nav-link'}}">
+						<i class="fas fa-map-marked-alt"></i> <span>マップ</span>
+					</a>
+				</li>
 				<li class="nav-item"><a href="#" class="nav-link"  data-offset="0,5" data-placement="right" data-toggle="tooltip" title="マップ"><i class="fas fa-map-marked"></i></a></li>
 				<li class="nav-item"><a href="#" class="nav-link">リンク1</a></li>
 				<li class="nav-item"><a href="#" class="nav-link">リンク2</a></li>

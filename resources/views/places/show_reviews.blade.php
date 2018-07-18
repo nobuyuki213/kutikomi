@@ -41,11 +41,17 @@
 						</div>
 					</div>
 				</div>
-				<div class="reviews-main card-body px-0">
+				@if ($reviews->count() > 0)
+					<div class="reviews-main card-body px-0">
 
-					@include('reviews.reviews', ['place' => $place, 'reviews' => $reviews])
+						@include('reviews.reviews', ['place' => $place, 'reviews' => $reviews])
 
-				</div>
+					</div>
+				@else
+					<div class="card card-body text-center">
+						現在、登録された口コミはありません。
+					</div>
+				@endif
 				<div class="card-footer">
 					footer
 				</div>

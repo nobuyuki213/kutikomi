@@ -16,9 +16,9 @@ Route::get('test', function(){
 });
 //session利用
 //placeの閲覧履歴ページ
-Route::get('history', 'WelcomeController@historyGet')->name('history.get');
+Route::get('recent/history', 'WelcomeController@historyGet')->name('history.places');
 //placeの検索履歴保存（本番はこのルーティン名は不要になると思われるが作成によって使える可能性もあるので保留）
-Route::post('session', 'WelcomeController@session_put')->name('session.post');
+Route::get('recent/search', 'WelcomeController@searchGet')->name('history.search');
  //session利用ここまで
 
 // top
@@ -57,10 +57,11 @@ Route::group(['prefix' => 'hirosima'], function(){
 
 Route::group(['prefix' => 'hirosima/cities'], function(){
 	Route::resource('places', 'PlacesController', ['only' => ['index', 'show']]);
+	Route::get('places/{id}/photos', 'PlacesController@photos')->name('place.photos');
+	Route::get('places/{id}/map', 'PlacesController@map')->name('place.map');
 	//ログイン認証必要ルーティン
 	Route::group(['middleware' => ['auth']], function (){
 		Route::get('places/{id}/reviews', 'PlacesController@reviews')->name('place.reviews');
-		Route::get('places/{id}/photos', 'PlacesController@photos')->name('place.photos');
 	});
 
 });

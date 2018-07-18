@@ -62,12 +62,29 @@ class PlacesController extends Controller
             'city' => $city,
             'reviews_with_photos' => $reviews_with_photos,
         ];
-        //sessionテスト用
-        //sessinoにキー名placesが存在するか確認
-        $is_places = $request->session()->has('places');
-
-        Session::put('places', [$place]);//値を保存
-        // Session::push('places', $place);//値を追加
+        //session用
+        //sessinoにキー名placesが存在するか確認　(true or flace)
+        $is_places = $request->session()->has("places.{$place->id}");
+        // dd($is_places);
+        if ($is_places) {
+            // session に既に保存されている place を削除する
+            Session::forget("places.{$place->id}");
+            // 改めて　session に place　情報を連想配列で保存する
+            Session::put("places.{$place->id}", [
+                // place->id から　place を特定するためのコード
+                'id' => $place->id,
+                // 閲覧した時間として使うためのコード
+                'history_at' => now()->format('Y-m-d H:i:s'),
+            ]);
+        } else {
+            // session に place 情報を連想配列でを保存する
+            Session::put("places.{$place->id}", [
+                // place->id から　place を特定するためのコード
+                'id' => $place->id,
+                // 閲覧した時間として使うためのコード
+                'history_at' => now()->format('Y-m-d H:i:s'),
+            ]);
+        }
         //sessionテスト用ここまで
 
         return view('places.show', $data);
@@ -98,7 +115,6 @@ class PlacesController extends Controller
 
     /**
      * place show reviews page
-     *
      */
     public function reviews($id)
     {
@@ -129,6 +145,19 @@ class PlacesController extends Controller
         return view('places.show_photos', $data);
     }
 
+    /**
+     * place show map page
+     */
+    public function map($id)
+    {
+        $place = Place::find($id);
+
+        $data = [
+            'place' => $place,
+        ];
+
+        return view('places.show_map', $data);
+    }
     /**
      * Remove the specified resource from storage.
      *

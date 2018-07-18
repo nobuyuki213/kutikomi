@@ -83,10 +83,10 @@ class Place extends Model
         if(isset($request->keywords)) {
             // 検索キーワードを分割
             if(isset($request->keywords)) {
-                // 全角スペースを半角スペースにする
-                $request->keywords = mb_convert_kana($request->keywords, 's');
+                // 半角カナを全角カナ[KV], 全角スペースを半角スペース[s]にする
+                $convert_keywords = mb_convert_kana($request->keywords, 'KVs');
                 // スペースごとに配列で格納する
-                $strArry = preg_split("/[\s,]+/", $request->keywords);
+                $strArry = preg_split("/[\s,]+/", $convert_keywords);
                 // collection::classで配列要素全てにワイルドカード(%)を追加
                 $search_keywords = Collection::make($strArry)->map(function($q) {
                     return "%" . $q . "%";

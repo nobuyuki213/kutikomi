@@ -2,6 +2,11 @@
 
 @section('title', 'ログイン/ユーザー登録')
 
+@section('stylesheet')
+	{{-- validationEngine.CSS --}}
+	<link rel="stylesheet" href="{{ asset('js/jQuery-Validation-Engine-master/css/validationEngine.jquery.css') }}">
+@endsection
+
 @section('navbar')
 	@include('commons.navbar')
 @endsection
@@ -19,7 +24,7 @@
 @section('content')
 <div class="container">
 	<div class="mt-2 p-0 col-lg-8 offset-lg-2">
-		<div class="card">
+		<div class="card border-0">
 			<h3 class="py-lg-5 py-3 text-center">ログイン/ユーザー登録</h3>
 			<!-- ピル部分 -->
 			<ul class="nav nav-pills nav-justified" id="pills-tab" role="tablist">
@@ -36,31 +41,31 @@
 
 			<!-- パネル部分 -->
 			<div class="tab-content" id="pills-tabContent">
-	{{-- ログイン --}}
+				{{-- ログイン --}}
 				<div class="tab-pane fade show active" id="pills-login" role="tabpanel" aria-labelledby="pills-login-tab">
 					<div class="card border-0">
 						<div class="card-body">
 
 							<div class="row">
-								<div class="col-md-6">
+								<div class="col-md-6 px-md-3 px-0">
 									{!! Html::decode(link_to('login/google', '<span class="fab fa-google"></span> Googleでログイン', ['class' => 'mb-2 text-center btn btn-block btn-social btn-google btn-lg'])) !!}
 								</div>
-								<div class="col-md-6">
+								<div class="col-md-6 px-md-3 px-0">
 									{!! Html::decode(link_to('login/facebook', '<span class="fab fa-facebook"></span> facebookでログイン', ['class' => 'mb-2 text-center btn btn-block btn-social btn-facebook btn-lg'])) !!}
 								</div>
 							</div>
 
-							{!! Form::open(['route' => 'login.post']) !!}
+							{!! Form::open(['route' => 'login.post', 'id' => 'form1']) !!}
 							<hr>
 							<div class="form-group row">
-								{!! Form::label('email', 'メールアドレス', ['form-control-label', 'for' => 'input']) !!}
-								{!! Form::email('email', old('email'), empty($errors->has('email')) ? ['class' => 'form-control'] : ['class' => 'form-control is-invalid']) !!}
+								{!! Form::label('l_email', 'メールアドレス', ['class' => 'form-control-label']) !!}
+								{!! Form::email('email', old('email'), empty($errors->has('email')) ? ['class' => 'validate[required,custom[email]] form-control', 'id' => 'l_email'] : ['class' => 'validate[required,custom[email]] form-control is-invalid', 'id' => 'l_email']) !!}
 								<div class="invalid-feedback">{{ $errors->first('email') }}</div>
 							</div>
 
 							<div class="form-group row">
-								{!! Form::label('password', 'パスワード', ['form-control-label', 'for' => 'input']) !!}
-								{!! Form::password('password', empty($errors->has('password')) ? ['class' => 'form-control'] : ['class' => 'form-control is-invalid']) !!}
+								{!! Form::label('l_pass', 'パスワード', ['class' => 'form-control-label']) !!}
+								{!! Form::password('password', empty($errors->has('password')) ? ['class' => 'validate[required,minSize[6]] form-control', 'id' => 'l_pass'] : ['class' => 'validate[required,minSize[6]] form-control is-invalid', 'id' => 'l_pass']) !!}
 								<div class="invalid-feedback">{{ $errors->first('password') }}</div>
 							</div>
 							<hr>
@@ -75,33 +80,33 @@
 						</div>
 					</div>
 				</div>
-	{{-- 登録 --}}
+				{{-- 登録 --}}
 				<div class="tab-pane fade" id="pills-signup" role="tabpanel" aria-labelledby="pills-signup-tab">
 					<div class="card border-0">
 						<div class="card-body">
-							{!! Form::open(['route' => 'signup.post']) !!}
+							{!! Form::open(['route' => 'signup.post', 'id' => 'form2']) !!}
 
 							<div class="form-group row">
-								{!! Form::label('name', 'お名前', ['form-control-label', 'for' => 'input']) !!}
-								{!! Form::text('name', old('name'), empty($errors->has('name')) ? ['class' => 'form-control'] : ['class' => 'form-control is-invalid']) !!}
+								{!! Form::label('name', 'お名前', ['class' => 'form-control-label']) !!}
+								{!! Form::text('name', old('name'), empty($errors->has('name')) ? ['class' => 'validate[required] form-control'] : ['class' => 'validate[required] form-control is-invalid']) !!}
 								<div class="invalid-feedback">{{ $errors->first('name') }}</div>
 							</div>
 
 							<div class="form-group row">
-								{!! Form::label('email', 'メールアドレス', ['form-control-label', 'for' => 'input']) !!}
-								{!! Form::email('email', old('email'), empty($errors->has('email')) ? ['class' => 'form-control'] : ['class' => 'form-control is-invalid']) !!}
+								{!! Form::label('email', 'メールアドレス', ['class' => 'form-control-label']) !!}
+								{!! Form::email('email', old('email'), empty($errors->has('email')) ? ['class' => 'validate[required,custom[email]] form-control'] : ['class' => 'validate[required,custom[email]] form-control is-invalid']) !!}
 								<div class="invalid-feedback">{{ $errors->first('email') }}</div>
 							</div>
 
 							<div class="form-group row">
-								{!! Form::label('password', 'パスワード', ['form-control-label', 'for' => 'input']) !!}
-								{!! Form::password('password', empty($errors->has('password')) ? ['class' => 'form-control'] : ['class' => 'form-control is-invalid']) !!}
+								{!! Form::label('password', 'パスワード', ['class' => 'form-control-label']) !!}
+								{!! Form::password('password', empty($errors->has('password')) ? ['class' => 'validate[required,minSize[6]] form-control'] : ['class' => 'validate[required,minSize[6]] form-control is-invalid']) !!}
 								<div class="invalid-feedback">{{ $errors->first('password') }}</div>
 							</div>
 
 							<div class="form-group row">
-								{!! Form::label('password_confirmation', 'パスワード確認用', ['form-control-label', 'for' => 'input']) !!}
-								{!! Form::password('password_confirmation', empty($errors->has('password')) ? ['class' => 'form-control'] : ['class' => 'form-control is-invalid']) !!}
+								{!! Form::label('password_confirmation', 'パスワード確認用', ['class' => 'form-control-label']) !!}
+								{!! Form::password('password_confirmation', empty($errors->has('password')) ? ['class' => 'validate[required,equals[password]] form-control'] : ['class' => 'validate[required,equals[password]] form-control is-invalid']) !!}
 								<div class="invalid-feedback">{{ $errors->first('password_confirmation') }}</div>
 							</div>
 
@@ -125,4 +130,23 @@
 		</div>
 	</div>
 </div>
+@endsection
+
+@section('script')
+	{{-- validationEngine.jquery --}}
+	<script src="{{ asset('js/jQuery-Validation-Engine-master/js/jquery-1.8.2.min.js') }}"></script>
+	<script src="{{ asset('js/jQuery-Validation-Engine-master/js/jquery.validationEngine.js') }}"></script>
+	<script src="{{ asset('js/jQuery-Validation-Engine-master/js/languages/jquery.validationEngine-ja.js') }}"></script>
+	<script>
+		$(function(){
+			jQuery("#form1").validationEngine('attach', {
+				promptPosition: "inline"
+			});
+		});
+		$(function(){
+			jQuery("#form2").validationEngine('attach', {
+				promptPosition: "inline"
+			});
+		});
+	</script>
 @endsection

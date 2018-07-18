@@ -47,7 +47,7 @@
 				@endif
 			</li>
 			<li class="nav-item">
-				{!! link_to_route('history.get', '閲覧履歴', null, ['class' => 'nav-link']) !!}
+				{!! link_to_route('history.places', '閲覧履歴', null, ['class' => 'nav-link']) !!}
 			</li>
 			<li class="nav-item">
 				{{ link_to_route('places.review', '口コミを投稿する', null, ['class' => 'nav-link']) }}
@@ -55,8 +55,8 @@
 			@if (Auth::check())
 				<li class="nav-item dropdown pl-5">
 					<a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="position:relative;">
-						<img src="{{ asset('storage/avatars/'. Auth::user()->avatar) }}" class="img-fluid rounded-circle" style="width:2.5rem;position:absolute;top:0px;left:-38px;" alt="user-small-icon">
-						<i class="far fa-user" style="font-size:1.5rem;"></i>
+						<img src="{{ asset('storage/avatars/'. Auth::user()->avatar) }}" class="img-fluid rounded-circle" style="width:2.2rem;position:absolute;top:0px;left:-33px;" alt="user-small-icon">
+						<i class="far fa-user" style="font-size:1.3rem;"></i>
 					</a>
 					<div class="dropdown-menu dropdown-menu-right border-primary" aria-labelledby="navbarDropdown">
 						<h6 class="dropdown-header">{{ Auth::user()->name }}</h6>

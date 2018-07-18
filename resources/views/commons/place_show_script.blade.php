@@ -1,7 +1,7 @@
 <script>
     $(function () {
         $(window).scroll(function () {
-            if ($(this).scrollTop() > 232) {
+            if ($(this).scrollTop() > 402) {
                 $('#nav-scroll').addClass('is-fixed');
                 $('#container').css('margin-top','5.6rem');
             } else {

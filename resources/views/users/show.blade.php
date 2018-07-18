@@ -55,47 +55,58 @@
 		<div class="tab-pane fade show active" id="pills-favorite" role="tabpanel" aria-labelledby="pills-favorite-tab">
 			<div class="favorite-main row">
 
-				@foreach ($user->favorite_places as $place)
-					<div class="card card-body rounded-0 col-6 p-2 p-lg-3">
-						<div class="favorite-status clearfix pb-2 border-bottom">
+				@if ($user->favorite_places->isNotEmpty())
+					@foreach ($user->favorite_desc as $key => $place)
+						<div class="card card-body rounded-0 col-6 p-2 p-lg-3">
+							<div class="favorite-status clearfix pb-2 border-bottom">
 
-							<div class="favorite">
-								@include('commons.favorite', ['place' => $place])
+								<div class="favorite">
+									@include('commons.favorite', ['place' => $place, 'key' => $key])
+								</div>
+
+								<small class="">add:
+									 @include('commons.date', ['date' => $place->pivot->created_at])
+								</small>
 							</div>
+							<h6 class="card-title my-2" style="font-size:calc(0.5rem + 1.8vmin);height:2rem">{{ $place->name }}</h6>
+							<div class="places-status mb-2">
 
-							<small class="">add:
-								 @include('commons.date', ['date' => $place->pivot->created_at])
-							</small>
+								<small style="font-size:calc(0.3rem + 1.2vmin);">
+									@include('commons.static_rating', ['params' => $place->reviews_rating_avg()])
+								</small>
+
+								<h6 class="d-inline-block text-secondary mb-0">
+									{{ sprintf('%.2f', $place->reviews_rating_avg()) }}
+								</h6>
+								<h6 class="d-inline-block pl-2 mb-0">
+									<i class="far fa-comment fa-flip-horizontal fa-lg"></i> <span class=" text-secondary">{{ $place->reviews->count() }}</span>
+								</h6>
+							</div>
+							{{-- <span class="mx-auto"> --}}
+								{!! Html::decode(link_to_route('places.show', 'Go Page <i class="fas fa-angle-double-right"></i>', $place->id, ['class' => 'btn btn-sm btn-secondary'])) !!}
+							{{-- </span> --}}
 						</div>
-						<h6 class="card-title my-2" style="font-size:calc(0.5rem + 1.8vmin);height:2rem">{{ $place->name }}</h6>
-						<div class="places-status mb-2">
-
-							<small style="font-size:calc(0.3rem + 1.2vmin);">
-								@include('commons.static_rating', ['params' => $place->reviews_rating_avg()])
-							</small>
-
-							<h6 class="d-inline-block text-secondary mb-0">
-								{{ sprintf('%.2f', $place->reviews_rating_avg()) }}
-							</h6>
-							<h6 class="d-inline-block pl-2 mb-0">
-								<i class="far fa-comment fa-flip-horizontal fa-lg"></i> <span class=" text-secondary">{{ $place->reviews->count() }}</span>
-							</h6>
-						</div>
-						{{-- <span class="mx-auto"> --}}
-							{!! Html::decode(link_to_route('places.show', 'Go Page <i class="fas fa-angle-double-right"></i>', $place->id, ['class' => 'btn btn-sm btn-secondary'])) !!}
-						{{-- </span> --}}
+					@endforeach
+				@else
+					<div class="card card-body mx-3 bg-primary text-center text-white border-0">
+						お気に入りに登録しているのはありません。
 					</div>
-				@endforeach
-
+				@endif
 
 			</div>
 		</div>
 		<div class="tab-pane fade" id="pills-review" role="tabpanel" aria-labelledby="pills-review-tab">
-			<div class="reviews-main card-body px-0">
+			@if ($reviews->count() > 0)
+				<div class="reviews-main card-body px-0">
 
 					@include('reviews.reviews', ['reviews' => $reviews])
 
-			</div>
+				</div>
+			@else
+				<div class="card card-body bg-primary text-center text-white border-0">
+					登録した口コミはありません。
+				</div>
+			@endif
 		</div>
 		<div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
 			コンタクトの文章です。...

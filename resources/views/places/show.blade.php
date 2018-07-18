@@ -75,9 +75,7 @@
 							</div>
 						</div>
 					@empty
-						<div class="col">
-							<small>こちらはレビューがありません。</small>
-						</div>
+						<div class="col"><small>こちらはレビューがありません。</small></div>
 					@endforelse
 					</div>
 
@@ -91,7 +89,7 @@
 				<div class="card-header text-center">
 					<div class="">
 						<div class="fa-5x text-secondary">
-							<i class="fas fa-camera-retro"></i></i>
+							<i class="fas fa-camera-retro"></i>
 						</div>
 						<h3>{{ $place->name }}のフォト <span class="align-text-top badge badge-pill bg-white border border-secondary text-secondary">{{ $place->reviews_with_photos()->count() }}枚</span></h3>
 					</div>
@@ -102,14 +100,10 @@
 					<div class="slider-pro" id="slider2">
 						<div class="sp-slides">
 							@foreach ($reviews_with_photos as $review)
-							@if ($loop->index == 3)
-								@break
-							@endif
+							@if ($loop->index == 3) @break @endif
 							<div class="sp-slide">
 								@foreach ($review->photos as $photo)
-								@if ($loop->index == 1)
-									@break
-								@endif
+								@if ($loop->index == 1) @break @endif
 									<img class="sp-image" src="{{ asset('storage/places/'.$place->id.'/'.$photo->original ) }}">
 								@endforeach
 							</div>
@@ -117,19 +111,18 @@
 						</div>
 						<div class="sp-thumbnails">
 							@foreach ($reviews_with_photos as $review)
-							@if ($loop->index == 3)
-								@break
-							@endif
+							@if ($loop->index == 3) @break @endif
 							<div class="sp-thumbnail">
-								<img class="sp-image" src="{{ asset('storage/places/'.$place->id.'/'.$review->photos()->value('thumbnail') ) }}">
+								@foreach ($review->photos as $photo)
+								@if ($loop->index == 1) @break @endif
+									<img class="sp-image" src="{{ asset('storage/places/'.$place->id.'/'.$photo->thumbnail ) }}">
+								@endforeach
 							</div>
 							@endforeach
 						</div>
 					</div>
 					@else
-					<div class="not-image text-center">
-						<h5>こちらは写真がありません。</h5>
-					</div>
+					<div class="not-image text-center"><h5>こちらは写真がありません。</h5></div>
 					@endif
 
 				</div>
@@ -142,16 +135,18 @@
 				<div class="card-header text-center">
 					<div class="">
 						<div class="fa-5x text-secondary">
-							<i class="fas fa-map-marked"></i>
+							<i class="fas fa-map-marked-alt"></i>
 						</div>
-						<h3>{{ $place->name }}のマップ <span class="badge badge-pill bg-light align-text-bottom text-secondary">27</span></h3>
+						<h3>{{ $place->name }}のマップ</h3>
 					</div>
 				</div>
-				<div class="card-body">
-					ここにマップ（googleマップAPI活用予定）方法はまだ不明
+				<div class="card-body p-0">
+					<div id="plece_map">
+						<iframe src="https://www.google.co.jp/maps?q={{$place->name}}&output=embed&t=m&z=18&hl=ja" width="750" height="750" frameborder="0" style="border:0" allowfullscreen></iframe>
+					</div>
 				</div>
-				<div class="card-footer">
-					フッターの仕様用途未定
+				<div class="card-footer p-0">
+					{!! link_to_route('place.map', '大きいマップを見る', ['id' => $place->id], ['class' => 'btn btn-outline-primary btn-lg btn-block py-2 rounded-0']) !!}
 				</div>
 			</div>
 		</div>
@@ -173,7 +168,6 @@
 @section('script')
 
 	@include('commons.place_show_script')
-
 	{{-- slider-pro --}}
 	<script src="{{ asset('js/jquery.sliderPro.min.js') }}"></script>
 	<script>
@@ -196,5 +190,15 @@
 			});
 		});
 	</script>
+	{{-- Google map script --}}
+{{-- 	<script src="https://maps.googleapis.com/maps/api/js?language=ja&region=JP$key=AIzaSyCq28QA6ACwpnfoffb-46EPIrjI2NHqK-Y&callback=iniMap" async defer></script>
+	<script>
+		function iniMap() {
+			'use strict';
 
+			var plece_map = document.getElementById('plece_map');
+			var map;
+			var tokyo = {lat: 35.681167. lng:139.767052}
+		}
+	</script> --}}
 @endsection

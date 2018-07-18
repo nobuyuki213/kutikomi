@@ -1,5 +1,4 @@
 @foreach ($reviews as $review)
-{{-- {{dd($review)}} --}}
 	<div class="mx-0 mb-4">
 		<div class="card">
 			<h5 class="card-header bg-transparent py-2 {{ $review->photos->isNotEmpty() ? '' : 'border-bottom-0'}}">
@@ -17,23 +16,23 @@
 
 				<div class="place-gallery">
 				@foreach ($review->photos as $photo)
-				@if (Request::is('users/*'))
-					@php
-					$place->id = $review->places()->value('place_id')
-					@endphp
-				@endif
+
+				@php
+					$place_id = $review->places()->value('place_id')
+				@endphp
+
 					<figure class="figure mb-0 px-0" style="width:100%;">
-						<a href="{{ asset('storage/places/'.$place->id.'/'.$photo->original) }}" data-size="1000x666">
+						<a href="{{ asset('storage/places/'.$place_id.'/'.$photo->original) }}" data-size="1000x666">
 
 						@switch($review->photos->count())
 							@case(1)
-								<img class="img-fluid" src="{{ asset('storage/places/'.$place->id.'/'.$photo->original) }}" alt="place-review-photo" style="width:100%;max-height:300px;object-fit:cover;">
+								<img class="img-fluid" src="{{ asset('storage/places/'.$place_id.'/'.$photo->original) }}" alt="place-review-photo" style="width:100%;max-height:300px;object-fit:cover;">
 								@break
 							@case(2)
-								<img class="img-fluid col-6 px-0" src="{{ asset('storage/places/'.$place->id.'/'.$photo->original) }}" alt="place-review-photo" style="width:100%;max-height:300px;object-fit:cover;">
+								<img class="img-fluid col-6 px-0" src="{{ asset('storage/places/'.$place_id.'/'.$photo->original) }}" alt="place-review-photo" style="width:100%;max-height:300px;object-fit:cover;">
 								@break
 							@case(3)
-								<img class="img-fluid col-4 px-0" src="{{ asset('storage/places/'.$place->id.'/'.$photo->original) }}" alt="place-review-photo" style="width:100%;max-height:300px;object-fit:cover;">
+								<img class="img-fluid col-4 px-0" src="{{ asset('storage/places/'.$place_id.'/'.$photo->original) }}" alt="place-review-photo" style="width:100%;max-height:300px;object-fit:cover;">
 								@break
 						@endswitch
 

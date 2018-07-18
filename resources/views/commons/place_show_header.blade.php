@@ -3,7 +3,7 @@
 		<div class="col px-2">
 			<div class="card">
 
-				@forelse ($place->reviews as $review)
+				@forelse ($place->reviews_with_photos() as $review)
 					@if ($loop->index == 1)
 						@break
 					@endif
@@ -11,7 +11,7 @@
 							<img class="card-img-top img-fluid" src="{{ asset('/storage/places/' . $place->id . '/' . $review->photos->whereNotIn('original', null)->random()->original ) }}" alt="place-orignal-photo" style="width:100%;height:200px;object-fit:cover;">
 						@endif
 				@empty
-
+					<img class="card-img-top img-fluid" src="{{ asset('/storage/places/default_noimage.png') }}" alt="default-image" style="width:100%;height:200px;object-fit:cover;">
 				@endforelse
 
 				<div class="card-body clearfix p-md-4 p-2">

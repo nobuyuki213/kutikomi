@@ -49,6 +49,12 @@ class User extends Authenticatable
     {
         return $this->places()->where('type', 'favorite');
     }
+
+    // User のお気に入りに該当する複数の place を新しくお気に入りした順に取得
+    public function favorite_desc()
+    {
+        return $this->favorite_places()->orderBy('created_at', 'desc');
+    }
     /*
     * User がお気に入り実行処理
      */
@@ -83,7 +89,7 @@ class User extends Authenticatable
         }
     }
     /*
-    * User がお気に入りしているか確認する処理
+    * User が place を、お気に入りに登録しているか確認する処理
      */
     public function is_favorite($placeId)
     {

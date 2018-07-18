@@ -1,6 +1,6 @@
 <div class="bg-secondary" style="border: 0.3rem solid #F3969A;">
 	<div class="card border-secondary">
-		<div class="card-header">該当する場所は {{ $places->count().' 件ありました。'}}</div>
+		<div class="card-header">該当する場所は{{ empty($places->count()) ? '見つかりませんでした。' : ' '.$places->count().' 件ありました。'}}</div>
 		<ul class="list-group list-group-flush">
 			@foreach ($places as $key => $place)
 			<li class="list-group-item list-group-item-action p-0">
