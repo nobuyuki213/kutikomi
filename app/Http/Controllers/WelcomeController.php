@@ -8,6 +8,7 @@ use Illuminate\Pagination\Paginator;
 use App\City;
 use App\Place;
 use App\Tag;
+use App\Review;
 use Session;
 
 class WelcomeController extends Controller
@@ -39,11 +40,13 @@ class WelcomeController extends Controller
 		$cities[] = $city;
 		// 全てのtagを取得
 		$tags = Tag::all();
+		$reviews = Review::latest()->get();
 
 		$data = [
 			'cities' => $cities,
 			'lines' => $lines,
 			'tags' => $tags,
+			'reviews' => $reviews,
 		];
 
 		return view('welcome', $data);

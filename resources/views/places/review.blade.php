@@ -1,6 +1,11 @@
 @extends('layouts.app')
 
-@section('title', 'レビューの場所選択')
+@section('title', 'レビューの場所を名前で探す')
+
+@section('stylesheet')
+	{{-- validationEngine.CSS --}}
+	<link rel="stylesheet" href="{{ asset('js/jQuery-Validation-Engine-master/css/validationEngine.jquery.css') }}">
+@endsection
 
 @section('navbar')
 	@include('commons.navbar')
@@ -19,7 +24,7 @@
 	{!! Form::open(['route' => 'places.review', 'method' => 'get']) !!}
 	<div class="form-group row mx-auto">
 		{!! Form::text('keywords', empty($keywords['keywords']) ? old('keywords') : $keywords['keywords'], ['class' => 'form-control form-control-lg offset-sm-1 col-sm-8 ml-auto my-1']) !!}
-		{!! Form::button('<i class="fas fa-search fa-sm"></i> 検索', ['class' => 'btn btn-secondary  btn-lg col-sm-2 mr-auto m-1', 'type' => 'submit']) !!}
+		{!! Form::button('<i class="fas fa-search fa-sm"></i>', ['class' => 'btn btn-secondary col-sm-2 mr-auto ml-sm-1', 'type' => 'submit']) !!}
 	</div>
 	{!! Form::close()!!}
 	@if (isset($keywords['keywords']))
@@ -35,5 +40,25 @@
 		</div>
 		@endif
 	@endif
+	<div class="new-place-form my-2">
+
+		@include('commons.new_place_form')
+
+	</div>
+
 </div>
+@endsection
+
+@section('script')
+	{{-- validationEngine.jquery --}}
+	<script src="{{ asset('js/jQuery-Validation-Engine-master/js/jquery-1.8.2.min.js') }}"></script>
+	<script src="{{ asset('js/jQuery-Validation-Engine-master/js/jquery.validationEngine.js') }}"></script>
+	<script src="{{ asset('js/jQuery-Validation-Engine-master/js/languages/jquery.validationEngine-ja.js') }}"></script>
+	<script>
+		$(function(){
+			jQuery("#form_new_place").validationEngine('attach', {
+				promptPosition: "inline"
+			});
+		});
+	</script>
 @endsection

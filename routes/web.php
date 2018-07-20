@@ -17,7 +17,7 @@ Route::get('test', function(){
 //session利用
 //placeの閲覧履歴ページ
 Route::get('recent/history', 'WelcomeController@historyGet')->name('history.places');
-//placeの検索履歴保存（本番はこのルーティン名は不要になると思われるが作成によって使える可能性もあるので保留）
+//placeの検索履歴ページ
 Route::get('recent/search', 'WelcomeController@searchGet')->name('history.search');
  //session利用ここまで
 

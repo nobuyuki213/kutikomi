@@ -11,6 +11,10 @@
 
 <div>
 	<span class="badge badge-pill badge-secondary">Step2</span>
-	<h5>{{ link_to_route('places.show', $place->name, ['id' => $place->id], ['target' => '_blank']) }} のレビューを書く</h5>
+	@if (!empty($place))
+		<h5>{{ link_to_route('places.show', '「'.$place->name.'」', ['id' => $place->id], ['target' => '_blank']) }} のレビューを書く</h5>
+	@else
+		<h5>「{{ $request->place_name }}」 のレビューを書く</h5>
+	@endif
 	<hr>
 </div>

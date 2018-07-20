@@ -178,6 +178,8 @@ class PlacesController extends Controller
         $places = Place::search($request);
         $message = $places['message'];
         $places = $places['places'];
+        // review する place を登録時の city 選択用に使うために取得
+        $select_cities = City::orderBy('name_furi')->get();
 
         if($message) {
             // 検索結果が該当しない場合=messageが存在する場合true
@@ -185,11 +187,13 @@ class PlacesController extends Controller
                 'places' => $places,
                 'keywords' =>array_merge($request->input(), $request->session()->getOldInput()),
                 'message' => $message,
+                'select_cities' => $select_cities,
             ]);
         } else {
             return view('places.review', [
                 'places' => $places,
                 'keywords' =>array_merge($request->input(), $request->session()->getOldInput()),
+                'select_cities' => $select_cities,
             ]);
         }
     }
@@ -199,12 +203,16 @@ class PlacesController extends Controller
     public function searchAdd(Request $request)
     {
         // dd($request->key_id);
+        // review する place を登録時の city 選択用に使うために取得
+        $select_cities = City::orderBy('name_furi')->get();
+
         if ($request->city != null) {
             $city = City::find($request->city);
             $places = $city->places()->paginate(5);
 
             return view('places.search_add', [
                 'places' => $places,
+                'select_cities' => $select_cities,
             ]);
         }
 
@@ -212,6 +220,7 @@ class PlacesController extends Controller
 
         return view('places.search_add', [
             'cities' => $cities,
+            'select_cities' => $select_cities,
         ]);
     }
 }

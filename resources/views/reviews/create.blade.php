@@ -13,11 +13,11 @@
 @section('content')
 <div class="container">
 
-	@include('commons.step_navi2', ['place' => $place])
+	@include('commons.step_navi2', !empty($place) ? ['place' => $place] : ['request' => $request])
 
-	<div class="row mx-auto text-center">
-		<h5 class="offset-lg-3 col-lg-3 col-12 px-0 text-nowrap">「{{ $place->name }}」</h5>
-		<p class="col-lg-2 co-12 px-0 text-nowrap">のレビューを書きましょう。</p>
+	<div class="text-center m-2">
+		<h6 class="d-md-inline-block">「{{ !empty($place->name) ? $place->name : $request->place_name }}」</h6>
+		<span class="">のレビューを書きましょう</span>
 	</div>
 
 </div>
@@ -31,7 +31,13 @@
 <div class="jumbotron jumbotron-fluid">
 	<div class="container">
 		{!! Form::open(['route' => 'reviews.confirm', 'files' => 'true']) !!}
-		{!! Form::hidden('place', $place->id) !!}
+		@if (!empty($place))
+			{!! Form::hidden('place', $place->id) !!}
+		@else
+			{!! Form::hidden('place_name', $request->place_name) !!}
+			{!! Form::hidden('city_id', $request->city_id) !!}
+			{!! Form::hidden('place_desc', $request->place_desc) !!}
+		@endif
 		<div class="review-create card border-secondary mb-3">
 			<div class="card-header border-secondary bg-transparent">
 				<h4 class="card-title mb-0"><i class="far fa-edit"></i> レビューを書く</h4>

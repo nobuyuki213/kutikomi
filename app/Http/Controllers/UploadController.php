@@ -10,48 +10,46 @@ use Illuminate\Validation\Rule;
 
 class UploadController extends Controller
 {
-    //
-    public function updateAvatar(Request $request)
-    {
-    	$disk = Storage::disk('public');
-    	// ファイルのバリデーション
-    	$this->validate($request, [
-    		'avatar' => 'required|file|image',
-    	]);
-    	// ファイルの存在を確認する
-    	if ($request->hasFile('avatar')){
-    		// $request から file を受け取り $avatar 変数に代入
-    		$avatar = $request->file('avatar');
-    		// 画像のファイル名を時刻の数値に変換し、 $avatar->getClientOriginalExtension() で拡張子を取得
-    		$filename = time() . '.' . $avatar->getClientOriginalExtension();
-    		// 幅を200pxだけ指定し高さは自動処理でリサイズし、publicディレクトリの中のstoreage/avatarsディレクトリに '200-$filename' で画像を保存
-    		Image::make($avatar)->resize(250, null, function($constraint){
-    			$constraint->aspectRatio();
-    		})->crop(200,200)->save(public_path('/storage/avatars/' . '200-' . $filename));
+	//
+	public function updateAvatar(Request $request)
+	{
+		$disk = Storage::disk('public');
+		// ファイルのバリデーション
+		$this->validate($request, [
+			'avatar' => 'required|file|image',
+		]);
+		// ファイルの存在を確認する
+		if ($request->hasFile('avatar')){
+			// $request から file を受け取り $avatar 変数に代入
+			$avatar = $request->file('avatar');
+			// 画像のファイル名を時刻の数値に変換し、 $avatar->getClientOriginalExtension() で拡張子を取得
+			$filename = time() . '.' . $avatar->getClientOriginalExtension();
+			// 幅を200pxだけ指定し高さは自動処理でリサイズし、publicディレクトリの中のstoreage/avatarsディレクトリに '200-$filename' で画像を保存
+			Image::make($avatar)->resize(250, null, function($constraint){
+				$constraint->aspectRatio();
+			})->crop(200,200)->save(public_path('/storage/avatars/' . '200-' . $filename));
 
-    		// ユーザーテーブルの avatar に保存した画像のファイル名を保存
-    		$user = \Auth::user();
-    		$user->avatar = '200-' . $filename;
-    		$user->save();
-    	}
+			// ユーザーテーブルの avatar に保存した画像のファイル名を保存
+			$user = \Auth::user();
+			$user->avatar = '200-' . $filename;
+			$user->save();
+		}
 
-    	return redirect()->route('users.show', ['id' => \Auth::user()->id]);
-    }
+		return redirect()->route('users.show', ['id' => \Auth::user()->id]);
+	}
 
-    // place photo upload function
-    public function photo($request, $data)
-    {
+	// place photo upload function
+	public function photo($request, $data, $placeId)
+	{
 		// dd($data['good_review']);
-		// $request で受け取った photo ファイルデータをバリデーションチェックする
-    	$this->validate($request, [
-    		'photo' => [
-                'file', 'image', Rule::dimensions()->maxWidth(1500)->maxHeight(1500),
-            ],
-    	]);
-    	// $request　で受け取った　photo ファイルデータが存在し、かつ空でないかを確認
-    	if ($request->file('photo')->isvalid()) {
-    		// photo 画像データを保存するフォルダ分けで使うため $place_id 変数に代入 ※$request->place には place の id をリクエストに含ませていた
-			$place_id = $request->place;
+		// $request　で受け取った　photo ファイルデータが存在し、かつ空でないかを確認
+		if ($request->file('photo')->isvalid()) {
+			// photo 画像データを保存するフォルダ分けで使うため $place_id 変数に代入 ※$request->place には place の id をリクエストに含ませていた
+			if ($request->has['place']) {
+				$place_id = $request->place;
+			} else {
+				$place_id = $placeId;
+			}
 			// $request にある photo = 画像データを $photo 変数に代入
 			$photo = $request->file('photo');
 			// 画像データの名前を被らないように「photo_・・・」にし、その拡張子を画像データから取得しファイル名を作る
@@ -75,8 +73,8 @@ class UploadController extends Controller
 			if (!empty($data['bad_review'])) {
 				$data['bad_review']->photos()->create(['original' => $filename, 'thumbnail' => '250x250-' . $filename,]);
 			}
-    	}
+		}
 
-    }
+	}
 
 }

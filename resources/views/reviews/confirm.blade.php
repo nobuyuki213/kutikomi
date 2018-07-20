@@ -13,24 +13,32 @@
 @section('content')
 <div class="container">
 
-	@include('commons.step_navi2', ['place' => $place])
+	@include('commons.step_navi2', !empty($place) ? ['place' => $place] : ['request' => $request])
 
-	<div class="row mx-auto text-center">
-		<h5 class="offset-lg-3 col-lg-3 col-12 px-0 text-nowrap">「{{ $place->name }}」</h5>
-		<p class="col-lg-2 co-12 px-0 text-nowrap">のレビュー内容を確認</p>
+	<div class="text-center m-2">
+		<h6 class="d-md-inline-block">「{{ !empty($place->name) ? $place->name : $request->place_name }}」</h6>
+		<span class="">のレビュー内容を確認。</span>
 	</div>
 
 </div>
-{{-- {{dd($request->rating)}} --}}
 <div class="jumbotron jumbotron-fluid">
 	<div class="container px-2">
 		{!! Form::open(['route' => 'reviews.store', 'files' => 'true']) !!}
-		{!! Form::hidden('place', $place->id) !!}
+		@if (!empty($place))
+			{!! Form::hidden('place', $place->id) !!}
+		@else
+			{!! Form::hidden('place_name', $request->place_name) !!}
+			{!! Form::hidden('city_id', $request->city_id) !!}
+			{!! Form::hidden('place_desc', $request->place_desc) !!}
+		@endif
 			<div class="review-comfirm card border-0">
-				<div class="card-header">レビュー内容をご確認いただき、「レビューを投稿する」ボタンを押していただくと投稿が完了します</div>
+				<div class="card-header">
+					<p>レビュー内容をご確認ください <span class="badge badge-secondary font-weight-normal p-2" style="font-size:1rem"><i class="far fa-edit"></i> レビューを投稿する</span> ボタンを押していただくと投稿が完了します</p>
+				</div>
 				<div class="card-body">
 					<div class="content row">
 						<div class="content-main col-lg-8">
+							@if (!empty($request->good_comment))
 							<div class="form-group row border-bottom pb-3">
 								<div class="col-sm-2 my-auto">
 									{!! Form::label('static_comment', '良かった点', ['class' => 'col-form-label text-nowrap']) !!}
@@ -57,6 +65,8 @@
 									<a href="javascript:history.back()" class="btn btn-outline-secondary"><i class="fas fa-undo fa-lg"></i> 変更</a>
 								</div>
 							</div>
+							@endif
+							@if (!empty($request->bad_comment))
 							<div class="form-group row border-bottom pb-3">
 								<div class="col-sm-2 my-auto">
 									{!! Form::label('static_comment', '気になる点', ['class' => 'col-form-label text-nowrap']) !!}
@@ -83,33 +93,39 @@
 									<a href="javascript:history.back()" class="btn btn-outline-secondary"><i class="fas fa-undo fa-lg"></i> 変更</a>
 								</div>
 							</div>
-
-
-
+							@endif
+							@if (count($errors) > 0)
+							@foreach ($errors->all() as $error)
+								<div class="alert alert-danger small mb-1">{{ $error }}</div>
+							@endforeach
+							@endif
 							<div class="form-group row border-bottom border-secondary pb-3">
 								<div class="col-sm-2 my-auto">
-									{!! Form::label('photo', '写真', ['class' => 'col-form-label text-nowrap']) !!}
+									{!! Form::label('photo', 'フォト', ['class' => 'col-form-label text-nowrap']) !!}
 								</div>
-								<div class="col-md-10 col-sm-10 py-3">
-
+								<div class="col-md-10 col-sm-10 my-3">
 
 									{{-- ここからphoto upload --}}
-									<div class="card border-0 mt-1">
-										<div class="card-header" role="tab" id="heading2">
+									<div class="card border-0">
+										<div class="card-header bg-secondary border-0" role="tab" id="heading2">
 											<h5 class="mb-0">
 												<a class="collapsed text-body d-block" data-toggle="collapse" href="#collapse3" role="button" aria-expanded="false" aria-controls="collapse3">
-													<span class="font-weight-bold"><i class="fas fa-camera-retro"></i> 写真をアップする</span>
+													<span class="text-white font-weight-bold"><i class="fas fa-camera-retro"></i> フォトをアップする</span>
 												</a>
 											</h5>
 										</div><!-- /.card-header -->
-										<div id="collapse3" class=@if ($errors->has('bad_comment') || $errors->has('bad_rating')), "collapse show" @else "collapse" @endif role="tabpanel" aria-labelledby="heading2">
+										<div id="collapse3" class=@if ($errors->has('photo')) "collapse show" @else "collapse" @endif role="tabpanel" aria-labelledby="heading2">
 											<div class="card-body px-md-3 px-1 pb-0">
-												<h5 class="card-title"><i class="far fa-check-circle"></i> アップする写真を選んでください</h5>
+												<h5 class="card-title"><i class="far fa-check-circle"></i> アップするフォトを選んでください</h5>
+												<p class="small text-danger">最大画像サイズは 1500px x 1500px までになります</p>
 
 												{{-- 画像アップフォーム --}}
 												<div class="form-group mb-0">
 													<div class="custom-file-container" data-upload-id="photoUniqueUploadId">
-														<label>写真を <a href="javascript:void(0)" class="custom-file-container__image-clear" title="Clear Image">[リセット]</a></label>
+														@if ($errors->has('photo'))
+															<small class="d-block">画像アップのエラーメッセージが表示された場合は、 <strong>[リセット]</strong> を押した後に再度ファイルを選択してください</small>
+														@endif
+														<label>フォトを <a href="javascript:void(0)" class="custom-file-container__image-clear" title="Clear Image">[ リセット ]</a></label>
 
 														<label class="custom-file-container__custom-file" >
 															{!! Form::file('photo', ['class' => 'custom-file-container__custom-file__custom-file-input']) !!}
@@ -125,12 +141,7 @@
 									</div><!-- /.card -->
 
 								</div>
-								{{-- <div class="col-md-2 my-auto text-right">
-									<a href="javascript:history.back()" class="btn btn-outline-secondary"><i class="fas fa-undo fa-lg"></i> 変更</a>
-								</div> --}}
 							</div>
-
-
 
 						</div>
 						<div class="content-side col-lg-4 px-lg-3 px-0">

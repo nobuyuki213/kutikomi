@@ -109,6 +109,7 @@
 							</div>
 							@endforeach
 						</div>
+						@if ($place->reviews_with_photos()->count() >= 3)
 						<div class="sp-thumbnails">
 							@foreach ($reviews_with_photos as $review)
 							@if ($loop->index == 3) @break @endif
@@ -120,14 +121,18 @@
 							</div>
 							@endforeach
 						</div>
+						@endif
 					</div>
 					@else
-					<div class="not-image text-center"><h5>こちらは写真がありません。</h5></div>
+					<div class="not-image text-center">
+						<i class="far fa-image fa-7x"></i>
+						<h5>Not Photo</h5>
+					</div>
 					@endif
 
 				</div>
 				<div class="card-footer p-0">
-					{!! link_to_route('place.photos', '全ての口コミ（'.$place->reviews_with_photos()->count().'件）を見る', ['id' => $place->id], ['class' => 'btn btn-outline-primary btn-lg btn-block py-2 rounded-0']) !!}
+					{!! link_to_route('place.photos', '全てのフォト（'.$place->reviews_with_photos()->count().'件）を見る', ['id' => $place->id], ['class' => 'btn btn-outline-primary btn-lg btn-block py-2 rounded-0']) !!}
 				</div>
 			</div>
 			{{-- ここから map --}}
