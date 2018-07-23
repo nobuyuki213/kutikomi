@@ -62,7 +62,7 @@ class WelcomeController extends Controller
 		$id = $request->session()->getId();// sessionidを取得するコード※現状使用なし
 
 		if ($request->session()->has('places')) {
-			// places の並び順を　session 新しく保存した順にするため、collectヘルパと revverseメソッドを使い逆順にする
+			// places の並び順を　session 新しく保存した順にするため、collectヘルパと reverseメソッドを使い逆順にする
 			$ses_places = collect($request->session()->get('places'))->reverse();
 			// 空の $s_places 配列を準備　
 			$s_places = [];
@@ -110,25 +110,5 @@ class WelcomeController extends Controller
 
 			return view('histories.history_search');
 		}
-	}
-
-	/**
-	 * @param $items
-	 * @param $perPage
-	 * @return \Illuminate\Pagination\LengthAwarePaginator
-	 */
-	public function custom_paginate($items, $perPage)
-	{
-		$pageStart = request('page', 1);
-		$offSet    = ($pageStart * $perPage) - $perPage;
-		// $itemsForCurrentPage = array_slice($items, $offSet, $perPage, TRUE);
-		$itemsForCurrentPage = $items->slice($offSet, $perPage);
-		return new LengthAwarePaginator(
-			$itemsForCurrentPage,
-			count($items),
-			$perPage,
-			Paginator::resolveCurrentPage(),
-			['path' => Paginator::resolveCurrentPath()]
-		);
 	}
 }

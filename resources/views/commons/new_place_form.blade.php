@@ -38,7 +38,7 @@
 
 	<div class="card-header" role="tab" id="collapseFormGroupHeading1">
 		<small class="mb-0">
-			<a href="#collapseFormGroup1" class="collapsed text-body text-center" role="button" data-toggle="collapse" aria-expanded="false" aria-controls="collapseFormGroup1"> お探しのスポットが見つからない場合 </a>
+			<a href="#collapseFormGroup1" class="collapsed btn btn-info" role="button" data-toggle="collapse" aria-expanded="false" aria-controls="collapseFormGroup1"> お探しのスポットが見つからない場合 </a>
 		</small>
 	</div><!-- /.card-header -->
 </div><!-- /.card -->

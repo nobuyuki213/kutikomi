@@ -17,7 +17,7 @@
 				{!! link_to_route('history.places', '閲覧履歴', null, ['class' => 'nav-link']) !!}
 			</li>
 			<li class="nav-item">
-				{{ link_to_route('places.review', '口コミを投稿する', null, ['class' => 'nav-link btn btn-secondary btn-sm mb-lg-0 mb-3 px-lg-3 mx-lg-2']) }}
+				{{ link_to_route(!empty(Session::get('draft')) ? 'places.draft' : 'places.review', '口コミを投稿する', null, ['class' => 'nav-link btn btn-secondary btn-sm mb-lg-0 mb-3 px-lg-3 mx-lg-2']) }}
 			</li>
 			@if (Auth::check())
 				<li class="nav-item dropdown pl-5">

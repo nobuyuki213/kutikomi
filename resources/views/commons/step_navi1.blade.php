@@ -2,15 +2,9 @@
 <div class="mt-4">
 	<nav>
 		<ol class="cd-breadcrumb cd-multi-steps text-bottom count">
-			<li class="current">
-				<em>場所選択</em>
-			</li>
-			<li>
-				<em>レビューを書く</em>
-			</li>
-			<li>
-				<em>ユーザー情報</em>
-			</li>
+			<li class="current"><em>スポット選択</em></li>
+			<li><em>レビューを書く</em></li>
+			<li><em>投稿完了</em></li>
 		</ol>
 	</nav>
 </div>

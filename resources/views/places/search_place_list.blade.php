@@ -9,6 +9,9 @@
 				<a href="javascript:form{{$key}}.submit()" class="d-block py-4 px-3" style="text-decoration:none;position:relative;">
 					{{ $place->name }}
 					<small class="text-muted" style="position:absolute;bottom:0.3rem;right:0.3rem;"><i class="fas fa-map-marker-alt"></i> {{ $place->city->name }}</small>
+					@if (Session::get("draft.review{$place->id}.place_id") == $place->id)
+						<span class="small text-white bg-primary rounded-bottom px-2" style="position:absolute;top:0;left:1rem;"><i class="far fa-edit fa-sm"></i> 下書き</span>
+					@endif
 				</a>
 			{!! Form::close() !!}
 			</li>

@@ -44,12 +44,16 @@ class ReviewsController extends Controller
 					'request' => $request,
 				]);
 			} else {
-				// リクエストから受け取った $place->id で 特定の place 情報を取得
+				// $request の中にある place の値で特定の place 情報を取得
 				$place = Place::find($request->place);
-				// dd($place);
+				// [session]$placeインスタンスを使い review の下書き情報として session に保存
+				$this->create_draft_review($request, $place);
+				$d_review = $request->session()->get("draft.review{$place->id}");
+
 				return view('reviews.create', [
 					'user' => $user,
 					'place'=> $place,
+					'd_review' => $d_review,
 				]);
 			}
 		} else {
@@ -63,21 +67,29 @@ class ReviewsController extends Controller
 	public function confirm(Request $request)
 	{
 		// dd($request->all());
-		// バリデーションチェック
-		$this->validate($request, [
-			'good_rating' => 'required_unless:good_comment,null,|integer',
-			'bad_rating' => 'required_unless:bad_comment,null,|integer',
-			//bad_comment フィールドの値が null(空＝未入力)なら このフィールドで required のバリデートを実行する|nullを許可|文字列であること|同一の内容じゃない|文字列が5文字以上（minの値は別途変更）
-			'good_comment' => 'required_if:bad_comment,null,|nullable|string|unique:reviews,comment|min:5',
-			'bad_comment' => 'required_if:good_comment,null,|nullable|string|unique:reviews,comment|min:5',
-		]);
+		if ($request->has('place') || $request->has('place_name')) {
+			// バリデーションチェック
+			$this->validate($request, [
+				'good_rating' => 'required_unless:good_comment,null,|integer',
+				'bad_rating' => 'required_unless:bad_comment,null,|integer',
+				//bad_comment フィールドの値が null(空＝未入力)なら このフィールドで required のバリデートを実行する|nullを許可|文字列であること|同一の内容じゃない|文字列が5文字以上（minの値は別途変更）
+				'good_comment' => 'required_if:bad_comment,null,|nullable|string|unique:reviews,comment|min:5',
+				'bad_comment' => 'required_if:good_comment,null,|nullable|string|unique:reviews,comment|min:5',
+			]);
+			// $request の中にある place の値で特定の place レコードを取得
+			$place = Place::find($request->place);
+			// [session]$placeレコードを使い review の下書き情報として session に追加保存
+			$this->add_draft_review($request, $place);
 
-		$data = [
-			'place' => Place::find($request->place),
-			'request' => $request,
-		];
+			$data = [
+				'place' => $place,
+				'request' => $request,
+			];
 
-		return view('reviews.confirm', $data);
+			return view('reviews.confirm', $data);
+		} else {
+			return redirect()->route('places.review');
+		}
 	}
 
 	/**
@@ -96,8 +108,8 @@ class ReviewsController extends Controller
 					'photo' => 'bail|file|image|dimensions:max_width=1500,max_height=1500'
 				]);
 				if ($validator->fails()) {
-					$test = $this->confirm($request)->withErrors($validator);
-					return $test;
+					// バリデーションエラー時の戻り先が post になっているため、ルートを通らず confirm メソッド にアクセスする
+					return $this->confirm($request)->withErrors($validator);
 				}
 			}
 			// $request に place を新規登録するための各データが存在するか確認する
@@ -125,7 +137,8 @@ class ReviewsController extends Controller
 				// 存在していれば photo の画像保存等を実行 $request と $data の中に reviewインスタンスを含めて渡している　photo は UploadController に記述
 				app()->make('App\Http\Controllers\UploadController')->photo($request, $data, $placeId);
 			}
-
+			// review の作成が完了した draft review を削除する
+			$request->session()->forget("draft.review{$placeId}");
 			// *****以下は仮設置のため今後変更の必要性あり*****
 			$data = [
 				'request' => $request,
@@ -182,4 +195,55 @@ class ReviewsController extends Controller
 	{
 		//
 	}
+
+	/**
+	 * [create_draft_review description]
+	 * @param  \Illuminate\Http\Request  $request
+	 * @param  $place インスタンス
+	 * @return [type] [description]
+	 */
+	public function create_draft_review(Request $request, $place)
+	{
+		// [session]$placeインスタンスを使い review の下書き情報として session に保存
+		$is_review = $request->session()->has("draft.review{$place->id}");
+		// dd($is_review);
+		if ($is_review == false) {
+			$request->session()->put("draft.review{$place->id}", [
+				'place_id' => $place->id,
+				'history_at' => now()->format('Y-m-d H:i:s'),
+			]);
+		}
+		// $request->session()->forget("draft.review{$place->id}");
+		// $request->session()->forget("draft");
+	}
+
+	/**
+	 * [add_draft_review description]
+	 * @param  \Illuminate\Http\Request  $request
+	 * @param  $place インスタンス
+	 * @return [type] [description]
+	 */
+	public function add_draft_review(Request $request, $place)
+	{
+		// dd($request->all());
+		// 既に session に保存している各データを取得する
+		$draft_review = $request->session()->get("draft.review{$place->id}");
+		// dd($draft_review);
+		// 既にある session を一旦削除する
+		$request->session()->forget("draft.review{$place->id}");
+		// 改めて、保存
+		$request->session()->put("draft.review{$place->id}", [
+			// 既に session に保存している各データを保存
+			'place_id' => $draft_review['place_id'],
+			'history_at' => $draft_review['history_at'],
+			// 新たに追加する各データを　session に保存
+			'updated_at' => now()->format('Y-m-d H:i:s'),
+			'good_comment' => !empty($request->good_comment) ? $request->good_comment : '',
+			'good_rating' => !empty($request->good_rating) ? $request->good_rating : '',
+			'bad_comment' => !empty($request->bad_comment) ? $request->bad_comment : '',
+			'bad_rating' => !empty($request->bad_rating) ? $request->bad_rating : '',
+		]);
+	}
+
+
 }

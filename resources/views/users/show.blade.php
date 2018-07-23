@@ -43,7 +43,7 @@
 					<a class="nav-link rounded-circle" id="pills-review-tab" data-toggle="pill" href="#pills-review" role="tab" aria-controls="pills-review" aria-selected="false"><i class="far fa-comment py-2 px-md-1"></i></a>
 				</li>
 				<li class="nav-item mx-3">
-					<a class="nav-link rounded-circle" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false"><i class="far fa-edit py-2 pl-md-1"></i></a>
+					<a class="nav-link rounded-circle" id="pills-draft-tab" data-toggle="pill" href="#pills-draft" role="tab" aria-controls="pills-draft" aria-selected="false"><i class="far fa-edit py-2 pl-md-1"></i></a>
 				</li>
 			</ul>
 		</div>
@@ -53,9 +53,8 @@
 	<!-- パネル部分 -->
 	<div class="tab-content" id="pills-tabContent">
 		<div class="tab-pane fade show active" id="pills-favorite" role="tabpanel" aria-labelledby="pills-favorite-tab">
-			<div class="favorite-main row">
-
-				@if ($user->favorite_places->isNotEmpty())
+			@if ($user->favorite_places->isNotEmpty())
+				<div class="favorite-main row">
 					@foreach ($user->favorite_desc as $key => $place)
 						<div class="card card-body rounded-0 col-6 p-2 p-lg-3">
 							<div class="favorite-status clearfix pb-2 border-bottom">
@@ -82,34 +81,44 @@
 									<i class="far fa-comment fa-flip-horizontal fa-lg"></i> <span class=" text-secondary">{{ $place->reviews->count() }}</span>
 								</h6>
 							</div>
-							{{-- <span class="mx-auto"> --}}
 								{!! Html::decode(link_to_route('places.show', 'Go Page <i class="fas fa-angle-double-right"></i>', $place->id, ['class' => 'btn btn-sm btn-secondary'])) !!}
-							{{-- </span> --}}
 						</div>
 					@endforeach
-				@else
-					<div class="card card-body mx-3 bg-primary text-center text-white border-0">
-						お気に入りに登録しているのはありません。
-					</div>
-				@endif
+				</div>
+			@else
+				<div class="alert alert-praimary text-center text-white border-0">
+					お気に入りに登録しているのはありません。
+				</div>
+			@endif
 
-			</div>
 		</div>
 		<div class="tab-pane fade" id="pills-review" role="tabpanel" aria-labelledby="pills-review-tab">
 			@if ($reviews->count() > 0)
-				<div class="reviews-main card-body px-0">
+				<div class="reviews-main">
 
 					@include('reviews.reviews', ['reviews' => $reviews])
 
 				</div>
 			@else
-				<div class="card card-body bg-primary text-center text-white border-0">
+				<div class="alert alert-praimary text-center text-white border-0">
 					登録した口コミはありません。
 				</div>
 			@endif
 		</div>
-		<div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
-			コンタクトの文章です。...
+		<div class="tab-pane fade" id="pills-draft" role="tabpanel" aria-labelledby="pills-draft-tab">
+			@if ($d_reviews->count() > 0)
+				<div class="draft-reviews">
+					@include('commons.draft_reviews' , ['d_reviews' => $d_reviews])
+				</div>
+			@else
+				<div class="alert alert-info text-center">
+					レビューの下書きはありません
+				</div>
+			@endif
+
+			<nav class="pagination-lg mx-auto mt-3" style="width: 180px;">
+				{{ $d_reviews->render("pagination::simple-bootstrap-4") }}
+			</nav>
 		</div>
 	</div>
 </div>

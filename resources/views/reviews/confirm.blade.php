@@ -12,7 +12,11 @@
 
 @section('content')
 <div class="container">
-
+{{-- session test 用 --}}
+<pre>
+	{{  print_r(Session::all()) }}
+</pre>
+{{-- session test 用　ここまで --}}
 	@include('commons.step_navi2', !empty($place) ? ['place' => $place] : ['request' => $request])
 
 	<div class="text-center m-2">

@@ -23,8 +23,8 @@
 	</div>
 	{!! Form::open(['route' => 'places.review', 'method' => 'get']) !!}
 	<div class="form-group row mx-auto">
-		{!! Form::text('keywords', empty($keywords['keywords']) ? old('keywords') : $keywords['keywords'], ['class' => 'form-control form-control-lg offset-sm-1 col-sm-8 ml-auto my-1']) !!}
-		{!! Form::button('<i class="fas fa-search fa-sm"></i>', ['class' => 'btn btn-secondary col-sm-2 mr-auto ml-sm-1', 'type' => 'submit']) !!}
+		{!! Form::text('keywords', empty($keywords['keywords']) ? old('keywords') : $keywords['keywords'], ['class' => 'form-control form-control-lg offset-sm-1 col-sm-8 ml-auto mb-sm-0 mb-2']) !!}
+		{!! Form::button('<i class="fas fa-search"></i>', ['class' => 'btn btn-lg btn-secondary col-sm-2 mr-auto ml-sm-1', 'type' => 'submit']) !!}
 	</div>
 	{!! Form::close()!!}
 	@if (isset($keywords['keywords']))

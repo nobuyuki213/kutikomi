@@ -12,7 +12,17 @@
 
 @section('content')
 <div class="container">
-
+{{-- session test 用 --}}
+<pre>
+	{{  print_r(Session::all()) }}
+</pre>
+<pre>
+	{{  print_r(Session::get("draft.review{$place->id}")) }}
+</pre>
+<pre>
+	{{  print_r($d_review) }}
+</pre>
+{{-- session test 用　ここまで --}}
 	@include('commons.step_navi2', !empty($place) ? ['place' => $place] : ['request' => $request])
 
 	<div class="text-center m-2">
@@ -54,11 +64,11 @@
 								</a>
 							</h5>
 						</div><!-- /.card-header -->
-						<div id="collapse1" class=@if ($errors->has('good_comment') || $errors->has('good_rating')) "collapse show" @else "collapse" @endif role="tabpanel" aria-labelledby="heading1">
+						<div id="collapse1" class=@if ($errors->has('good_comment') || $errors->has('good_rating') || !empty($d_review['good_comment']) || !empty($d_review['good_rating'])) "collapse show" @else "collapse" @endif role="tabpanel" aria-labelledby="heading1">
 							<div class="card-body px-md-3 px-1">
 								<h5 class="card-title"><i class="far fa-check-circle"></i> 良かった点を書きましょう</h5>
 								<div class="form-group">
-									{!! Form::textarea('good_comment', old('good_comment'), empty($errors->has('good_comment')) ? ['class' => 'form-control', 'placeholder' => '良かった点を教えてください'] : ['class' => 'form-control is-invalid']) !!}
+									{!! Form::textarea('good_comment', !empty($d_review['good_comment']) ? $d_review['good_comment'] : old('good_comment'), empty($errors->has('good_comment')) ? ['class' => 'form-control', 'placeholder' => '良かった点を教えてください'] : ['class' => 'form-control is-invalid']) !!}
 									<div class="invalid-feedback">{{ $errors->first('good_comment') }}</div>
 								</div>
 								<div class="card card-body border-bottom rounded my-3 p-3">
@@ -70,15 +80,18 @@
 								<div class="form-group">
 									<div class="custom-control custom-radio pl-0">
 										<div class="evaluation">
-											<input class="custom-control-input" id="g-star1" type="radio" name="good_rating" value="5" {{ old('good_rating') == 5 ? 'checked' : '' }}/>
+											@php
+											!empty($d_review['good_rating']) ? $g_rating = $d_review['good_rating'] : $g_rating = old('good_rating')
+											@endphp
+											<input class="custom-control-input" id="g-star1" type="radio" name="good_rating" value="5" {{ $g_rating == 5 ? 'checked' : '' }} />
 											<label for="g-star1"><span class="text">5</span><i class="fas fa-star"></i></label>
-											<input class="custom-control-input" id="g-star2" type="radio" name="good_rating" value="4" {{ old('good_rating') == 4 ? 'checked' : '' }} />
+											<input class="custom-control-input" id="g-star2" type="radio" name="good_rating" value="4" {{ $g_rating == 4 ? 'checked' : '' }} />
 											<label for="g-star2"><span class="text">4</span><i class="fas fa-star"></i></label>
-											<input class="custom-control-input" id="g-star3" type="radio" name="good_rating" value="3" {{ old('good_rating') == 3 ? 'checked' : '' }} />
+											<input class="custom-control-input" id="g-star3" type="radio" name="good_rating" value="3" {{ $g_rating == 3 ? 'checked' : '' }} />
 											<label for="g-star3"><span class="text">3</span><i class="fas fa-star"></i></label>
-											<input class="custom-control-input" id="g-star4" type="radio" name="good_rating" value="2" {{ old('good_rating') == 2 ? 'checked' : '' }} />
+											<input class="custom-control-input" id="g-star4" type="radio" name="good_rating" value="2" {{ $g_rating == 2 ? 'checked' : '' }} />
 											<label for="g-star4"><span class="text">2</span><i class="fas fa-star"></i></label>
-											<input class="custom-control-input" id="g-star5" type="radio" name="good_rating" value="1" {{ old('good_rating') == 1 ? 'checked' : '' }} />
+											<input class="custom-control-input" id="g-star5" type="radio" name="good_rating" value="1" {{ $g_rating == 1 ? 'checked' : '' }} />
 											<label for="g-star5"><span class="text">1</span><i class="fas fa-star"></i></label>
 											<span class="my-auto mr-2 py-2 btn btn-outline-secondary" id="undo1"><i class="fas fa-undo fa-lg"></i></span>
 										</div>
@@ -102,11 +115,11 @@
 								</a>
 							</h5>
 						</div><!-- /.card-header -->
-						<div id="collapse2" class=@if ($errors->has('bad_comment') || $errors->has('bad_rating')), "collapse show" @else "collapse" @endif role="tabpanel" aria-labelledby="heading2">
+						<div id="collapse2" class=@if ($errors->has('bad_comment') || $errors->has('bad_rating') || !empty($d_review['bad_comment']) || !empty($d_review['bad_rating'])), "collapse show" @else "collapse" @endif role="tabpanel" aria-labelledby="heading2">
 							<div class="card-body px-md-3 px-1 pb-0">
 								<h5 class="card-title"><i class="far fa-check-circle"></i> 気になる点を書きましょう</h5>
 								<div class="form-group">
-									{!! Form::textarea('bad_comment', old('bad_comment'), empty($errors->has('bad_comment')) ? ['class' => 'form-control', 'placeholder' => '気になる点を教えてください'] : ['class' => 'form-control is-invalid']) !!}
+									{!! Form::textarea('bad_comment', !empty($d_review['bad_comment']) ? $d_review['bad_comment'] : old('bad_comment'), empty($errors->has('bad_comment')) ? ['class' => 'form-control', 'placeholder' => '気になる点を教えてください'] : ['class' => 'form-control is-invalid']) !!}
 									<div class="invalid-feedback">{{ $errors->first('bad_comment') }}</div>
 								</div>
 								<div class="card card-body border-bottom rounded my-3 p-3">
@@ -118,15 +131,18 @@
 								<div class="form-group">
 									<div class="custom-control custom-radio pl-0">
 										<div class="evaluation">
-											<input class="custom-control-input" id="b-star1" type="radio" name="bad_rating" value="5" {{ old('bad_rating') == 5 ? 'checked' : '' }}/>
+											@php
+											!empty($d_review['bad_rating']) ? $b_rating = $d_review['bad_rating'] : $b_rating = old('bad_rating')
+											@endphp
+											<input class="custom-control-input" id="b-star1" type="radio" name="bad_rating" value="5" {{ $b_rating == 5 ? 'checked' : '' }}/>
 											<label for="b-star1"><span class="text">5</span><i class="fas fa-star"></i></label>
-											<input class="custom-control-input" id="b-star2" type="radio" name="bad_rating" value="4" {{ old('bad_rating') == 4 ? 'checked' : '' }} />
+											<input class="custom-control-input" id="b-star2" type="radio" name="bad_rating" value="4" {{ $b_rating == 4 ? 'checked' : '' }} />
 											<label for="b-star2"><span class="text">4</span><i class="fas fa-star"></i></label>
-											<input class="custom-control-input" id="b-star3" type="radio" name="bad_rating" value="3" {{ old('bad_rating') == 3 ? 'checked' : '' }} />
+											<input class="custom-control-input" id="b-star3" type="radio" name="bad_rating" value="3" {{ $b_rating == 3 ? 'checked' : '' }} />
 											<label for="b-star3"><span class="text">3</span><i class="fas fa-star"></i></label>
-											<input class="custom-control-input" id="b-star4" type="radio" name="bad_rating" value="2" {{ old('bad_rating') == 2 ? 'checked' : '' }} />
+											<input class="custom-control-input" id="b-star4" type="radio" name="bad_rating" value="2" {{ $b_rating == 2 ? 'checked' : '' }} />
 											<label for="b-star4"><span class="text">2</span><i class="fas fa-star"></i></label>
-											<input class="custom-control-input" id="b-star5" type="radio" name="bad_rating" value="1" {{ old('bad_rating') == 1 ? 'checked' : '' }} />
+											<input class="custom-control-input" id="b-star5" type="radio" name="bad_rating" value="1" {{ $b_rating == 1 ? 'checked' : '' }} />
 											<label for="b-star5"><span class="text">1</span><i class="fas fa-star"></i></label>
 											<span class="my-auto mr-2 py-2 btn btn-outline-secondary" id="undo2"><i class="fas fa-undo fa-lg"></i></span>
 										</div>

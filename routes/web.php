@@ -72,6 +72,8 @@ Route::resource('tags', 'TagsController', ['only' => ['index', 'show']]);
 Route::group(['prefix' => 'places/review'], function(){
 	Route::get('input/search', 'PlacesController@multiSearch')->name('places.review');
 	Route::get('input/search_add', 'PlacesController@searchAdd')->name('places.search_add');
+	Route::get('input/draft', 'PlacesController@draft')->name('places.draft');
+	Route::delete('delete/draft/{id}', 'UserDraftController@destroy')->name('delete.draft');
 	//以下のレビュー登録ページへはのちに会員遷移できないよう Route::group(['middleware' => ['auth']], function () {    });を追加する※上記の search のルーティングも含めるか要検討
 	Route::group(['middleware' => ['auth']], function () {
 		Route::resource('reviews', 'ReviewsController', ['only' => ['create', 'store']]);

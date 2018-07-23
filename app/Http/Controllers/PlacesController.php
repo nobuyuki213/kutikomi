@@ -178,7 +178,7 @@ class PlacesController extends Controller
         $places = Place::search($request);
         $message = $places['message'];
         $places = $places['places'];
-        // review する place を登録時の city 選択用に使うために取得
+        // review する place を新規登録する際に city 選択用で使うために取得
         $select_cities = City::orderBy('name_furi')->get();
 
         if($message) {
@@ -203,7 +203,7 @@ class PlacesController extends Controller
     public function searchAdd(Request $request)
     {
         // dd($request->key_id);
-        // review する place を登録時の city 選択用に使うために取得
+        // review する place を新規登録の際に city 選択用で使うために取得
         $select_cities = City::orderBy('name_furi')->get();
 
         if ($request->city != null) {
@@ -221,6 +221,23 @@ class PlacesController extends Controller
         return view('places.search_add', [
             'cities' => $cities,
             'select_cities' => $select_cities,
+        ]);
+    }
+
+    /**
+     * [draft description] review step1-3 場所選択を下書きの履歴から探す
+     * @return [type] [description]
+     */
+    public function draft(Request $request)
+    {
+        // draftreviews の並び順を　session を新しく保存した順にするため、collectヘルパと reverseメソッドを使い逆順にする
+        $draft_reviews = collect($request->session()->get('draft'))->reverse();
+        // pagination の設定
+        $perPage = 10; //1ページに表示するレコード数
+        $d_reviews = $this->custom_paginate($draft_reviews, $perPage);
+
+        return view('places.draft', [
+            'd_reviews' => $d_reviews,
         ]);
     }
 }

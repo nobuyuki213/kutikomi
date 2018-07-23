@@ -4,7 +4,7 @@
 		<ol class="cd-breadcrumb cd-multi-steps text-bottom count">
 			<li class="visited"><a href="{{ route('places.review')}}"><small>[場所選択変更]</small></a></li>
 			<li class="current"><em>レビューを書く</em></li>
-			<li><em>ユーザー情報</em></li>
+			<li><em>投稿完了</em></li>
 		</ol>
 	</nav>
 </div>

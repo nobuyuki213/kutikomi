@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class UsersController extends Controller
+class UserDraftController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -43,26 +43,9 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, $id)
+    public function show($id)
     {
-        // ログイン済みかの確認
-        if (\Auth::check()){
-            // ログイン中のユーザーから情報を取得する
-            $user = \Auth::user();
-            // ユーザーの reviews を新しい順に並び替えて取得
-            $reviews = $user->reviews()->orderBy('created_at', 'desc')->get();
-            // draft reviews の並び順を　session に新しく保存した順にするため、collectヘルパと reverseメソッドを使い逆順にする
-            $draft_reviews = collect($request->session()->get('draft'))->reverse();
-            // pagination の設定
-            $perPage = 10; //1ページに表示するレコード数
-            $d_reviews = $this->custom_paginate($draft_reviews, $perPage);
-
-            return view('users.show', [
-                'user' => $user,
-                'reviews' => $reviews,
-                'd_reviews' => $d_reviews,
-            ]);
-        }
+        //
     }
 
     /**
@@ -94,8 +77,11 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        //
+        // ルートから受け取った $id でdraft review を特定し削除する
+        $request->session()->forget("draft.review{$id}");
+
+        return redirect()->back();
     }
 }
