@@ -100,7 +100,7 @@ use App\Place;
 			{{ $s_places->render("pagination::simple-bootstrap-4") }}
 		</div>
 	@endif
-	<pre>
+{{-- 	<pre>
 		{{  var_dump(Request::cookie('laravel_session')) }}
 	</pre>
 	<hr>
@@ -110,7 +110,7 @@ use App\Place;
 	<hr>
 	<pre>
 		{{  var_dump(Session::all()) }}
-	</pre>
+	</pre> --}}
 </div>
 @endsection
 

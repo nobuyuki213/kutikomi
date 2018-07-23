@@ -13,7 +13,7 @@
 @section('content')
 <div class="container">
 {{-- session test 用 --}}
-<pre>
+{{-- <pre>
 	{{  print_r(Session::all()) }}
 </pre>
 <pre>
@@ -21,7 +21,7 @@
 </pre>
 <pre>
 	{{  print_r($d_review) }}
-</pre>
+</pre> --}}
 {{-- session test 用　ここまで --}}
 	@include('commons.step_navi2', !empty($place) ? ['place' => $place] : ['request' => $request])
 
@@ -170,13 +170,13 @@
 
 
 {{-- ポップオーバーテスト用 --}}
-<p>
+{{-- <p>
   <a href="#" data-toggle="popover" id="myPopover" data-content="ココにポップオーバーが表示">ポップオーバーの実例</a>
 </p>
-  <div>
-    <p>ポップオーバーを手動で制御するには、以下のボタンを押す。</p>
-    <input type="button" class="btn btn-primary toggle-popover" data-trigger="hover" value="表示">
-  </div>
+<div>
+<p>ポップオーバーを手動で制御するには、以下のボタンを押す。</p>
+<input type="button" class="btn btn-primary toggle-popover" data-trigger="hover" value="表示">
+</div> --}}
 
 @endsection
 

@@ -7,9 +7,9 @@
 @endsection
 
 @section('content')
-<pre>
+{{-- <pre>
 	{{ print_r(Session::all()) }}
-</pre>
+</pre> --}}
 <div class="container">
 	@include('commons.step_navi3', [])
 </div>
