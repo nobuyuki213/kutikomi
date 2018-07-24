@@ -5,7 +5,7 @@
 		<span class="navbar-toggler-icon"></span>
 	</button>
 
-	<div class="collapse navbar-collapse" id="navbarText">
+	<div class="collapse navbar-collapse mt-2 mt-lg-0" id="navbarText">
 
 		<ul class="navbar-nav side-nav">
 {{-- 			<li class="nav-item">
@@ -36,21 +36,28 @@
 				@include('tags.tag_side', ['tags' => $tags])
 			</li>
 			@endif
+			@if (!empty($cities) && $cities->isNotEmpty())
+			<li class="nav-item">
+				@include('cities.city_side', empty($city) ? ['cities' => $cities] : ['cities' => $cities, 'city' => $city])
+			</li>
+			@endif
 		</ul>
 
 		<ul class="navbar-nav ml-md-auto d-md-flex">
-			<li class="nav-item">
+			<li class="nav-item p-2 p-lg-0">
 				@if (Auth::check())
-					{!! link_to_route('users.show', 'お気に入り', ['id' => Auth::user()->id], ['class' => 'nav-link']) !!}
+					{!! link_to_route('users.show', 'お気に入り', ['id' => Auth::user()->id], ['class' => 'nav-link d-inline-block mr-lg-0 mr-3']) !!}
+					{!! link_to_route('history.places', '閲覧履歴', null, ['class' => 'nav-link d-inline-block']) !!}
 				@else
-					{!! link_to_route('login', 'お気に入り', null, ['class' => 'nav-link', 'data-toggle' => 'popover', 'data-trigger' => 'hover', 'data-placement' => 'bottom', 'data-content' => 'お気に入りはログインが必要です']) !!}
+					{!! link_to_route('login', 'お気に入り', null, ['class' => 'nav-link d-inline-block mr-lg-0 mr-3', 'data-toggle' => 'popover', 'data-trigger' => 'hover', 'data-placement' => 'left', 'data-content' => 'お気に入りはログインが必要です']) !!}
+					{!! link_to_route('history.places', '閲覧履歴', null, ['class' => 'nav-link d-inline-block']) !!}
 				@endif
 			</li>
+			{{-- <li class="nav-item">
+				{!! link_to_route('history.places', '閲覧履歴', null, ['class' => 'nav-link d-inline-block']) !!}
+			</li> --}}
 			<li class="nav-item">
-				{!! link_to_route('history.places', '閲覧履歴', null, ['class' => 'nav-link']) !!}
-			</li>
-			<li class="nav-item">
-				{{ link_to_route(!empty(Session::get('draft')) ? 'places.draft' : 'places.review', '口コミを投稿する', null, ['class' => 'nav-link btn btn-secondary btn-sm mb-lg-0 mb-3 px-lg-3 mx-lg-2']) }}
+				{{ link_to_route(!empty(Session::get('draft')) ? 'places.draft' : 'places.review', '口コミを投稿する', null, ['class' => 'nav-link btn btn-secondary btn-lg mb-lg-0 mx-lg-2 mb-3 py-lg-1']) }}
 			</li>
 			@if (Auth::check())
 				<li class="nav-item dropdown pl-5">
@@ -68,7 +75,7 @@
 				</li>
 			@else
 				<li class="nav-item">
-					{!! link_to_route('login', 'ログイン/ユーザー登録', null, ['class' => 'nav-link']) !!}
+					{!! link_to_route('login', 'ログイン/ユーザー登録', null, ['class' => 'nav-link text-muted btn btn-light btn-lg mb-lg-0 ml-lg-2 py-lg-1']) !!}
 				</li>
 			@endif
 		</ul>

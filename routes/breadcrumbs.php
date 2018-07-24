@@ -23,11 +23,11 @@ Breadcrumbs::register('history.search', function($breadcrumbs){
 Breadcrumbs::register('search', function($breadcrumbs, $keywords = null, $tagword = null){
 	$breadcrumbs->parent('top');
 	if (!empty($keywords && $tagword)){
-		$breadcrumbs->push('" '.$keywords.' " で " '.$tagword.' " タグを含むスポット', route('search'), ['icon' => '<i class="fas fa-search fa-lg"></i>']);
+		$breadcrumbs->push('" '.$keywords.' " で " '.$tagword.' " タグを含むスポット', route('search'), ['icon' => '<i class="fas fa-search"></i>']);
 	} elseif (!empty($keywords)) {
-		$breadcrumbs->push('" '.$keywords.' " を含むスポット', route('search'), ['icon' => '<i class="fas fa-search fa-lg"></i>']);
+		$breadcrumbs->push('" '.$keywords.' " を含むスポット', route('search'), ['icon' => '<i class="fas fa-search"></i>']);
 	} else {
-		$breadcrumbs->push('検索スポット', route('search'), ['icon' => '<i class="fas fa-search fa-lg"></i>']);
+		$breadcrumbs->push('検索スポット', route('search'), ['icon' => '<i class="fas fa-search"></i>']);
 	}
 });
 //top > city > [places]

@@ -12,8 +12,8 @@
 
 @section('breadcrumbs')
 	<nav area-label="breadcrumbs-list">
-		<div class="mb-2 bg-primary border-top">
-			<ol class="breadcrumb container my-0">
+		<div class="bg-primary border-top mb-2 px-2">
+			<ol class="breadcrumb container my-0 px-0" style="overflow-y: auto;white-space: nowrap;display: -webkit-box;">
 			{!! Html::decode(Breadcrumbs::render('history_place')) !!}
 			</ol>
 		</div>

@@ -68,12 +68,12 @@
 					</div>
 				</div>
 				<div class="review-footer pt-2 clearfix">
+					@if (Request::is('users/*'))
+					{!! link_to_route('places.show', $review->places()->value('name'), ['id' => $review->places()->value('place_id')], ['class' => 'small float-left badge badge-pill badge-secondary font-weight-normal', 'style' => 'max-width:65%;overflow:hidden;text-overflow:ellipsis;']) !!}
+					@endif
 					<small class="float-right">
 						created_at: {{ $review->creationTimes() }}
 					</small>
-					@if (Request::is('users/*'))
-					{!! link_to_route('places.show', $review->places()->value('name'), ['id' => $review->places()->value('place_id')], ['class' => 'small float-left badge badge-pill badge-secondary font-weight-normal']) !!}
-					@endif
 				</div>
 			</div>
 		</div>

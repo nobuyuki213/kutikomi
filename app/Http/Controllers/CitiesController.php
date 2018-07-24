@@ -51,6 +51,8 @@ class CitiesController extends Controller
         //
         $city = City::find($id);
         $places = $city->places()->get();
+        // 全ての city を取得-city-side用
+        $cities = City::all();
         // Cityに属するPlaseに、1つ以上存在するtagのみを取得-tag_side用
         $tags = Tag::whereHas('places', function ($query) use ($city) {
             $query->where('city_id', $city->id);
@@ -63,8 +65,7 @@ class CitiesController extends Controller
             })->get();
         }
         $data = [
-            'city' => $city,
-            'places' => $places,
+            'city' => $city, 'places' => $places, 'cities' => $cities,
         ];
         // plaseに該当するtagが空でなければ、$dataに tags を追加
         if (!empty($tags)){

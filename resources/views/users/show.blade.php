@@ -56,38 +56,41 @@
 			@if ($user->favorite_places->isNotEmpty())
 				<div class="favorite-main row">
 					@foreach ($user->favorite_desc as $key => $place)
-						<div class="card card-body rounded-0 col-6 p-2 p-lg-3">
-							<div class="favorite-status clearfix pb-2 border-bottom">
+						<div class="card rounded-0 col-6 p-2 p-lg-3">
+							<div class="card-body p-0">
+								<div class="favorite-status clearfix pb-2 border-bottom">
 
-								<div class="favorite">
-									@include('commons.favorite', ['place' => $place, 'key' => $key])
+									<div class="favorite">
+										@include('commons.favorite', ['place' => $place, 'key' => $key])
+									</div>
+
+									<small class="">add:
+										 @include('commons.date', ['date' => $place->pivot->created_at])
+									</small>
 								</div>
-
-								<small class="">add:
-									 @include('commons.date', ['date' => $place->pivot->created_at])
-								</small>
+								<h5 id="p-name" class="card-title my-2">{{ $place->name }}</h5>
 							</div>
-							<h6 class="card-title my-2" style="font-size:calc(0.5rem + 1.8vmin);height:2rem">{{ $place->name }}</h6>
-							<div class="places-status mb-2">
-
-								<small style="font-size:calc(0.3rem + 1.2vmin);">
+							<div class="crad-footer place-status-wrapper">
+								<small class="d-inline-block mt-1 align-text-top" style="font-size:calc(0.3rem + 1.2vmin);">
 									@include('commons.static_rating', ['params' => $place->reviews_rating_avg()])
 								</small>
 
 								<h6 class="d-inline-block text-secondary mb-0">
 									{{ sprintf('%.2f', $place->reviews_rating_avg()) }}
 								</h6>
-								<h6 class="d-inline-block pl-2 mb-0">
+								<h6 class="d-inline-block pl-1 mb-0">
 									<i class="far fa-comment fa-flip-horizontal fa-lg"></i> <span class=" text-secondary">{{ $place->reviews->count() }}</span>
 								</h6>
+								<div>
+									{!! Html::decode(link_to_route('places.show', 'Go Page <i class="fas fa-angle-double-right"></i>', $place->id, ['class' => 'btn btn-sm btn-secondary mt-2 d-block'])) !!}
+								</div>
 							</div>
-								{!! Html::decode(link_to_route('places.show', 'Go Page <i class="fas fa-angle-double-right"></i>', $place->id, ['class' => 'btn btn-sm btn-secondary'])) !!}
 						</div>
 					@endforeach
 				</div>
 			@else
-				<div class="alert alert-praimary text-center text-white border-0">
-					お気に入りに登録しているのはありません。
+				<div class="alert alert-info text-center text-white border-0">
+					お気に入りしているのはありません。
 				</div>
 			@endif
 
@@ -100,7 +103,7 @@
 
 				</div>
 			@else
-				<div class="alert alert-praimary text-center text-white border-0">
+				<div class="alert alert-info text-center text-white border-0">
 					登録した口コミはありません。
 				</div>
 			@endif

@@ -12,8 +12,8 @@
 
 @section('breadcrumbs')
 	<nav area-label="breadcrumbs-list">
-		<div class="mb-2 bg-primary border-top">
-			<ol class="breadcrumb my-0">
+		<div class="bg-primary border-top mb-2 px-2">
+			<ol class="breadcrumb my-0 px-0" style="overflow-y: auto;white-space: nowrap;display: -webkit-box;">
 			{!! Html::decode(Breadcrumbs::render('search', $keywords, !empty($tagword) ? $tagword : '')) !!}
 			</ol>
 		</div>
@@ -21,6 +21,9 @@
 @endsection
 
 @section('content')
+<pre>
+	{{ var_dump(Request::all()) }}
+</pre>
 <div class="container-fluid">
 	<div class="col px-0">
 		<div class="card">

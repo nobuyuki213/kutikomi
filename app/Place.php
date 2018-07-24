@@ -107,10 +107,17 @@ class Place extends Model
                 });
 
             });
+            // $request の中に tagword が存在するか確認 ＊ place の絞り込み
             if ($request->has('tagword')) {
                 $places = $places_query->whereHas('tags', function($query) use ($request) {
+                    // $request の tagword を持つ places に絞り込み
                     $query->where('tags.name', $request->tagword);
                 });
+            }
+            // $request の中に cityId が存在するか確認 ＊ place の絞り込み
+            if ($request->has('cityId')) {
+                // city_id　と　$request の cityId が同じ places に絞り込み
+                $places = $places_query->where('city_id', $request->cityId);
             }
 
             $places = $places_query->paginate(5);

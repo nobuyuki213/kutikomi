@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Place;
+use App\City;
 use App\Tag;
 use Session;
 
@@ -12,12 +13,14 @@ class SearchController extends Controller
 	// search places view
 	public function search(Request $request)
 	{
-		$places = Place::search($request);
+		$places = Place::search($request); // ローカルスコープ 記述先Placeモデル
 		$message = $places['message'];
 		$places = $places['places'];
 		// 検索で該当した places に紐づく 重複を除くtag を取得
 		$p_ids = $places->pluck('id');
 		$tags = Tag::hasTags($p_ids)->get(); // ローカルスコープ 記述先Tagモデル
+		// 全ての city を取得する city-side 用
+		$cities = City::all();
 
 		// $message が空かを確認をする => $message が空でなければ　session に検索ワードを保存しない
 		if (empty($message)) {
@@ -55,6 +58,9 @@ class SearchController extends Controller
 				'keywords' => $request->keywords,
 				'tags' => $tags,
 				'tagword' => $request->tagword,
+				'cities' => $cities,
+				'city' => City::find($request->cityId),
+
 			]);
 		}
 
