@@ -49,3 +49,21 @@
 	</div>
 </div>
 @endif
+
+@if (Request::is('tags/*'))
+<div class="card bg-white">
+	<p class="card-header align-middle">他のエリアを見る</p>
+	<div class="card-body py-2 pl-2 pr-lg-0 pr-2">
+		<div class="city-items">
+			<div class="list-group list-group-flush">
+			@foreach ($cities as $city_item)
+				<div class="city-item" style="position:relative">
+					{!! link_to_route('cities.show', $city_item->name, ['id' => $city_item->id], ['class' => 'text-muted border-0 py-2 list-group-item list-group-item-action']) !!}
+					<span class=" badge badge-primary badge-pill font-weight-normal" style="position:absolute;top:35%;right:0.5rem;z-index:5;">{{ $city_item->places->count() }}</span>
+				</div>
+			@endforeach
+			</div>
+		</div>
+	</div>
+</div>
+@endif

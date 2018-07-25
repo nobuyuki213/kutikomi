@@ -19,4 +19,9 @@
 		<h1 class="display-1">Thank you</h1>
 	</div>
 </div>
+@if (session()->has('complete'))
+	<div class="alert alert-success col-md-8 mx-auto text-center">
+		{{ session('complete') }}
+	</div>
+@endif
 @endsection

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Validator;
 use App\Place;
 use App\City;
+use App\Tag;
 
 class ReviewsController extends Controller
 {
@@ -29,9 +30,7 @@ class ReviewsController extends Controller
 	{
 		// ログイン済みかの確認
 		if (\Auth::check()) {
-			// ログインしているユーザー情報を取得
-			$user = \Auth::user();
-
+			// review する place が見つからない場合、$request の中に place を新規登録するデータが存在するか確認
 			if ($request->has('place_name', 'city_id', 'place_desc')) {
 				// バリデーションチェック
 				$this->validate($request, [
@@ -40,20 +39,23 @@ class ReviewsController extends Controller
 					'place_desc' => 'required|max:50',
 				]);
 				return view('reviews.create', [
-					'user' => $user,
 					'request' => $request,
+					// place に紐づく tag を登録するために全ての tag を取得
+					'tags' => Tag::all(),
 				]);
 			} else {
 				// $request の中にある place の値で特定の place 情報を取得
 				$place = Place::find($request->place);
-				// [session]$placeインスタンスを使い review の下書き情報として session に保存
+				// $place インスタンスを使い review の下書き情報として session に保存
 				$this->create_draft_review($request, $place);
+				// place の draft review があれば取得
 				$d_review = $request->session()->get("draft.review{$place->id}");
 
 				return view('reviews.create', [
-					'user' => $user,
 					'place'=> $place,
 					'd_review' => $d_review,
+					// place に紐づく tag を登録するために全ての tag を取得
+					'tags' => Tag::all(),
 				]);
 			}
 		} else {
@@ -67,6 +69,7 @@ class ReviewsController extends Controller
 	public function confirm(Request $request)
 	{
 		// dd($request->all());
+		// $Place->id を持っている place か place を新規登録するための place_name のいずれかが $request に存在するか確認
 		if ($request->has('place') || $request->has('place_name')) {
 			// バリデーションチェック
 			$this->validate($request, [
@@ -75,16 +78,23 @@ class ReviewsController extends Controller
 				//bad_comment フィールドの値が null(空＝未入力)なら このフィールドで required のバリデートを実行する|nullを許可|文字列であること|同一の内容じゃない|文字列が5文字以上（minの値は別途変更）
 				'good_comment' => 'required_if:bad_comment,null,|nullable|string|unique:reviews,comment|min:5',
 				'bad_comment' => 'required_if:good_comment,null,|nullable|string|unique:reviews,comment|min:5',
+				'tag_ids' => 'array',
 			]);
-			// $request の中にある place の値で特定の place レコードを取得
-			$place = Place::find($request->place);
-			// [session]$placeレコードを使い review の下書き情報として session に追加保存
-			$this->add_draft_review($request, $place);
 
-			$data = [
-				'place' => $place,
-				'request' => $request,
-			];
+			if ($request->has('place')) {
+				// $request の中にある place の値で特定の place インスタンスを取得
+				$place = Place::find($request->place);
+				// $place インスタンスを使い review の下書き情報として session に追加保存
+				$this->add_draft_review($request, $place);
+
+				$data = [
+					'place' => $place, 'request' => $request,
+				];
+			} else {
+				$data = [
+					'request' => $request,
+				];
+			}
 
 			return view('reviews.confirm', $data);
 		} else {
@@ -129,13 +139,13 @@ class ReviewsController extends Controller
 			}
 			//ログイン中のユーザーから review する user を取得
 			$user = \Auth::user();
-			// good_commentの作成保存や関係性やtypeなどを実行と 戻り値の revireインスタンスを $data 変数に代入 toReview は Usermodelに記述
-			$data = $user->toReview($request, $placeId);
+			// good_commentの作成保存や関係性やtypeなどを実行と 戻り値の revireインスタンスを $data 変数に代入
+			$data = $user->toReview($request, $placeId); // toReview は Usermodelに記述
 			// dd($data);
 			// $request に photo が 存在しているかを確認
 			if ($request->hasFile('photo')){
-				// 存在していれば photo の画像保存等を実行 $request と $data の中に reviewインスタンスを含めて渡している　photo は UploadController に記述
-				app()->make('App\Http\Controllers\UploadController')->photo($request, $data, $placeId);
+				// 存在していれば photo の画像保存等を実行 $request と $data の中に reviewインスタンスを含めて渡している　
+				app()->make('App\Http\Controllers\UploadController')->photo($request, $data, $placeId); // photo は UploadController に記述
 			}
 			// review の作成が完了した draft review を削除する
 			$request->session()->forget("draft.review{$placeId}");
@@ -143,12 +153,22 @@ class ReviewsController extends Controller
 			$data = [
 				'request' => $request,
 			];
-			return view('reviews.complete', $data);
+			return redirect()->route('reviews.complete');
 
 		} else {
 			// ログインしていないユーザーは、アクセス直前の画面に戻る（のちに構成上による変更が必要）
 			return redirect()->back();
 		}
+	}
+
+	/**
+	 * [complete description]
+	 * @return [type] [description]
+	 */
+	public function complete(Request $request)
+	{
+		$request->session()->flash('complete', '投稿完了しました！');
+		return view('reviews.complete');
 	}
 
 	/**
@@ -213,6 +233,7 @@ class ReviewsController extends Controller
 				'history_at' => now()->format('Y-m-d H:i:s'),
 			]);
 		}
+		$request->session()->flash('message', '下書きに保存しました');
 		// $request->session()->forget("draft.review{$place->id}");
 		// $request->session()->forget("draft");
 	}
@@ -242,7 +263,9 @@ class ReviewsController extends Controller
 			'good_rating' => !empty($request->good_rating) ? $request->good_rating : '',
 			'bad_comment' => !empty($request->bad_comment) ? $request->bad_comment : '',
 			'bad_rating' => !empty($request->bad_rating) ? $request->bad_rating : '',
+			'tag_ids' => !empty($request->tag_ids) ? $request->tag_ids : '',
 		]);
+		$request->session()->flash('message', '下書きに保存しました');
 	}
 
 

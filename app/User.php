@@ -103,6 +103,12 @@ class User extends Authenticatable
      */
     public function toReview($request, $placeId)
     {
+        // $request に tag_ids が存在し、かつ空でないかを確認
+        if ($request->filled('tag_ids')) {
+            $place = Place::find($placeId);
+            // place に紐づく tag を保存
+            $place->tagging($request); // 記述はplaceモデル
+        }
         // $request に good_comment が存在し、かつ空でないかを確認
         if ($request->filled('good_comment')) {
             // user に紐づく review の rating と good_comment の値を作成して保存

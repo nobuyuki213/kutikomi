@@ -254,6 +254,12 @@
 	overflow-x: hidden;
 	overflow-y: auto
 }
+@media (min-width: 992px) {
+	.navbar-collapse {
+		overflow: visible;
+	}
+}
+
 
 /*side city 一覧リスト用 カスタムスクロールバー*/
 .city-items {

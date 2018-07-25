@@ -1,24 +1,37 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top py-3">
 	<a class="navbar-brand" href="/">LOGO</a>
+
+	<ul class="navbar-nav ml-auto d-lg-none">
+		<li class="nav-item px-3">
+			@if (Auth::check())
+				{!! Html::decode(link_to_route('users.show', '<i class="far fa-heart fa-lg"></i>', ['id' => Auth::user()->id], ['class' => 'nav-link d-inline-block px-3 py-0'])) !!}
+				{!! Html::decode(link_to_route('history.places', '<i class="fas fa-history fa-lg"></i>', null, ['class' => 'nav-link d-inline-block px-3 py-0'])) !!}
+			@else
+				{!! Html::decode(link_to_route('login', '<i class="far fa-heart fa-lg"></i>', null, ['class' => 'nav-link d-inline-block px-3 py-0'])) !!}
+				{!! Html::decode(link_to_route('history.places', '<i class="fas fa-history fa-lg"></i>', null, ['class' => 'nav-link d-inline-block px-3 py-0'])) !!}
+			@endif
+		</li>
+	</ul>
+
 	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#Navber" aria-controls="Navber" aria-expanded="false" aria-label="Toggle navigation">
 		<span class="navbar-toggler-icon"></span>
 	</button>
 
 	<div class="collapse navbar-collapse" id="Navber">
 		<ul class="navbar-nav ml-auto">
-			<li class="nav-item p-2 p-lg-0">
+			<li class="nav-item p-2 p-lg-0 d-none d-lg-inline-block">
 				@if (Auth::check())
 					{!! link_to_route('users.show', 'お気に入り', ['id' => Auth::user()->id], ['class' => 'nav-link d-inline-block mr-lg-0 mr-3']) !!}
 					{!! link_to_route('history.places', '閲覧履歴', null, ['class' => 'nav-link d-inline-block']) !!}
 				@else
-					{!! link_to_route('login', 'お気に入り', null, ['class' => 'nav-link d-inline-block mr-lg-0 mr-3', 'data-toggle' => 'popover', 'data-trigger' => 'hover', 'data-placement' => 'left', 'data-content' => 'お気に入りはログインが必要です']) !!}
+					{!! link_to_route('login', 'お気に入り', null, ['class' => 'nav-link d-inline-block mr-lg-0 mr-3', 'data-toggle' => 'popover', 'data-trigger' => 'hover', 'data-placement' => 'bottom', 'data-content' => 'お気に入りはログインが必要です']) !!}
 					{!! link_to_route('history.places', '閲覧履歴', null, ['class' => 'nav-link d-inline-block']) !!}
 				@endif
 			</li>
 			{{-- <li class="nav-item">
 				{!! link_to_route('history.places', '閲覧履歴', null, ['class' => 'nav-link d-inline-block']) !!}
 			</li> --}}
-			<li class="nav-item">
+			<li class="nav-item mt-lg-0 mt-3">
 				{{ link_to_route(!empty(Session::get('draft')) ? 'places.draft' : 'places.review', '口コミを投稿する', null, ['class' => 'nav-link btn btn-secondary btn-lg mb-lg-0 mx-lg-2 mb-3 py-lg-1']) }}
 			</li>
 			@if (Auth::check())

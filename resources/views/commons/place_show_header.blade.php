@@ -32,7 +32,7 @@
 					</div>
 					<div class="tags-status mt-3">
 						<i class="fas fa-tags"></i>
-						@foreach ($place->tags as $tag)
+						@foreach ($place->only_tags($place) as $tag)
 							<a href="{!! route('tags.show', ['tag' => $tag]) !!}" class="badge badge-pill badge-info p-1 my-1">
 								<h6 class="card-text mb-0 px-1"># {{ $tag->name }}</h6>
 							</a>

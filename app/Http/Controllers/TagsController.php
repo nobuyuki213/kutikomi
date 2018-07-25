@@ -54,12 +54,16 @@ class TagsController extends Controller
     public function show($id)
     {
         $tag = Tag::find($id);
-        $places = $tag->places()->get();
+        $places = $tag->only_places($tag);
         // 1つ以上Plaseに存在するtagのみを取得-tag_side用
         $tags = Tag::has('places')->get();
+        // 全ての ciry を取得-city-side用
+        $cities = City::all();
+
         $data = [
             'tag' => $tag,
-            'places' => $places
+            'places' => $places,
+            'cities' => $cities,
         ];
         $data += ['tags' => $tags,];
         return view('tags.show', $data);

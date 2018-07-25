@@ -21,9 +21,9 @@
 @endsection
 
 @section('content')
-<pre>
+{{-- <pre>
 	{{ var_dump(Request::all()) }}
-</pre>
+</pre> --}}
 <div class="container-fluid">
 	<div class="col px-0">
 		<div class="card">

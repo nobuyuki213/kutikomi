@@ -78,5 +78,6 @@ Route::group(['prefix' => 'places/review'], function(){
 	Route::group(['middleware' => ['auth']], function () {
 		Route::resource('reviews', 'ReviewsController', ['only' => ['create', 'store']]);
 		Route::post('reviews/confirm', 'ReviewsController@confirm')->name('reviews.confirm');
+		Route::get('reviews/complete', 'ReviewsController@complete')->name('reviews.complete');
 	});
 });

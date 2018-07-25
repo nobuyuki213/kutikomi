@@ -1,5 +1,18 @@
 <nav class="navbar header-top fixed-top navbar-expand-lg navbar-dark bg-primary py-3">
 	<a class="navbar-brand" href="/">LOGO</a>
+
+	<ul class="navbar-nav ml-auto d-lg-none">
+		<li class="nav-item px-3">
+			@if (Auth::check())
+				{!! Html::decode(link_to_route('users.show', '<i class="far fa-heart fa-lg"></i>', ['id' => Auth::user()->id], ['class' => 'nav-link d-inline-block px-3 py-0'])) !!}
+				{!! Html::decode(link_to_route('history.places', '<i class="fas fa-history fa-lg"></i>', null, ['class' => 'nav-link d-inline-block px-3 py-0'])) !!}
+			@else
+				{!! Html::decode(link_to_route('login', '<i class="far fa-heart fa-lg"></i>', null, ['class' => 'nav-link d-inline-block px-3 py-0'])) !!}
+				{!! Html::decode(link_to_route('history.places', '<i class="fas fa-history fa-lg"></i>', null, ['class' => 'nav-link d-inline-block px-3 py-0'])) !!}
+			@endif
+		</li>
+	</ul>
+
 	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText"
 	aria-expanded="false" aria-label="Toggle navigation">
 		<span class="navbar-toggler-icon"></span>
@@ -8,17 +21,6 @@
 	<div class="collapse navbar-collapse mt-2 mt-lg-0" id="navbarText">
 
 		<ul class="navbar-nav side-nav">
-{{-- 			<li class="nav-item">
-				<a class="nav-link" href="#">Home
-					<span class="sr-only">(current)</span>
-				</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="#">Side Menu Items</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="#">Pricing</a>
-			</li> --}}
 			{!!  Form::open(['route' => 'search', 'method' => 'get']) !!}
 			<li class="nav-item">
 				<div class="form-group">
@@ -44,12 +46,12 @@
 		</ul>
 
 		<ul class="navbar-nav ml-md-auto d-md-flex">
-			<li class="nav-item p-2 p-lg-0">
+			<li class="nav-item p-2 p-lg-0 d-none d-lg-inline-block">
 				@if (Auth::check())
 					{!! link_to_route('users.show', 'お気に入り', ['id' => Auth::user()->id], ['class' => 'nav-link d-inline-block mr-lg-0 mr-3']) !!}
 					{!! link_to_route('history.places', '閲覧履歴', null, ['class' => 'nav-link d-inline-block']) !!}
 				@else
-					{!! link_to_route('login', 'お気に入り', null, ['class' => 'nav-link d-inline-block mr-lg-0 mr-3', 'data-toggle' => 'popover', 'data-trigger' => 'hover', 'data-placement' => 'left', 'data-content' => 'お気に入りはログインが必要です']) !!}
+					{!! link_to_route('login', 'お気に入り', null, ['class' => 'nav-link d-inline-block mr-lg-0 mr-3', 'data-toggle' => 'popover', 'data-trigger' => 'hover', 'data-placement' => 'bottom', 'data-content' => 'お気に入りはログインが必要です']) !!}
 					{!! link_to_route('history.places', '閲覧履歴', null, ['class' => 'nav-link d-inline-block']) !!}
 				@endif
 			</li>

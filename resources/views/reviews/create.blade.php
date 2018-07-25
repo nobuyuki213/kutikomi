@@ -14,9 +14,9 @@
 <div class="container">
 {{-- session test 用 --}}
 {{-- <pre>
-	{{  print_r(Session::all()) }}
-</pre>
-<pre>
+	{{  print_r(request()->session()->get('message')) }}
+</pre> --}}
+{{-- <pre>
 	{{  print_r(Session::get("draft.review{$place->id}")) }}
 </pre>
 <pre>
@@ -159,7 +159,46 @@
 					</div><!-- /.card -->
 				</div><!-- /#accordion -->
 			</div>
-			<div class="card-footer border-secondary bg-transparent">Footer</div>
+			{{-- <div class="card-footer border-secondary bg-transparent">Footer</div> --}}
+		</div>
+		<div class="place-select-tags card border-secondary mb-3">
+			<div class="card-header border-secondary bg-transparent">
+				<h4 class="card-title mb-0"><i class="fas fa-tag"></i> タグを選ぶ</h4>
+			</div>
+			<div class="card-body px-2">
+
+				<div class="card border-0">
+					<div class="card-header bg-info" role="tab" id="collapseTagSelectHeading1">
+						<h5 class="mb-0">
+							<a href="#collapseTagSelect1" class="collapsed text-body" role="button" data-toggle="collapse" aria-expanded="false" aria-controls="collapseTagSelect1">
+							<span class="text-white font-weight-bold">スポットのタグを選ぶ</span>
+						</a>
+						</h5>
+					</div><!-- /.card-header -->
+					<div class="{!! empty($d_review['tag_ids']) ? 'collapse' : 'collapse show' !!}" role="tabpanel" id="collapseTagSelect1" aria-labelledby="collapseTagSelectHeading1" aria-expanded="false">
+
+						<div class="tags card-body p-2">
+							<div class="form-group">
+								<div class="form-inline">
+								@if (!empty($tags))
+									@foreach ($tags as $key => $tag)
+									<div class="custom-control custom-checkbox m-1">
+										<input type="checkbox" class="custom-control-input" name="tag_ids[]" value="{{ $tag->id }}" id="Check{{$key}}" @if (!empty($d_review['tag_ids'])) @foreach ($d_review['tag_ids'] as $tag_id) @if ($tag_id == $tag->id) {{ 'checked' }} @break @endif @endforeach @endif>
+										<label class="custom-control-label" for="Check{{$key}}">{{ $tag->name }}</label>
+									</div>
+									@endforeach
+								@endif
+								</div>
+							</div>
+						</div>
+{{-- <pre>
+	{{ var_dump($d_review['tag_ids']) }}
+</pre> --}}
+						<div class="card-footer text-center text-md-left">"{{ $place->name }}"に<span class="d-md-inline d-block">当てはまるタグを選びましょう！</span></div>
+					</div><!-- /.collapse -->
+				</div><!-- /.card -->
+
+			</div>
 		</div>
 		<div class="review-button text-center">
 			{!! Form::button('入力内容を確認する', ['class' => 'btn btn-secondary btn-lg', 'type' => 'submit']) !!}

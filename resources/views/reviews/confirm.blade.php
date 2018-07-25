@@ -12,10 +12,18 @@
 
 @section('content')
 <div class="container">
-{{-- session test 用 --}}
+{{-- request test 用 --}}
 {{-- <pre>
+	{{ print_r(Request::all()) }}
+</pre>
+	@foreach (Request::get('tag_ids') as $tag)
+		 {{ $tag }} /
+	@endforeach --}}
+{{-- request test 用　ここまで --}}
+{{-- session test 用 --}}
+<pre>
 	{{  print_r(Session::all()) }}
-</pre> --}}
+</pre>
 {{-- session test 用　ここまで --}}
 	@include('commons.step_navi2', !empty($place) ? ['place' => $place] : ['request' => $request])
 
@@ -98,6 +106,26 @@
 								</div>
 							</div>
 							@endif
+
+							@if (!empty($request->tag_ids))
+							<div class="form-group row border-bottom border-secondary pb-3">
+								<div class="col-sm-2 my-auto">
+									{!! Form::label('static_tag', 'タグ', ['class' => 'col-form-label text-nowrap']) !!}
+								</div>
+								<div class="col-md-8 col-sm-10 py-3">
+									@foreach ($request->tag_ids as $key => $tag_id)
+									<div class="custom-control custom-checkbox m-1">
+										<input type="checkbox" class="custom-control-input" name="tag_ids[]" value="{{ $tag_id }}" id="Check{{$key}}" checked="">
+										<label class="custom-control-label" for="Check{{$key}}">{{ App\Tag::find($tag_id)->name }}</label>
+									</div>
+									@endforeach
+								</div>
+								<div class="col-md-2 my-auto text-right">
+									<a href="javascript:history.back()" class="btn btn-outline-secondary"><i class="fas fa-undo fa-lg"></i> 変更</a>
+								</div>
+							</div>
+							@endif
+
 							@if (count($errors) > 0)
 							@foreach ($errors->all() as $error)
 								<div class="alert alert-danger small mb-1">{{ $error }}</div>

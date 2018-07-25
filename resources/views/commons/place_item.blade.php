@@ -12,7 +12,7 @@
 			<div class="media row border-bottom pb-3">
 				<span class="col-sm-3 mx-md-3 px-0 text-center">
 
-					@forelse ($place->reviews as $review)
+					@forelse ($place->reviews_with_photos() as $review)
 						@if ($loop->index == 1)
 							@break
 						@endif
@@ -67,7 +67,7 @@
 			</div>
 			<div class="tags-status">
 				<i class="fas fa-tags"></i>
-				@foreach ($place->tags as $tag)
+				@foreach ($place->only_tags($place) as $tag)
 					<span class="badge badge-pill badge-info p-1 my-1">
 						<h6 class="mb-0 px-1"># {{ $tag->name }}</h6>
 					</span>

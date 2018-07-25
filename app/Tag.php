@@ -31,4 +31,12 @@ class Tag extends Model
     		$query->whereIn('places.id', $ids);
     	});
     }
+
+    // tag に対する重複を除いた palce を取得
+    public function only_places($tag)
+    {
+        return Place::whereHas('tags', function ($query) use ($tag) {
+            $query->where('tags.id', $tag->id);
+        })->get();
+    }
 }

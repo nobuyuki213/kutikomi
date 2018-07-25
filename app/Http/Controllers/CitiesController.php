@@ -48,22 +48,28 @@ class CitiesController extends Controller
      */
     public function show(Request $request, $id)
     {
-        //
+        // $id で city を取得する
         $city = City::find($id);
-        $places = $city->places()->get();
+        // city ページでの 検索絞り込みをするため place のクエリビルダクラスのインスタンスを作る
+        $places_query = Place::query();
+        // city に属する places を取得する
+        $places = $places_query->where('city_id', $city->id);
+        // $request に tagword が存在しているか確認->絞り込み条件
+        if ($request->has('tagword')){
+            // tag-name と　tgaword　が同じ条件に一致する tag に紐づく place のみを取得
+            $places = $places_query->whereHas('tags', function ($query) use ($request) {
+                $query->where('tags.name', $request->tagword);
+            });
+        }
+        $places = $places_query->paginate(10);
+
         // 全ての city を取得-city-side用
         $cities = City::all();
         // Cityに属するPlaseに、1つ以上存在するtagのみを取得-tag_side用
         $tags = Tag::whereHas('places', function ($query) use ($city) {
             $query->where('city_id', $city->id);
         })->take(5)->get();
-        // $request に tagword が存在しているか確認
-        if ($request->has('tagword')){
-            // tag-name の条件に一致する tag と紐づく place のみを取得
-            $places = Place::whereHas('tags', function ($query) use ($request) {
-                $query->where('tags.name', $request->tagword);
-            })->get();
-        }
+
         $data = [
             'city' => $city, 'places' => $places, 'cities' => $cities,
         ];

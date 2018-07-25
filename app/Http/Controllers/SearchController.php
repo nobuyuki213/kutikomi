@@ -22,7 +22,7 @@ class SearchController extends Controller
 		// 全ての city を取得する city-side 用
 		$cities = City::all();
 
-		// $message が空かを確認をする => $message が空でなければ　session に検索ワードを保存しない
+		// $message が空かを確認をする => $message が存在している場合は、検索した keywords では該当するのが無いことになるため　session に検索ワードを保存しない
 		if (empty($message)) {
 			$keywords = $request->keywords;
 			// searchwords のが空でなくかつ null でないか確認する

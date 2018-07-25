@@ -51,7 +51,7 @@ class Place extends Model
     {
         return $this->reviews()->where('type', 'bad');
     }
-    // place に対する 作成日が最新の review を取得
+    // place に対する 作成日が最新順に review を取得
     public function reviews_latest()
     {
         return $this->reviews()->latest('reviews.created_at');
@@ -70,6 +70,14 @@ class Place extends Model
                       ->whereRaw('photos.review_id = reviews.id');
                   })->get();
     }
+    // place に対する重複を除いた tag を取得
+    public function only_tags($place)
+    {
+        return Tag::whereHas('places', function ($query) use ($place) {
+            $query->where('places.id', $place->id);
+        })->get();
+    }
+
 
     /**＜place検索機能実装＞
      * placesから複数単語検索
@@ -136,5 +144,18 @@ class Place extends Model
         $data['places'] = $places;
 
         return $data;
+    }
+
+    /**
+     * [tag_attach description]
+     * @param  [type] $request [description]
+     * @return [type]          [description]
+     */
+    public function tagging($request)
+    {
+        //place に紐づく tag を　1つずつ保存する
+        foreach ($request->tag_ids as $tag_id) {
+            $this->tags()->attach($tag_id);
+        }
     }
 }
