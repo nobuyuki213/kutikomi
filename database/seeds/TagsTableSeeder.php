@@ -12,7 +12,7 @@ class TagsTableSeeder extends Seeder
     public function run()
     {
         // Tag テーブルに データを作成
-        DB::table('tags')->inseet([
+        DB::table('tags')->insert([
         	[
         		'name' => '一日中遊べる',
         	],[
