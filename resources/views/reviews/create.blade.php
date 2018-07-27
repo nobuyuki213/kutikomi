@@ -194,7 +194,7 @@
 {{-- <pre>
 	{{ var_dump($d_review['tag_ids']) }}
 </pre> --}}
-						<div class="card-footer text-center text-md-left">"{{ $place->name }}"に<span class="d-md-inline d-block">当てはまるタグを選びましょう！</span></div>
+						<div class="card-footer text-center text-md-left">"{{ !empty($place->name) ? $place->name : $request->place_name }}"に<span class="d-md-inline d-block">当てはまるタグを選びましょう！</span></div>
 					</div><!-- /.collapse -->
 				</div><!-- /.card -->
 
