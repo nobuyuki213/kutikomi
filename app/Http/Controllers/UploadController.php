@@ -27,10 +27,10 @@ class UploadController extends Controller
 			// 幅を200pxだけ指定し高さは自動処理でリサイズし、publicディレクトリの中のstoreage/avatarsディレクトリに '200-$filename' で画像を保存
 			Image::make($avatar)->resize(250, null, function($constraint){
 				$constraint->aspectRatio();
-			})->crop(200,200)->save(public_path('storage/avatars/' . '200-' . $filename));//public用
+			})->crop(200,200)->save(storage_path('app/public/avatars/' . '200-' . $filename));//public用
 			// 保存した画像データを取得する
 			// (※Storage ファザードでは取得が不可だったので File ファザードで取得。また、加工した画像を AWS s3 に直接保存が不可なので、 public に作成している)
-			$contents = \File::get(public_path('storage/avatars/' . '200-' . $filename));
+			$contents = \File::get(storage_path('app/public/avatars/' . '200-' . $filename));
 			// AWS s3 の 指定のフォルダに保存する(※指定のフォルダが存在していなくても自動的に作成される)
 			$disk->put('storage/avatars/'.\Auth::user()->id.'/'.'200-'.$filename, $contents, 'public');
 			// $path = $disk->url('storage/avatars/'.\Auth::user()->id.'/'.'200-'.$filename); s3 の fullpath を取得するコードは現状使用しない
