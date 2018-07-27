@@ -48,7 +48,7 @@
 						@foreach ($review->photos as $photo)
 
 							<figure class="figure col-4 mb-0 px-0 border">
-								<a href="{{ asset(Storage::disk('s3')->url('storage/places/'.$place->id.'/'.$photo->original)) }}" data-size="1000x666">
+								<a href="{{ asset(Storage::disk('s3')->url('storage/places/'.$place->id.'/'.$photo->original)) }}" data-size="960x640">
 									<img class="img-fluid" src="{{ asset(Storage::disk('s3')->url('storage/places/'.$place->id.'/'.$photo->thumbnail)) }}" alt="{{ $place->name.'-photo' }}">
 								</a>
 								<figcaption style="display: none;">{{ $place->name.'-photo' }}</figcaption>
