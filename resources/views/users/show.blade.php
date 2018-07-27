@@ -21,7 +21,11 @@
 		<div class="user-header">
 			<div class="media row" style="position:relative;">
 				<a href="#" class="mr-3 col-3">
-					<img src="{{ asset('storage/avatars/'.$user->avatar) }}" class="img-fluid rounded-circle" alt="user-icon">
+				@if (Storage::disk('s3')->exists('storage/avatars/'.$user->id.'/'.$user->avatar))
+					<img src="{{ asset(Storage::disk('s3')->url('storage/avatars/'.$user->id.'/'.$user->avatar)) }}" class="img-fluid rounded-circle" alt="user-icon">
+				@else
+					<img src="{{ asset(Storage::disk('s3')->url('storage/avatars/'.$user->avatar)) }}" class="img-fluid rounded-circle" alt="user-icon">
+				@endif
 				</a>
 				<!-- 切り替えボタンの設定 -->
 				<a class="text-secondary bg-light rounded-circle" data-toggle="modal" data-target="#UserIconModal" style="position:absolute;bottom:0.2rem;left:18vmin;">

@@ -41,7 +41,11 @@
 								<div class="row px-3">
 									<div class="balloon5 col-md-1 col-2 px-1">
 										<div class="faceicon">
-											<img src="{{ asset('storage/avatars/' . $review->user->avatar) }}" class="img-fluid" alt="user-icon">
+										@if (Storage::disk('s3')->exists('storage/avatars/'.$review->user->id.'/'. $review->user->avatar))
+											<img src="{{ asset(Storage::disk('s3')->url('storage/avatars/'. $review->user->id.'/'. $review->user->avatar)) }}" class="img-fluid" alt="user-icon">
+										@else
+											<img src="{{ asset(Storage::disk('s3')->url('storage/avatars/'. $review->user->avatar)) }}" class="img-fluid" alt="user-icon">
+										@endif
 										</div>
 									</div>
 									<div class="chatting card-text col-md-11 col-10 px-0">
@@ -82,8 +86,7 @@
 	<div class="card">
 		<div class="card-header">住所から探す</div>
 		@if (count($cities) > 0)
-			<?php $key = 0; ?>
-			@foreach ($cities as $cities)
+			@foreach ($cities as $key => $cities)
 				@if ($cities->isNotEmpty())
 					<div class="card-body">
 						<h6 class="card-text">{{ $lines[$key].' 行' }}</h6>
@@ -98,7 +101,6 @@
 						@endforeach
 					</ul>
 				@endif
-			<?php $key++; ?>
 			@endforeach
 		@endif
 	</div>

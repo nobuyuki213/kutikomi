@@ -5,7 +5,7 @@
 
 			@include('commons.favorite', ['place' => $place])
 
-			<h4 class="mb-0"><span class="mt-auto">{{ $place->name }}</span></h4>
+			<a href="{{ route('places.show', ['id' => $place->id]) }}"><h4 class="mb-0 text-muted">{{ $place->name }}</h4></a>
 		</div>
 		<div class="card-body pt-sm-3 pt-0">
 
@@ -17,12 +17,12 @@
 							@break
 						@endif
 							@if ($review->photos->isNotEmpty())
-								<img class="img-fluid img-thumbnail" src="{{ asset('/storage/places/' . $place->id . '/' . $review->photos->whereNotIn('original', null)->random()->original ) }}" alt="place-photo" style="width:100%;height:150px;object-fit:cover;">
+								<a href="{{ route('places.show', ['id' => $place->id]) }}"><img class="img-fluid img-thumbnail" src="{{ asset(Storage::disk('s3')->url('storage/places/' . $place->id . '/' . $review->photos->whereNotIn('original', null)->random()->original )) }}" alt="place-photo" style="width:100%;height:150px;object-fit:cover;"></a>
 							@else
-								<i class="far fa-image fa-10x"></i>
+								<a href="{{ route('places.show', ['id' => $place->id]) }}"><i class="far fa-image fa-10x"></i></a>
 							@endif
 					@empty
-						<i class="far fa-image fa-10x"></i>
+						<a href="{{ route('places.show', ['id' => $place->id]) }}"><i class="far fa-image fa-10x"></i></a>
 					@endforelse
 
 				</span>
@@ -51,7 +51,11 @@
 					@endif
 					<div class="balloon5 col-sm-1 col-2 pl-xl-4 pl-md-2 pl-sm-1 px-0">
 						<div class="faceicon">
-							<img src="{{ asset('storage/avatars/' . $review->user->avatar) }}" class="img-fluid" alt="user-icon">
+						@if (Storage::disk('s3')->exists('storage/avatars/'.$review->user->id.'/'. $review->user->avatar))
+							<img src="{{ asset(Storage::disk('s3')->url('storage/avatars/'. $review->user->id.'/'. $review->user->avatar)) }}" class="img-fluid" alt="user-icon">
+						@else
+							<img src="{{ asset(Storage::disk('s3')->url('storage/avatars/'. $review->user->avatar)) }}" class="img-fluid" alt="user-icon">
+						@endif
 						</div>
 					</div>
 					<div class="chatting card-text col-sm-11 col-10 pl-0">

@@ -4,7 +4,11 @@
 			<h5 class="card-header bg-transparent py-2 {{ $review->photos->isNotEmpty() ? '' : 'border-bottom-0'}}">
 				<div class="media">
 					<a href="#" class="mr-3">
-						<img src="{{ asset('storage/avatars/' . $review->user->avatar) }}" class="img-fluid rounded-circle" style="max-width:25px;" alt="user-icon">
+					@if (Storage::disk('s3')->exists('storage/avatars/'.$review->user->id.'/'. $review->user->avatar))
+						<img src="{{ asset(Storage::disk('s3')->url('storage/avatars/'.$review->user->id.'/'. $review->user->avatar)) }}" class="img-fluid rounded-circle" style="max-width:25px;" alt="user-icon">
+					@else
+						<img src="{{ asset(Storage::disk('s3')->url('storage/avatars/'. $review->user->avatar)) }}" class="img-fluid rounded-circle" style="max-width:25px;" alt="user-icon">
+					@endif
 					</a>
 					<div class="media-body">
 						<span class="my-auto" style="font-size:0.8rem;">{{ $review->user->name}}</span>
@@ -22,17 +26,17 @@
 				@endphp
 
 					<figure class="figure mb-0 px-0" style="width:100%;">
-						<a href="{{ asset('storage/places/'.$place_id.'/'.$photo->original) }}" data-size="1000x666">
+						<a href="{{ asset(Storage::disk('s3')->url('storage/places/'.$place_id.'/'.$photo->original)) }}" data-size="1000x666">
 
 						@switch($review->photos->count())
 							@case(1)
-								<img class="img-fluid" src="{{ asset('storage/places/'.$place_id.'/'.$photo->original) }}" alt="place-review-photo" style="width:100%;max-height:300px;object-fit:cover;">
+								<img class="img-fluid" src="{{ asset(Storage::disk('s3')->url('storage/places/'.$place_id.'/'.$photo->original)) }}" alt="place-review-photo" style="width:100%;max-height:300px;object-fit:cover;">
 								@break
 							@case(2)
-								<img class="img-fluid col-6 px-0" src="{{ asset('storage/places/'.$place_id.'/'.$photo->original) }}" alt="place-review-photo" style="width:100%;max-height:300px;object-fit:cover;">
+								<img class="img-fluid col-6 px-0" src="{{ asset(Storage::disk('s3')->url('storage/places/'.$place_id.'/'.$photo->original)) }}" alt="place-review-photo" style="width:100%;max-height:300px;object-fit:cover;">
 								@break
 							@case(3)
-								<img class="img-fluid col-4 px-0" src="{{ asset('storage/places/'.$place_id.'/'.$photo->original) }}" alt="place-review-photo" style="width:100%;max-height:300px;object-fit:cover;">
+								<img class="img-fluid col-4 px-0" src="{{ asset(Storage::disk('s3')->url('storage/places/'.$place_id.'/'.$photo->original)) }}" alt="place-review-photo" style="width:100%;max-height:300px;object-fit:cover;">
 								@break
 						@endswitch
 

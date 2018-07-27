@@ -8,7 +8,7 @@
 						@break
 					@endif
 						@if ($review->photos->isNotEmpty())
-							<img class="card-img-top img-fluid" src="{{ asset('/storage/places/' . $place->id . '/' . $review->photos->whereNotIn('original', null)->random()->original ) }}" alt="place-orignal-photo" style="width:100%;height:200px;object-fit:cover;">
+							<img class="card-img-top img-fluid" src="{{ asset(Storage::disk('s3')->url('storage/places/' . $place->id . '/' . $review->photos->whereNotIn('original', null)->random()->original )) }}" alt="place-orignal-photo" style="width:100%;height:200px;object-fit:cover;">
 						@endif
 				@empty
 					<img class="card-img-top img-fluid" src="{{ asset('/storage/places/default_noimage.png') }}" alt="default-image" style="width:100%;height:200px;object-fit:cover;">

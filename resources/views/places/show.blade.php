@@ -52,7 +52,11 @@
 						<div class="row border-bottom py-2">
 							<div class="balloon5 col-md-1 col-2 px-1">
 								<div class="faceicon">
-									<img src="{{ asset('storage/avatars/' . $review->user->avatar) }}" class="img-fluid" alt="user-icon">
+								@if (Storage::disk('s3')->exists('storage/avatars/'.$review->user->id.'/'. $review->user->avatar))
+									<img src="{{ asset(Storage::disk('s3')->url('storage/avatars/'. $review->user->id.'/'. $review->user->avatar)) }}" class="img-fluid" alt="user-icon">
+								@else
+									<img src="{{ asset(Storage::disk('s3')->url('storage/avatars/'. $review->user->avatar)) }}" class="img-fluid" alt="user-icon">
+								@endif
 								</div>
 							</div>
 							<div class="chatting card-text col-md-11 col-10 px-0">
@@ -104,7 +108,7 @@
 							<div class="sp-slide">
 								@foreach ($review->photos as $photo)
 								@if ($loop->index == 1) @break @endif
-									<img class="sp-image" src="{{ asset('storage/places/'.$place->id.'/'.$photo->original ) }}">
+									<img class="sp-image" src="{{ asset(Storage::disk('s3')->url('storage/places/'.$place->id.'/'.$photo->original )) }}">
 								@endforeach
 							</div>
 							@endforeach
@@ -116,7 +120,7 @@
 							<div class="sp-thumbnail">
 								@foreach ($review->photos as $photo)
 								@if ($loop->index == 1) @break @endif
-									<img class="sp-image" src="{{ asset('storage/places/'.$place->id.'/'.$photo->thumbnail ) }}">
+									<img class="sp-image" src="{{ asset(Storage::disk('s3')->url('storage/places/'.$place->id.'/'.$photo->thumbnail )) }}">
 								@endforeach
 							</div>
 							@endforeach
@@ -147,7 +151,7 @@
 				</div>
 				<div class="card-body p-0">
 					<div id="plece_map">
-						<iframe src="https://www.google.co.jp/maps?q={{$place->name}}&output=embed&t=m&z=18&hl=ja" width="750" height="750" frameborder="0" style="border:0" allowfullscreen></iframe>
+						<iframe src="https://www.google.co.jp/maps?q={{$place->name}}&output=embed&t=m&z=16&hl=ja" width="750" height="750" frameborder="0" style="border:0" allowfullscreen></iframe>
 					</div>
 				</div>
 				<div class="card-footer p-0">
