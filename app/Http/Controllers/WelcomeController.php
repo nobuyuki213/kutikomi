@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Cache;
 use App\City;
 use App\Place;
 use App\Tag;
@@ -16,31 +17,41 @@ class WelcomeController extends Controller
 	//
 	public function index()
 	{
+		$minutes = 60;
 		// city名50音順別で取得
 		$lines = ['あ', 'か', 'さ', 'た', 'な', 'は', 'ま', 'や', 'ら', 'わ',];
-		$city = City::with('places')->LineA()->get(); //あ行取得（ローカルスコープ
-		$cities[] = $city;
-		$city = City::with('places')->LineKa()->get(); //か行取得（ローカルスコープ
-		$cities[] = $city;
-		$city = City::with('places')->LineSa()->get(); //さ行取得（ローカルスコープ
-		$cities[] = $city;
-		$city = City::with('places')->LineTa()->get(); //た行取得（ローカルスコープ
-		$cities[] = $city;
-		$city = City::with('places')->LineNa()->get(); //な行取得（ローカルスコープ
-		$cities[] = $city;
-		$city = City::with('places')->LineHa()->get(); //は行取得（ローカルスコープ
-		$cities[] = $city;
-		$city = City::with('places')->LineMa()->get(); //ま行取得（ローカルスコープ
-		$cities[] = $city;
-		$city = City::with('places')->LineYa()->get(); //や行取得（ローカルスコープ
-		$cities[] = $city;
-		$city = City::with('places')->LineRa()->get(); //ら行取得（ローカルスコープ
-		$cities[] = $city;
-		$city = City::with('places')->LineWa()->get(); //わ行取得（ローカルスコープ
-		$cities[] = $city;
+		$cities = Cache::remember('cities', $minutes, function(){
+			$city = City::withCount('places')->LineA()->get(); //あ行取得（ローカルスコープ
+			$cities[] = $city;
+			$city = City::withCount('places')->LineKa()->get(); //か行取得（ローカルスコープ
+			$cities[] = $city;
+			$city = City::withCount('places')->LineSa()->get(); //さ行取得（ローカルスコープ
+			$cities[] = $city;
+			$city = City::withCount('places')->LineTa()->get(); //た行取得（ローカルスコープ
+			$cities[] = $city;
+			$city = City::withCount('places')->LineNa()->get(); //な行取得（ローカルスコープ
+			$cities[] = $city;
+			$city = City::withCount('places')->LineHa()->get(); //は行取得（ローカルスコープ
+			$cities[] = $city;
+			$city = City::withCount('places')->LineMa()->get(); //ま行取得（ローカルスコープ
+			$cities[] = $city;
+			$city = City::withCount('places')->LineYa()->get(); //や行取得（ローカルスコープ
+			$cities[] = $city;
+			$city = City::withCount('places')->LineRa()->get(); //ら行取得（ローカルスコープ
+			$cities[] = $city;
+			$city = City::withCount('places')->LineWa()->get(); //わ行取得（ローカルスコープ
+			$cities[] = $city;
+			return json_encode($cities);
+		});
+		$cities = json_decode($cities);
+		// 新しい10件の reviews を取得
+		$reviews = Cache::remember('reviews', $minutes, function(){
+			$reviews = Review::with('user')->latest()->take(10)->get();
+			return json_encode($reviews);
+		});
+		$reviews = json_decode($reviews);
 		// 全てのtagを取得
 		$tags = Tag::all();
-		$reviews = Review::with('user')->latest()->take(10)->get();
 
 		$data = [
 			'cities' => $cities,

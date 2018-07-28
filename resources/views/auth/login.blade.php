@@ -5,6 +5,8 @@
 @section('stylesheet')
 	{{-- validationEngine.CSS --}}
 	<link rel="stylesheet" href="{{ asset('js/jQuery-Validation-Engine-master/css/validationEngine.jquery.css') }}">
+	{{-- Social Buttons for Bootstrap --}}
+	<link rel="stylesheet" href="{{ asset('css/bootstrap-social.css')}}">
 @endsection
 
 @section('navbar')

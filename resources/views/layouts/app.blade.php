@@ -22,9 +22,6 @@
 		<!--Font Awesome-->
 		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
 
-
-		{{-- Social Buttons for Bootstrap --}}
-		<link rel="stylesheet" href="{{ asset('css/bootstrap-social.css')}}">
 	</head>
 
 	<body style="padding-top: 4.5rem;">
