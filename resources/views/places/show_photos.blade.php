@@ -37,7 +37,7 @@
 					<div class="">
 						<div class="fa-7x text-secondary">
 							<i class="fas fa-camera-retro"></i>
-							<h3 class="d-inline-block align-middle mb-4"><span class="badge badge-pill bg-white border border-secondary text-secondary">全 {{ $reviews_with_photos->count() }}枚</span></h3>
+							<h3 class="d-inline-block align-middle mb-4"><span class="badge badge-pill bg-white border border-secondary text-secondary">全 {{ count($reviews_with_photos) }}枚</span></h3>
 						</div>
 					</div>
 				</div>

@@ -12,7 +12,7 @@
 			<div class="media row border-bottom pb-3">
 				<span class="col-sm-3 mx-md-3 px-0 text-center">
 
-					@forelse ($place->reviews_with_photos() as $review)
+					@forelse ($place->reviews_with_photos->take(1) as $review)
 						@if ($loop->index == 1)
 							@break
 						@endif
@@ -44,8 +44,8 @@
 				</div><!-- /.media-body -->
 			</div><!-- /.media -->
 
-			<div class="row py-3 pl-2">
-				@forelse ($place->reviews_latest as $review)
+			<div class="review-examples row py-3 pl-2">
+				@forelse ($place->reviews_latest->take(1) as $review)
 					@if ($loop->index == 1)
 						@break
 					@endif
@@ -59,9 +59,11 @@
 						</div>
 					</div>
 					<div class="chatting card-text col-sm-11 col-10 pl-0">
+					<a href="{{ route('place.reviews', ['id' => $place->id]) }}" class="text-muted">
 						<div class="says border-secondary">
 							<small id="c-show-kuti">{{ $review->comment }}</small>
 						</div>
+					</a>
 					</div>
 				@empty
 					<div class="col">
@@ -79,7 +81,7 @@
 			</div>
 		</div>
 		<div class="card-footer p-0">
-			{!! Html::decode(link_to_route('places.show', '<i class="fas fa-map-marker-alt"></i> <small>'.$place->name.'</small>', ['id' => $place->id], ['class' => 'btn btn-outline-primary btn-lg btn-block py-2 rounded-0'])) !!}
+			{!! Html::decode(link_to_route('places.show', '<i class="fas fa-map-marker-alt"></i> <small>'.$place->name.'</small>', ['id' => $place->id], ['class' => 'btn btn-outline-primary btn-lg btn-block py-2 rounded-0 text-truncate'])) !!}
 		</div>
 	</div>
 

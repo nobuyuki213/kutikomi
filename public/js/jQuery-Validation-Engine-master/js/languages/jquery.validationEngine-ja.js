@@ -118,6 +118,10 @@
                     "alertText": "* 半角英数で入力してください"
                 },
                 // --- CUSTOM RULES -- Those are specific to the demos, they can be removed or changed to your likings
+                "onlyNickName": {
+                    "regex": /^[0-9a-zA-Z][a-zA-Z0-9-_.]+$/,
+                    "alertText": "* 半角英数始まりで半角英数と一部の記号のみ[ - _ . ]で入力してください"
+                },
                 "ajaxUserCall": {
                     "url": "ajaxValidateFieldUser",
                     // you may want to pass extra data on the ajax call

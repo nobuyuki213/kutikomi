@@ -5,8 +5,8 @@
 <div class="draft-review card @if($loop->last) mb-0 @else mb-3 @endif">
 	<div class="card-body p-0" style="position:relative;">
 		<!-- 切り替えボタンの設定 -->
-		<span class="btn btn-sm btn-primary" data-toggle="modal" data-target="#draftDeleteModal{{ $place->id }}" style="position:absolute;top:0.5rem;right:0.5rem;">
-			下書きを削除
+		<span class="btn btn-sm btn-dark" data-toggle="modal" data-target="#draftDeleteModal{{ $place->id }}" style="position:absolute;top:0.3rem;right:0.3rem;">
+			<i class="far fa-trash-alt fa-lg"></i>
 		</span>
 		{!! Form::open(['route' => 'reviews.create', 'method' => 'get', 'name' => "form_review{$key}"]) !!}
 			{!! Form::hidden('place', $place->id) !!}
@@ -28,7 +28,7 @@
 						<span class="mx-1 text-muted">未選択</span>
 						@endif
 					</div>
-					<div class="bad-status d-inline-block">
+					<div class="bad-status mb-md-0 mb-1 mr-1 d-inline-block">
 						<span class="badge badge-danger font-weight-normal p-2">気になる点</span>
 						<span class="mx-1 text-muted">{{ !empty($d_review['bad_comment']) ? '記入あり' : '未記入' }}</span>
 						<span class="badge badge-danger font-weight-normal p-2">評価点</span>
@@ -38,6 +38,10 @@
 						@else
 						<span class="mx-1 text-muted">未選択</span>
 						@endif
+					</div>
+					<div class="tags-status d-md-inline d-block">
+						<span class="badge badge-info font-weight-normal p-2">タグ</span>
+						<span class="mx-1 text-muted">{{ !empty($d_review['tag_ids']) ? '選択あり' : '未選択' }}</span>
 					</div>
 				</div>
 			</a>

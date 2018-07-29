@@ -161,7 +161,7 @@
 	padding: 10px 1px 0;
 	color: lightgrey;
 	cursor: pointer;
-	font-size: 45px;
+	font-size: calc(1.7rem + 5vmin);
 }
 .evaluation label .text{
 	position: absolute;
@@ -169,7 +169,7 @@
 	top: 0;
 	right: 0;
 	text-align: center;
-	font-size: 12px;
+	font-size: 0.65rem;
 	color: gray;
 }
 .evaluation label:hover,
@@ -244,7 +244,7 @@
 
 /*navbar*/
 /*ドロップダウンhoverで表示*/
-.dropdown:hover .dropdown-menu {
+#dropdown-hover:hover .dropdown-menu {
 		display: block;
 }
 /*navbar menu vertical scroll*/

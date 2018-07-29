@@ -40,7 +40,8 @@ Route::get('login/{provider}/callback', 'Auth\SocialAccountController@handleProv
 // user
 Route::group(['middleware' => ['auth']], function(){
 	Route::resource('users', 'UsersController', ['only' => ['show']]);
-	Route::post('profile', 'UploadController@updateAvatar')->name('update.avatar');
+	Route::post('profile', 'UploadController@updateAvatar')->name('avatar.update');
+	Route::put('profile/{id}', 'UsersController@update')->name('nickname.update');
 
 	Route::group(['prefix' => 'users/{id}'], function(){
 		Route::post('favorite', 'UserFavoriteController@store')->name('user.favorite');

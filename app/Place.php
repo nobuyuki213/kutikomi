@@ -68,7 +68,7 @@ class Place extends Model
                     ->whereExists(function ($q) {
                     $q->from('photos')
                       ->whereRaw('photos.review_id = reviews.id');
-                  })->get();
+                  });
     }
     // place に対する重複を除いた tag を取得
     public function only_tags($place)

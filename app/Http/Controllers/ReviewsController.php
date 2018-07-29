@@ -115,7 +115,7 @@ class ReviewsController extends Controller
 		if (\Auth::check()) {
 			if ($request->hasFile('photo')) {
 				$validator = Validator::make($request->all(), [
-					'photo' => 'bail|file|image|dimensions:max_width=1500,max_height=1500'
+					'photo' => 'bail|file|image|dimensions:max_width=2000,max_height=2000'
 				]);
 				if ($validator->fails()) {
 					// バリデーションエラー時の戻り先が post になっているため、ルートを通らず confirm メソッド にアクセスする
@@ -233,7 +233,7 @@ class ReviewsController extends Controller
 				'history_at' => now()->format('Y-m-d H:i:s'),
 			]);
 		}
-		$request->session()->flash('message', '下書きに保存しました');
+		$request->session()->flash('draft_message', '下書きに保存しました');
 		// $request->session()->forget("draft.review{$place->id}");
 		// $request->session()->forget("draft");
 	}
@@ -265,7 +265,7 @@ class ReviewsController extends Controller
 			'bad_rating' => !empty($request->bad_rating) ? $request->bad_rating : '',
 			'tag_ids' => !empty($request->tag_ids) ? $request->tag_ids : '',
 		]);
-		$request->session()->flash('message', '下書きに保存しました');
+		$request->session()->flash('draft_message', '下書きに保存しました');
 	}
 
 

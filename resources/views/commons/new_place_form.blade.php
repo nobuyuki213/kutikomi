@@ -24,7 +24,7 @@
 				<div class="form-group">
 					{!! Form::label('place_desc', '番地', ['class' => 'form-control-label']) !!}
 					{!! Form::text('place_desc', old('place_desc'), empty($errors->has('place_desc')) ? ['class' => 'validate[required,maxSize[50]] form-control', 'aria-describedby' => 'place_help'] : ['class' => 'validate[required,maxSize[50]] form-control is-invalid']) !!}
-					<small id="place_help" class="form-text text-muted">市区町村の続きをご入力ください [例] 地御前1丁目10-20</small>
+					<small id="place_help" class="form-text text-muted">市区町村の続きをご入力ください [例] 紙屋町2丁目1-18</small>
 					<div class="invalid-feedback">{{ $errors->first('place_desc') }}</div>
 				</div>
 				<div class="card-footer text-center bg-transparent">

@@ -66,7 +66,7 @@
 							</div>
 							<div class="clearfix w-100">{{-- ＊＊＊＊＊＊このレビューが0の場合、投稿者名と点数を表示するかどうか要検討＊＊＊＊＊ --}}
 								<div class="float-left">
-									<small>{{ $review->user->name }}</small>
+									<small>{{ $review->user->nickname }}</small>
 								</div>
 								<div class="float-right">
 									<small>
@@ -100,7 +100,7 @@
 				</div>
 				<div class="card-body p-0">
 
-					@if ($place->reviews_with_photos()->isNotEmpty())
+					@if ($place->reviews_with_photos->isNotEmpty())
 					<div class="slider-pro" id="slider2">
 						<div class="sp-slides">
 							@foreach ($reviews_with_photos as $review)

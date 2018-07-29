@@ -11,7 +11,7 @@
 					@endif
 					</a>
 					<div class="media-body">
-						<span class="my-auto" style="font-size:0.8rem;">{{ $review->user->name}}</span>
+						<span class="my-auto" style="font-size:0.8rem;">{{ $review->user->nickname}}</span>
 					</div><!-- /.media-body -->
 				</div><!-- /.media -->
 			</h5>

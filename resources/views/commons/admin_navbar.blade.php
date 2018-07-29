@@ -21,8 +21,8 @@
 	<div class="collapse navbar-collapse mt-2 mt-lg-0" id="navbarText">
 
 		<ul class="navbar-nav side-nav">
-			{!!  Form::open(['route' => 'search', 'method' => 'get']) !!}
 			<li class="nav-item">
+			{!!  Form::open(['route' => 'search', 'method' => 'get']) !!}
 				<div class="form-group">
 					<div class="input-group mb-3">
 						{!! Form::text('keywords', empty($keywords) ? old('keywords') : $keywords, ['class' => 'form-control border border-info py-3', 'placeholder' => '施設名など', 'aria-describedby' => "button-addon2"]) !!}
@@ -31,8 +31,8 @@
 						</div>
 					</div>
 				</div>
-			</li>
 			{!! Form::close() !!}
+			</li>
 			@if (!empty($tags) && $tags->isNotEmpty())
 			<li class="nav-item">
 				@include('tags.tag_side', ['tags' => $tags])
@@ -62,7 +62,7 @@
 				{{ link_to_route(!empty(Session::get('draft')) ? 'places.draft' : 'places.review', '口コミを投稿する', null, ['class' => 'nav-link btn btn-secondary btn-lg mb-lg-0 mx-lg-2 mb-3 py-lg-1']) }}
 			</li>
 			@if (Auth::check())
-				<li class="nav-item dropdown pl-5">
+				<li class="nav-item dropdown pl-5" id="dropdown-hover">
 					<a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="position:relative;">
 					@if (Storage::disk('s3')->exists('storage/avatars/'.Auth::user()->id.'/'.Auth::user()->avatar))
 						<img src="{{ asset(Storage::disk('s3')->url('storage/avatars/'.Auth::user()->id.'/'.Auth::user()->avatar)) }}" class="img-fluid rounded-circle" style="width:2.2rem;position:absolute;top:0px;left:-33px;" alt="user-small-icon">

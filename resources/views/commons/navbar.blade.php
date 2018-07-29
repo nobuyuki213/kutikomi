@@ -35,7 +35,7 @@
 				{{ link_to_route(!empty(Session::get('draft')) ? 'places.draft' : 'places.review', '口コミを投稿する', null, ['class' => 'nav-link btn btn-secondary btn-lg mb-lg-0 mx-lg-2 mb-3 py-lg-1']) }}
 			</li>
 			@if (Auth::check())
-				<li class="nav-item dropdown pl-5">
+				<li class="nav-item dropdown pl-5" id="dropdown-hover">
 					<a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="position:relative;">
 					@if (Storage::disk('s3')->exists('storage/avatars/'.Auth::user()->id.'/'.Auth::user()->avatar))
 						<img src="{{ asset(Storage::disk('s3')->url('storage/avatars/'.Auth::user()->id.'/'.Auth::user()->avatar)) }}" class="img-fluid rounded-circle" style="width:2.2rem;position:absolute;top:0px;left:-33px;" alt="user-small-icon">

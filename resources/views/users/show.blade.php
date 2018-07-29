@@ -5,10 +5,12 @@
 @section('stylesheet')
 	{{-- user avatar upload CSS --}}
 	<link rel="stylesheet" type="text/css" href="https://unpkg.com/file-upload-with-preview/dist/file-upload-with-preview.min.css">
-		{{-- PhotoSwipe Core CSS --}}
+	{{-- PhotoSwipe Core CSS --}}
 	<link rel="stylesheet" href="{{ asset('js/PhotoSwipe-master/dist/photoswipe.css') }}">
 	{{-- PhotoSwipe Skin CSS --}}
 	<link rel="stylesheet" href="{{ asset('js/PhotoSwipe-master/dist/default-skin/default-skin.css') }}">
+	{{-- validationEngine.CSS --}}
+	<link rel="stylesheet" href="{{ asset('js/jQuery-Validation-Engine-master/css/validationEngine.jquery.css') }}">
 @endsection
 
 @section('navbar')
@@ -20,7 +22,7 @@
 	<div class="container-fluid" id="user-page">
 		<div class="user-header">
 			<div class="media row" style="position:relative;">
-				<a href="#" class="mr-3 col-3">
+				<a href="#" class="mx-md-4 mx-3 col-3 pl-0 pr-2">
 				@if (Storage::disk('s3')->exists('storage/avatars/'.$user->id.'/'.$user->avatar))
 					<img src="{{ asset(Storage::disk('s3')->url('storage/avatars/'.$user->id.'/'.$user->avatar)) }}" class="img-fluid rounded-circle" alt="user-icon">
 				@else
@@ -28,11 +30,29 @@
 				@endif
 				</a>
 				<!-- 切り替えボタンの設定 -->
-				<a class="text-secondary bg-light rounded-circle" data-toggle="modal" data-target="#UserIconModal" style="position:absolute;bottom:0.2rem;left:18vmin;">
+				<span class="text-secondary bg-light rounded-circle" data-toggle="modal" data-target="#UserIconModal" style="position:absolute;bottom:0.3rem;left:19.5vmin;">
 					<i class="fas fa-plus-circle" style="font-size:calc(0.6rem + 2.5vmin)"></i>
-				</a>
+				</span>
 				<div class="media-body">
-					<h3 class="mt-0" style="font-size:calc(0.6rem + 2.2vmin)">{{ $user->name }}</h3>
+					<div class="nickname-status pr-3">
+						<h3 class="d-inline" style="font-size:calc(0.6rem + 2.2vmin)">{{ $user->nickname }}</h3>
+						<div class="dropdown d-inline-block ml-1">
+							<span class="fa-stack dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="font-size:calc(0.3rem + 1.3vmin)" data-offset="15,5">
+								<i class="fas fa-circle fa-stack-2x text-secondary"></i>
+								<i class="fas fa-user-edit fa-stack-1x fa-inverse"></i>
+							</span>
+							<div class="dropdown-menu dropdown-menu-right border-primary" style="width:15rem">
+							{!! Form::open(['route' => ['nickname.update', $user->id], 'method' => 'put', 'class' => 'px-2 py-2', 'id' => 'formname']) !!}
+								<div class="form-group">
+									{!! Form::label('nickname', 'ニックネームの変更', ['class' => 'form-control-label']) !!}
+									{!! Form::text('nickname', $user->nickname, ['class' => 'validate[required,minSize[6],custom[onlyNickName],maxSize[20]] form-control', 'aria-describedby' => 'nicknameHelp']) !!}
+									<small id="nicknameHelp" class="form-text form-muted">半角英数字と一部記号[-_.]のみ入力できます</small>
+								</div>
+								{!! Form::button('変更', ['class' => 'btn btn-primary btn-sm w-100', 'type' => 'submit']) !!}
+							{!! Form::close()  !!}
+							</div>
+						</div>
+					</div>
 				</div><!-- /.media-body -->
 			</div><!-- /.media -->
 
@@ -142,7 +162,7 @@
 			</div>
 			<div class="modal-body">
 
-				{!! Form::open(['route' => 'update.avatar', 'files' => 'true']) !!}
+				{!! Form::open(['route' => 'avatar.update', 'files' => 'true']) !!}
 					<div class="form-group mb-0">
 						<div class="custom-file-container" data-upload-id="myUniqueUploadId">
 							<label>画像をアップロード <a href="javascript:void(0)" class="custom-file-container__image-clear" title="Clear Image">[取消]</a></label>
@@ -183,4 +203,15 @@
 	<script src="{{ asset('js/PhotoSwipe-master/dist/photoswipe-ui-default.min.js') }}"></script>
 	{{-- PhotoSwipe (追加外部ファイル) --}}
 	<script src="{{ asset('js/PhotoSwipe-master/dist/photoswipe-sub.js') }}"></script>
+	{{-- validationEngine.jquery --}}
+	<script src="{{ asset('js/jQuery-Validation-Engine-master/js/jquery-1.8.2.min.js') }}"></script>
+	<script src="{{ asset('js/jQuery-Validation-Engine-master/js/jquery.validationEngine.js') }}"></script>
+	<script src="{{ asset('js/jQuery-Validation-Engine-master/js/languages/jquery.validationEngine-ja.js') }}"></script>
+	<script>
+		$(function(){
+			jQuery("#formname").validationEngine('attach', {
+				promptPosition: "inline"
+			});
+		});
+	</script>
 @endsection

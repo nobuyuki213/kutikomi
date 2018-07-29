@@ -149,7 +149,7 @@
 										<div id="collapse3" class=@if ($errors->has('photo')) "collapse show" @else "collapse" @endif role="tabpanel" aria-labelledby="heading2">
 											<div class="card-body px-md-3 px-1 pb-0">
 												<h5 class="card-title"><i class="far fa-check-circle"></i> アップするフォトを選んでください</h5>
-												<p class="small text-danger">最大画像サイズは 1500px x 1500px までになります</p>
+												<p class="small text-danger">最大画像サイズは 2000px x 2000px までになります</p>
 
 												{{-- 画像アップフォーム --}}
 												<div class="form-group mb-0">

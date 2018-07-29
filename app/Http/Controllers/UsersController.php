@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\User;
 
 class UsersController extends Controller
 {
@@ -85,7 +86,19 @@ class UsersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // ニックネーム の更新
+        if (\Auth::check()) {
+            // nickname のバリデーション
+            $this->validate($request, [
+                'nickname' => 'required|max:20|alpha_dash',
+            ]);
+
+            $user = User::find($id);
+            $user->nickname = $request->nickname;
+            $user->save();
+
+            return redirect()->route('users.show', ['id' => $user->id]);
+        }
     }
 
     /**

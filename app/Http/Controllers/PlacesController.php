@@ -55,7 +55,7 @@ class PlacesController extends Controller
         //
         $place = Place::find($id);
         $city = $place->city()->get();
-        $reviews_with_photos = $place->reviews_with_photos()->shuffle()->all();
+        $reviews_with_photos = $place->reviews_with_photos->shuffle()->all();
 
         $data = [
             'place' => $place,
@@ -135,7 +135,7 @@ class PlacesController extends Controller
     public function photos($id)
     {
         $place = Place::find($id);
-        $reviews_with_photos = $place->reviews_with_photos();
+        $reviews_with_photos = $place->reviews_with_photos->all();
 
         $data = [
             'place' => $place,

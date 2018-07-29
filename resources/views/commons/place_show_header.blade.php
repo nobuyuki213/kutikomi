@@ -3,7 +3,7 @@
 		<div class="col px-2">
 			<div class="card">
 
-				@forelse ($place->reviews_with_photos() as $review)
+				@forelse ($place->reviews_with_photos->take(1) as $review)
 					@if ($loop->index == 1)
 						@break
 					@endif
