@@ -103,7 +103,7 @@ class UsersController extends Controller
         if (\Auth::check()) {
             // nickname のバリデーション
             $this->validate($request, [
-                'nickname' => 'required|max:20|alpha_dash',
+                'nickname' => 'required|string|min:6|max:20|alpha_dash',
             ]);
 
             $user = User::find($id);

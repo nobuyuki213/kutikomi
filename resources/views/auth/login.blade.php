@@ -50,10 +50,10 @@
 
 							<div class="row">
 								<div class="col-md-6 px-md-3 px-0">
-									{!! Html::decode(link_to('login/google', '<span class="fab fa-google"></span> Googleでログイン', ['class' => 'mb-2 text-center btn btn-block btn-social btn-google btn-lg'])) !!}
+									{!! Html::decode(link_to('login/google', '<span class="fab fa-google"></span> Googleでログイン/新規登録', ['class' => 'mb-2 text-center btn btn-block btn-social btn-google btn-lg'])) !!}
 								</div>
 								<div class="col-md-6 px-md-3 px-0">
-									{!! Html::decode(link_to('login/facebook', '<span class="fab fa-facebook"></span> facebookでログイン', ['class' => 'mb-2 text-center btn btn-block btn-social btn-facebook btn-lg'])) !!}
+									{!! Html::decode(link_to('login/facebook', '<span class="fab fa-facebook"></span> facebookでログイン/新規登録', ['class' => 'mb-2 text-center btn btn-block btn-social btn-facebook btn-lg'])) !!}
 								</div>
 							</div>
 
@@ -84,24 +84,39 @@
 				</div>
 				{{-- 登録 --}}
 				<div class="tab-pane fade" id="pills-signup" role="tabpanel" aria-labelledby="pills-signup-tab">
-					<div class="card border-0">
+
+					<div class="card border-0 mt-3">
+						<div class="card-header bg-info text-white text-center border-bottom-0">
+							メールアドレスで登録
+						</div>
 						<div class="card-body">
 							{!! Form::open(['route' => 'signup.post', 'id' => 'form2']) !!}
 
 							<div class="form-group row">
+								{!! Form::label('nickname', 'ニックネーム', ['class' => 'form-control-label']) !!}
+								<span class="badge badge-pill badge-primary mb-auto mt-1 ml-2">公開</span>
+								{!! Form::text('nickname', old('nickname'), empty($errors->has('nickname')) ? ['class' => 'validate[required,minSize[6],custom[onlyNickName],maxSize[20]] form-control', 'aria-describedby' => 'nicknameHelp', 'placeholder' => 'kuti-komi_09'] : ['class' => 'validate[required,minSize[6],custom[onlyNickName],maxSize[20]] form-control is-invalid', 'aria-describedby' => 'nicknameHelp']) !!}
+								<small id="nicknameHelp" class="form-text form-muted">* 6～20文字以内、半角英数字と一部記号[-_.]のみ入力できます</small>
+								<div class="invalid-feedback">{{ $errors->first('nickname') }}</div>
+							</div>
+
+							<div class="form-group row">
 								{!! Form::label('name', 'お名前', ['class' => 'form-control-label']) !!}
+								<span class="badge badge-pill badge-danger mb-auto mt-1 ml-2">非公開</span>
 								{!! Form::text('name', old('name'), empty($errors->has('name')) ? ['class' => 'validate[required] form-control'] : ['class' => 'validate[required] form-control is-invalid']) !!}
 								<div class="invalid-feedback">{{ $errors->first('name') }}</div>
 							</div>
 
 							<div class="form-group row">
 								{!! Form::label('email', 'メールアドレス', ['class' => 'form-control-label']) !!}
+								<span class="badge badge-pill badge-danger mb-auto mt-1 ml-2">非公開</span>
 								{!! Form::email('email', old('email'), empty($errors->has('email')) ? ['class' => 'validate[required,custom[email]] form-control'] : ['class' => 'validate[required,custom[email]] form-control is-invalid']) !!}
 								<div class="invalid-feedback">{{ $errors->first('email') }}</div>
 							</div>
 
 							<div class="form-group row">
 								{!! Form::label('password', 'パスワード', ['class' => 'form-control-label']) !!}
+								<span class="badge badge-pill badge-danger mb-auto mt-1 ml-2">非公開</span>
 								{!! Form::password('password', empty($errors->has('password')) ? ['class' => 'validate[required,minSize[6]] form-control'] : ['class' => 'validate[required,minSize[6]] form-control is-invalid']) !!}
 								<div class="invalid-feedback">{{ $errors->first('password') }}</div>
 							</div>
