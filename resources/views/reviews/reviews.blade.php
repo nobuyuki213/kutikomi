@@ -1,10 +1,10 @@
-@foreach ($reviews as $review)
+@foreach ($reviews as $key => $review)
 	<div class="mx-0 mb-4">
 		<div class="card">
-			<h5 class="card-header bg-transparent py-2 {{ $review->photos->isNotEmpty() ? '' : 'border-bottom-0'}}">
+			<h5 class="card-header bg-transparent py-2 {{ !empty($review->photos) ? '' : 'border-bottom-0'}}">
 				<div class="media">
 					<a href="#" class="mr-3">
-					@if (Storage::disk('s3')->exists('storage/avatars/'.$review->user->id.'/'. $review->user->avatar))
+					@if ($review->user->avatar != 'default.jpg')
 						<img src="{{ asset(Storage::disk('s3')->url('storage/avatars/'.$review->user->id.'/'. $review->user->avatar)) }}" class="img-fluid rounded-circle" style="max-width:25px;" alt="user-icon">
 					@else
 						<img src="{{ asset(Storage::disk('s3')->url('storage/avatars/'. $review->user->avatar)) }}" class="img-fluid rounded-circle" style="max-width:25px;" alt="user-icon">
@@ -15,20 +15,27 @@
 					</div><!-- /.media-body -->
 				</div><!-- /.media -->
 			</h5>
-			@if ($review->photos->isNotEmpty())
+			@if (!empty($review->photos))
 			<div class="card-body p-0">
 
 				<div class="place-gallery">
+
 				@foreach ($review->photos as $photo)
 
-				@php
-					$place_id = $review->places()->value('place_id')
-				@endphp
+				@if (Request::is('users/*'))
+					@php
+						$place_id = data_get($review->places['0'], 'id')
+					@endphp
+				@else
+					@php
+						$place_id = data_get($review->places['0'], 'id')
+					@endphp
+				@endif
 
 					<figure class="figure mb-0 px-0" style="width:100%;">
 						<a href="{{ asset(Storage::disk('s3')->url('storage/places/'.$place_id.'/'.$photo->original)) }}" data-size="1000x666">
 
-						@switch($review->photos->count())
+						@switch(count($review->photos))
 							@case(1)
 								<img class="img-fluid" src="{{ asset(Storage::disk('s3')->url('storage/places/'.$place_id.'/'.$photo->original)) }}" alt="place-review-photo" style="width:100%;max-height:300px;object-fit:cover;">
 								@break
@@ -53,11 +60,11 @@
 			<div class="card-footer">
 				<div class="review-header">
 					<span class="fa-lg align-text-bottom">
-						@if (!empty($review->pivot->type))
-							{!! ($review->pivot->type == 'good') ? '<i class="far fa-laugh text-secondary"></i>' : '<i class="far fa-frown text-success"></i>' !!}
-						@else
-							{!! $review->places()->value('type') == 'good' ? '<i class="far fa-laugh text-secondary"></i>' : '<i class="far fa-frown text-success"></i>' !!}
-						@endif
+					@if (!empty($review->pivot->type))
+						{!! ($review->pivot->type == 'good') ? '<i class="far fa-laugh text-secondary"></i>' : '<i class="far fa-frown text-success"></i>' !!}
+					@else
+						{!! data_get($review->places['0'], 'pivot.type') == 'good' ? '<i class="far fa-laugh text-secondary"></i>' : '<i class="far fa-frown text-success"></i>' !!}
+					@endif
 					</span>
 					<span class="small">
 						@include('commons.static_rating', ['params' => empty($review->rating) ? 0 : $review->rating])
@@ -72,12 +79,16 @@
 					</div>
 				</div>
 				<div class="review-footer pt-2 clearfix">
-					@if (Request::is('users/*'))
-					{!! link_to_route('places.show', $review->places()->value('name'), ['id' => $review->places()->value('place_id')], ['class' => 'small float-left badge badge-pill badge-secondary font-weight-normal', 'style' => 'max-width:65%;overflow:hidden;text-overflow:ellipsis;']) !!}
-					@endif
-					<small class="float-right">
-						created_at: {{ $review->creationTimes() }}
+				@if (Request::is('users/*'))
+					{!! link_to_route('places.show', data_get($review->places[0], 'name'), ['id' => data_get($review->places[0], 'id')], ['class' => 'small float-left badge badge-pill badge-secondary font-weight-normal', 'style' => 'max-width:65%;overflow:hidden;text-overflow:ellipsis;']) !!}
+				@else
+					<small class="float-right">created_at:
+						 @include('commons.date', ['date' => $review->created_at])
 					</small>
+					{{-- <small class="float-right">
+						created_at: {{ $review->creationTimes() }}
+					</small> --}}
+				@endif
 				</div>
 			</div>
 		</div>

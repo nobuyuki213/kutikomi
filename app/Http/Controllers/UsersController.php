@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use App\User;
 
 class UsersController extends Controller
@@ -50,8 +51,19 @@ class UsersController extends Controller
         if (\Auth::check()){
             // ログイン中のユーザーから情報を取得する
             $user = \Auth::user();
+            // user のお気に入りしたスポットを新しい順で取得
+            $json_favorites = Cache::remember('favorites', 30, function(){
+                $data = \Auth::user()->favorite_desc()->get();
+                return json_encode($data);
+            });
+            $favorites = json_decode($json_favorites);
+
             // ユーザーの reviews を新しい順に並び替えて取得
-            $reviews = $user->reviews()->orderBy('created_at', 'desc')->get();
+            $json_reviews = Cache::remember('u_reviews', 30, function(){
+                $data = \Auth::user()->reviews()->with(['user', 'places', 'photos'])->orderBy('created_at', 'desc')->get();
+                return json_encode($data);
+            });
+            $reviews = json_decode($json_reviews);
             // draft reviews の並び順を　session に新しく保存した順にするため、collectヘルパと reverseメソッドを使い逆順にする
             $draft_reviews = collect($request->session()->get('draft'))->reverse();
             // pagination の設定
@@ -60,6 +72,7 @@ class UsersController extends Controller
 
             return view('users.show', [
                 'user' => $user,
+                'favorites' => $favorites,
                 'reviews' => $reviews,
                 'd_reviews' => $d_reviews,
             ]);
@@ -94,6 +107,7 @@ class UsersController extends Controller
             ]);
 
             $user = User::find($id);
+            // $request の中にある新しいニックネームをセットし save で保存
             $user->nickname = $request->nickname;
             $user->save();
 

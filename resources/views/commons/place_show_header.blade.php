@@ -38,7 +38,7 @@
 							</a>
 						@endforeach
 						<p class="card-text float-md-right mt-2">
-							<small><i class="fas fa-map-marker-alt"></i> {{ $place->city->name }}</small>
+							<small><i class="fas fa-map-marker-alt"></i> {{ $city->name }}</small>
 						</p>
 					</div>
 				</div>

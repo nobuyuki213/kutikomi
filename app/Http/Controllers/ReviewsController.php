@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Validator;
 use App\Place;
 use App\City;
@@ -149,6 +150,8 @@ class ReviewsController extends Controller
 			}
 			// review の作成が完了した draft review を削除する
 			$request->session()->forget("draft.review{$placeId}");
+			// review の作成が完了したら Cache している u_reviews を削除し、マイページアクセス時に最新の reveiws を取得できるようにする
+			Cache::forget('u_reviews');
 			// *****以下は仮設置のため今後変更の必要性あり*****
 			$data = [
 				'request' => $request,

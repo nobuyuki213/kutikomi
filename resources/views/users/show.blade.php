@@ -55,9 +55,6 @@
 					</div>
 				</div><!-- /.media-body -->
 			</div><!-- /.media -->
-
-
-
 			<!-- ピル部分 -->
 			<ul class="nav nav-pills justify-content-center mt-4" id="pills-tab" role="tablist" style="font-size:calc(0.9rem + 2.2vmin)">
 				<li class="nav-item mx-3">
@@ -77,9 +74,9 @@
 	<!-- パネル部分 -->
 	<div class="tab-content" id="pills-tabContent">
 		<div class="tab-pane fade show active" id="pills-favorite" role="tabpanel" aria-labelledby="pills-favorite-tab">
-			@if ($user->favorite_places->isNotEmpty())
+			@if (count($favorites) > 0)
 				<div class="favorite-main row">
-					@foreach ($user->favorite_desc as $key => $place)
+					@foreach ($favorites as $key => $place)
 						<div class="card rounded-0 col-6 p-2 p-lg-3">
 							<div class="card-body p-0">
 								<div class="favorite-status clearfix pb-2 border-bottom">
@@ -95,15 +92,18 @@
 								<h5 id="p-name" class="card-title my-2">{{ $place->name }}</h5>
 							</div>
 							<div class="crad-footer place-status-wrapper">
+								@php
+									$place = App\Place::withCount('reviews')->find($place->id);
+								@endphp
 								<small class="d-inline-block mt-1 align-text-top" style="font-size:calc(0.3rem + 1.2vmin);">
 									@include('commons.static_rating', ['params' => $place->reviews_rating_avg()])
 								</small>
 
-								<h6 class="d-inline-block text-secondary mb-0">
+								<h6 class="d-inline-block text-secondary mb-0 align-bottom">
 									{{ sprintf('%.2f', $place->reviews_rating_avg()) }}
 								</h6>
-								<h6 class="d-inline-block pl-1 mb-0">
-									<i class="far fa-comment fa-flip-horizontal fa-lg"></i> <span class=" text-secondary">{{ $place->reviews->count() }}</span>
+								<h6 class="d-inline-block pl-1 mb-0 align-bottom">
+									<i class="far fa-comment fa-flip-horizontal fa-lg"></i> <span class=" text-secondary">{{ $place->reviews_count }}</span>
 								</h6>
 								<div>
 									{!! Html::decode(link_to_route('places.show', 'Go Page <i class="fas fa-angle-double-right"></i>', $place->id, ['class' => 'btn btn-sm btn-secondary mt-2 d-block'])) !!}
@@ -120,7 +120,7 @@
 
 		</div>
 		<div class="tab-pane fade" id="pills-review" role="tabpanel" aria-labelledby="pills-review-tab">
-			@if ($reviews->count() > 0)
+			@if (count($reviews) > 0)
 				<div class="reviews-main">
 
 					@include('reviews.reviews', ['reviews' => $reviews])

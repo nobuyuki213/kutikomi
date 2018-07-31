@@ -12,7 +12,6 @@
 			@endif
 		</li>
 	</ul>
-
 	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#Navber" aria-controls="Navber" aria-expanded="false" aria-label="Toggle navigation">
 		<span class="navbar-toggler-icon"></span>
 	</button>
@@ -37,7 +36,7 @@
 			@if (Auth::check())
 				<li class="nav-item dropdown pl-5" id="dropdown-hover">
 					<a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="position:relative;">
-					@if (Storage::disk('s3')->exists('storage/avatars/'.Auth::user()->id.'/'.Auth::user()->avatar))
+					@if (Auth::user()->avatar != 'default.jpg')
 						<img src="{{ asset(Storage::disk('s3')->url('storage/avatars/'.Auth::user()->id.'/'.Auth::user()->avatar)) }}" class="img-fluid rounded-circle" style="width:2.2rem;position:absolute;top:0px;left:-33px;" alt="user-small-icon">
 					@else
 						<img src="{{ asset(Storage::disk('s3')->url('storage/avatars/'.Auth::user()->avatar)) }}" class="img-fluid rounded-circle" style="width:2.2rem;position:absolute;top:0px;left:-33px;" alt="user-small-icon">
@@ -57,6 +56,7 @@
 					{!! link_to_route('login', 'ログイン/ユーザー登録', null, ['class' => 'nav-link btn text-muted btn btn-light btn-lg mb-lg-0 ml-lg-2 py-lg-1']) !!}
 				</li>
 			@endif
+{{ Debugbar::stopMeasure('getreview_navbar_auth') }}
 {{-- 			<li class="nav-item">
 				<a class="nav-link disabled" href="#">無効</a>
 			</li> --}}

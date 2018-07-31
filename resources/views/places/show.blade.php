@@ -23,7 +23,7 @@
 
 @section('content')
 
-	@include('commons.place_show_header', ['place' => $place])
+	@include('commons.place_show_header', ['place' => $place, 'city' => $city])
 
 	@include('commons.place_show_navscroll', ['place' => $place])
 
@@ -95,12 +95,12 @@
 						<div class="fa-5x text-secondary">
 							<i class="fas fa-camera-retro"></i>
 						</div>
-						<h3>{{ $place->name }}のフォト <span class="align-text-top badge badge-pill bg-white border border-secondary text-secondary">{{ $place->reviews_with_photos()->count() }}枚</span></h3>
+						<h3>{{ $place->name }}のフォト <span class="align-text-top badge badge-pill bg-white border border-secondary text-secondary">{{ count($reviews_with_photos) }}枚</span></h3>
 					</div>
 				</div>
 				<div class="card-body p-0">
 
-					@if ($place->reviews_with_photos->isNotEmpty())
+					@if (!empty($reviews_with_photos))
 					<div class="slider-pro" id="slider2">
 						<div class="sp-slides">
 							@foreach ($reviews_with_photos as $review)
@@ -113,7 +113,7 @@
 							</div>
 							@endforeach
 						</div>
-						@if ($place->reviews_with_photos()->count() >= 3)
+						@if (count($reviews_with_photos) >= 3)
 						<div class="sp-thumbnails">
 							@foreach ($reviews_with_photos as $review)
 							@if ($loop->index == 3) @break @endif

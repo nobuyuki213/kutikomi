@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use App\Place;
 use App\City;
 use App\Review;
@@ -54,7 +55,7 @@ class PlacesController extends Controller
     {
         //
         $place = Place::find($id);
-        $city = $place->city()->get();
+        $city = $place->city;
         $reviews_with_photos = $place->reviews_with_photos->shuffle()->all();
 
         $data = [
@@ -119,9 +120,17 @@ class PlacesController extends Controller
     public function reviews($id)
     {
         $place = Place::find($id);
-        $reviews = $place->reviews_latest()->get();
+        $city = $place->city;
+
+        $json_reviews = Cache::remember('place'.$id.'_reviews', 30, function() use ($place){
+            $data = $place->reviews()->with(['user', 'places', 'photos'])->orderBy('reviews.created_at', 'desc')->get();
+            return json_encode($data);
+        });
+        $reviews = json_decode($json_reviews);
+        // \Debugbar::info(json_decode(Cache::get('place'.$id.'_reviews')));// テスト用仮記述
 
         $data = [
+            'city' => $city,
             'place' => $place,
             'reviews' => $reviews,
         ];
@@ -135,9 +144,11 @@ class PlacesController extends Controller
     public function photos($id)
     {
         $place = Place::find($id);
+        $city = $place->city;
         $reviews_with_photos = $place->reviews_with_photos->all();
 
         $data = [
+            'city' => $city,
             'place' => $place,
             'reviews_with_photos' => $reviews_with_photos,
         ];
@@ -151,8 +162,10 @@ class PlacesController extends Controller
     public function map($id)
     {
         $place = Place::find($id);
+        $city = $place->city;
 
         $data = [
+            'city' => $city,
             'place' => $place,
         ];
 

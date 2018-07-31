@@ -41,7 +41,7 @@
 						</div>
 					</div>
 				</div>
-				@if ($reviews->count() > 0)
+				@if (count($reviews) > 0)
 					<div class="reviews-main card-body px-0">
 
 						@include('reviews.reviews', ['place' => $place, 'reviews' => $reviews])

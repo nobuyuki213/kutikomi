@@ -60,7 +60,7 @@
 									</div>
 									<div class="clearfix w-100">
 										<div class="float-left">
-											<small>{{ $review->user->name }}</small>
+											<small>{{ $review->user->nickname }}</small>
 										</div>
 										<div class="float-right">
 											<small>
