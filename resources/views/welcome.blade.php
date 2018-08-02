@@ -24,18 +24,17 @@
 		@include('commons.main_search_frame')
 
 	</div>
+@endsection
+
+@section('content')
 {{-- cache test 用 --}}
 {{-- <pre>
 	{{ print_r(json_decode(Cache::get('reviews'))) }}
 </pre> --}}
 {{-- cache test 用 ここまで--}}
-@endsection
-
-@section('content')
-@if (count($reviews) >= 3)
+@if (empty($reviews) ? false : count($reviews) >= 3)
 <div class="container">
 	<div class="new-reviews-pickup my-4 col-lg-8 mx-auto px-0">
-
 		<div class="slider-pro" id="slidertop">
 			<div class="sp-slides">
 				@foreach ($reviews as $review)
@@ -46,7 +45,7 @@
 								<div class="row px-3">
 									<div class="balloon5 col-md-1 col-2 px-1">
 										<div class="faceicon">
-										@if (Storage::disk('s3')->exists('storage/avatars/'.$review->user->id.'/'. $review->user->avatar))
+										@if ($review->user->avatar != 'default.jpg')
 											<img src="{{ asset(Storage::disk('s3')->url('storage/avatars/'. $review->user->id.'/'. $review->user->avatar)) }}" class="img-fluid" alt="user-icon">
 										@else
 											<img src="{{ asset(Storage::disk('s3')->url('storage/avatars/'. $review->user->avatar)) }}" class="img-fluid" alt="user-icon">
@@ -79,7 +78,6 @@
 				@endforeach
 			</div>
 		</div>
-
 	</div>
 </div>
 @endif

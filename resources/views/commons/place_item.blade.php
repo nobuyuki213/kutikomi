@@ -16,11 +16,9 @@
 						@if ($loop->index == 1)
 							@break
 						@endif
-							@if ($review->photos->isNotEmpty())
-								<a href="{{ route('places.show', ['id' => $place->id]) }}"><img class="img-fluid img-thumbnail" src="{{ asset(Storage::disk('s3')->url('storage/places/' . $place->id . '/' . $review->photos->whereNotIn('original', null)->random()->original )) }}" alt="place-photo" style="width:100%;height:150px;object-fit:cover;"></a>
-							@else
-								<a href="{{ route('places.show', ['id' => $place->id]) }}"><i class="far fa-image fa-10x"></i></a>
-							@endif
+
+						<a href="{{ route('places.show', ['id' => $place->id]) }}"><img class="img-fluid img-thumbnail" src="{{ asset(Storage::disk('s3')->url('storage/places/' . $place->id . '/' . $review->photos->whereNotIn('original', null)->random()->original )) }}" alt="place-photo" style="width:100%;height:150px;object-fit:cover;"></a>
+
 					@empty
 						<a href="{{ route('places.show', ['id' => $place->id]) }}"><i class="far fa-image fa-10x"></i></a>
 					@endforelse
@@ -51,7 +49,7 @@
 					@endif
 					<div class="balloon5 col-sm-1 col-2 pl-xl-4 pl-md-2 pl-sm-1 px-0">
 						<div class="faceicon">
-						@if (Storage::disk('s3')->exists('storage/avatars/'.$review->user->id.'/'. $review->user->avatar))
+						@if ($review->user->avatar != 'default.jpg')
 							<img src="{{ asset(Storage::disk('s3')->url('storage/avatars/'. $review->user->id.'/'. $review->user->avatar)) }}" class="img-fluid" alt="user-icon">
 						@else
 							<img src="{{ asset(Storage::disk('s3')->url('storage/avatars/'. $review->user->avatar)) }}" class="img-fluid" alt="user-icon">

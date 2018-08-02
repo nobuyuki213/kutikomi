@@ -56,7 +56,6 @@
 					{!! link_to_route('login', 'ログイン/ユーザー登録', null, ['class' => 'nav-link btn text-muted btn btn-light btn-lg mb-lg-0 ml-lg-2 py-lg-1']) !!}
 				</li>
 			@endif
-{{ Debugbar::stopMeasure('getreview_navbar_auth') }}
 {{-- 			<li class="nav-item">
 				<a class="nav-link disabled" href="#">無効</a>
 			</li> --}}

@@ -11,45 +11,46 @@ use App\Place;
 use App\Tag;
 use App\Review;
 use Session;
+use Image;
 
 class WelcomeController extends Controller
 {
 	//
-	public function index()
+	public function index(Request $request)
 	{
 		$minutes = 60;
 		// city名50音順別で取得
 		$lines = ['あ', 'か', 'さ', 'た', 'な', 'は', 'ま', 'や', 'ら', 'わ',];
-		$cities = Cache::remember('cities', $minutes, function(){
+		$json_cities = Cache::remember('50_cities', $minutes, function(){
 			$city = City::withCount('places')->LineA()->get(); //あ行取得（ローカルスコープ
-			$cities[] = $city;
+			$data[] = $city;
 			$city = City::withCount('places')->LineKa()->get(); //か行取得（ローカルスコープ
-			$cities[] = $city;
+			$data[] = $city;
 			$city = City::withCount('places')->LineSa()->get(); //さ行取得（ローカルスコープ
-			$cities[] = $city;
+			$data[] = $city;
 			$city = City::withCount('places')->LineTa()->get(); //た行取得（ローカルスコープ
-			$cities[] = $city;
+			$data[] = $city;
 			$city = City::withCount('places')->LineNa()->get(); //な行取得（ローカルスコープ
-			$cities[] = $city;
+			$data[] = $city;
 			$city = City::withCount('places')->LineHa()->get(); //は行取得（ローカルスコープ
-			$cities[] = $city;
+			$data[] = $city;
 			$city = City::withCount('places')->LineMa()->get(); //ま行取得（ローカルスコープ
-			$cities[] = $city;
+			$data[] = $city;
 			$city = City::withCount('places')->LineYa()->get(); //や行取得（ローカルスコープ
-			$cities[] = $city;
+			$data[] = $city;
 			$city = City::withCount('places')->LineRa()->get(); //ら行取得（ローカルスコープ
-			$cities[] = $city;
+			$data[] = $city;
 			$city = City::withCount('places')->LineWa()->get(); //わ行取得（ローカルスコープ
-			$cities[] = $city;
-			return json_encode($cities);
+			$data[] = $city;
+			return json_encode($data);
 		});
-		$cities = json_decode($cities);
+		$cities = json_decode($json_cities);
 		// 新しい10件の reviews を取得
-		$reviews = Cache::remember('reviews', $minutes, function(){
-			$reviews = Review::with('user')->latest()->take(10)->get();
-			return json_encode($reviews);
+		$json_reviews = Cache::remember('reviews', $minutes, function(){
+			$data = Review::with('user')->latest()->take(10)->get();
+			return json_encode($data);
 		});
-		$reviews = json_decode($reviews);
+		$reviews = json_decode($json_reviews);
 		// 全てのtagを取得
 		$tags = Tag::all();
 
@@ -59,7 +60,6 @@ class WelcomeController extends Controller
 			'tags' => $tags,
 			'reviews' => $reviews,
 		];
-
 		return view('welcome', $data);
 	}
 

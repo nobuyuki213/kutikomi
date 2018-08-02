@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use App\City;
 use App\Place;
 use App\Tag;
@@ -64,7 +65,13 @@ class CitiesController extends Controller
         $places = $places_query->paginate(10);
 
         // 全ての city を取得-city-side用
-        $cities = City::all();
+        $json_cities = Cache::remember('side_cities', 30, function(){
+            $data = City::with('places')->withCount('places')->withCount('places')->get();
+            return json_encode($data);
+        });
+        $cities = json_decode($json_cities);
+        \Debugbar::info(json_decode(Cache::get('side_cities')));
+
         // Cityに属するPlaseに、1つ以上存在するtagのみを取得-tag_side用
         $tags = Tag::whereHas('places', function ($query) use ($city) {
             $query->where('city_id', $city->id);

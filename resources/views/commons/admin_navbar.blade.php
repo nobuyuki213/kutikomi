@@ -38,7 +38,7 @@
 				@include('tags.tag_side', ['tags' => $tags])
 			</li>
 			@endif
-			@if (!empty($cities) && $cities->isNotEmpty())
+			@if (!empty($cities))
 			<li class="nav-item">
 				@include('cities.city_side', empty($city) ? ['cities' => $cities] : ['cities' => $cities, 'city' => $city])
 			</li>

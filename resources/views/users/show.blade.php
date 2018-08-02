@@ -23,7 +23,7 @@
 		<div class="user-header">
 			<div class="media row" style="position:relative;">
 				<a href="#" class="mx-md-4 mx-3 col-3 pl-0 pr-2">
-				@if (Storage::disk('s3')->exists('storage/avatars/'.$user->id.'/'.$user->avatar))
+				@if ($user->avatar != 'default.jpg')
 					<img src="{{ asset(Storage::disk('s3')->url('storage/avatars/'.$user->id.'/'.$user->avatar)) }}" class="img-fluid rounded-circle" alt="user-icon">
 				@else
 					<img src="{{ asset(Storage::disk('s3')->url('storage/avatars/'.$user->avatar)) }}" class="img-fluid rounded-circle" alt="user-icon">
