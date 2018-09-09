@@ -75,7 +75,7 @@ class WelcomeController extends Controller
 		if ($request->session()->has('places')) {
 			// places の並び順を　session 新しく保存した順にするため、collectヘルパと reverseメソッドを使い逆順にする
 			$ses_places = collect($request->session()->get('places'))->reverse();
-			// 空の $s_places 配列を準備　
+			// 空の $s_places 配列を準備
 			$s_places = [];
 			foreach ($ses_places as $key => $ses_place) {
 				// session に保存した id から place を特定し、mergeメソッド

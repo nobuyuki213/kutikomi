@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Auth;
 
 class UserFavoriteController extends Controller
@@ -39,6 +40,10 @@ class UserFavoriteController extends Controller
         if (Auth::check()){
             // ログイン中のユーザーがお気に入りを実行
             Auth::user()->favorite($id);
+            // Cache している favorites(お気に入り)が存在していれば削除し、マイページアクセス時に最新の favorites(お気に入り) を取得できるようにする
+            if (Cache::has('favorites')) {
+                Cache::forget('favorites');
+            }
             // お気に入り実行後は元のページに戻る
             return redirect()->back();
         }
@@ -92,6 +97,10 @@ class UserFavoriteController extends Controller
         if (Auth::check()){
             // ログイン中のユーザーがお気に入りを実行
             Auth::user()->unfavorite($id);
+            // Cache している favorites(お気に入り)が存在していれば削除し、マイページアクセス時に最新の favorites(お気に入り) を取得できるようにする
+            if (Cache::has('favorites')) {
+                Cache::forget('favorites');
+            }
             // お気に入り実行後は元のページに戻る
             return redirect()->back();
         }
