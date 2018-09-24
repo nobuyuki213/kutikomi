@@ -38,6 +38,7 @@ class SocialAccountController extends Controller
 
         auth()->login($authUser, true);
 
-        return redirect()->to('/')->with('message', '登録したでござる');
+        // return redirect()->to('/')->with('message', '登録したでござる');
+        return redirect()->to('/');
     }
 }

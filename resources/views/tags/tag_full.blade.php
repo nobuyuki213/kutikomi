@@ -4,7 +4,7 @@
 			{!! Html::decode(link_to_route('tags.index', 'タグ一覧 <i class="fas fa-chevron-circle-right"></i>', null, ['class' => 'float-right btn btn-secondary'])) !!}
 		</div>
 		<div class="text-center">
-			<h3 class="d-nline align-bottom text-secondary mt-1 mb-0"><i class="fas fa-tags"></i> タグから探す</h3>
+			<h3 class="align-bottom text-secondary mt-1 mb-0"><i class="fas fa-tags"></i> タグから探す</h3>
 		</div>
 	</div>
 	<div class="card-body text-center px-2">
@@ -14,5 +14,5 @@
 		</a>
 	@endforeach
 	</div>
-	<div class="card-footer">フッタ</div>
+	{{-- <div class="card-footer">フッタ</div> --}}
 </div>

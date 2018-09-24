@@ -87,7 +87,9 @@
 	@endif
 
 	<div class="card">
-		<div class="card-header">住所から探す</div>
+		<div class="card-header">
+			<h3 class="text-center align-bottom text-secondary mt-1 mb-0"><i class="fas fa-map-marker-alt"></i> 住所から探す</h3>
+		</div>
 		@if (!empty($cities))
 			@foreach ($cities as $key => $cities)
 				@if (count($cities) > 0)

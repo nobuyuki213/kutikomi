@@ -23,10 +23,10 @@
 						<i class="fas fa-map-marked-alt"></i> <span>マップ</span>
 					</a>
 				</li>
-				<li class="nav-item"><a href="#" class="nav-link"  data-offset="0,5" data-placement="right" data-toggle="tooltip" title="マップ"><i class="fas fa-map-marked"></i></a></li>
+				{{-- <li class="nav-item"><a href="#" class="nav-link"  data-offset="0,5" data-placement="right" data-toggle="tooltip" title="マップ"><i class="fas fa-map-marked"></i></a></li>
 				<li class="nav-item"><a href="#" class="nav-link">リンク1</a></li>
 				<li class="nav-item"><a href="#" class="nav-link">リンク2</a></li>
-				<li class="nav-item"><a href="#" class="nav-link disabled">無効</a></li>
+				<li class="nav-item"><a href="#" class="nav-link disabled">無効</a></li> --}}
 			</ul>
 		</nav>
 	</div>

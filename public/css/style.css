@@ -263,12 +263,12 @@
 
 /*side city 一覧リスト用 カスタムスクロールバー*/
 .city-items {
-	height: 200px;
+	max-height: 200px;
 	overflow: auto;
 }
 @media (min-width: 992px) {
 	.city-items {
-		height: 300px;
+		max-height: 250px;
 	}
 	.city-items::-webkit-scrollbar{
 		width: 10px;
@@ -341,7 +341,7 @@ section h2 {
 	}
 }
 
-/* -------------------------------- 
+/* --------------------------------
 
 Basic Style
 
@@ -446,7 +446,7 @@ Basic Style
 	}
 }
 
-/* -------------------------------- 
+/* --------------------------------
 
 Triangle breadcrumb
 
@@ -494,7 +494,7 @@ Triangle breadcrumb
 		border-color: #2c3f4c;
 	}
 	.cd-breadcrumb.triangle li::after, .cd-breadcrumb.triangle li > *::after {
-		/* 
+		/*
 			li > *::after is the colored triangle after each item
 			li::after is the white separator between two items
 		*/
@@ -549,7 +549,7 @@ Triangle breadcrumb
 		}
 	}
 }
-/* -------------------------------- 
+/* --------------------------------
 
 Custom icons hover effects - breadcrumb and multi-steps
 
@@ -569,9 +569,9 @@ Custom icons hover effects - breadcrumb and multi-steps
 		background-position: -60px -40px;
 	}
 }
-/* -------------------------------- 
+/* --------------------------------
 
-Multi steps indicator 
+Multi steps indicator
 
 -------------------------------- */
 @media only screen and (min-width: 768px) {
@@ -705,9 +705,9 @@ Multi steps indicator
 		top: 0;
 	}
 }
-/* -------------------------------- 
+/* --------------------------------
 
-Add a counter to the multi-steps indicator 
+Add a counter to the multi-steps indicator
 
 -------------------------------- */
 .cd-multi-steps.count li {

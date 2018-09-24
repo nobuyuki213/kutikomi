@@ -48,7 +48,7 @@
 
 					</div>
 				@else
-					<div class="card card-body text-center">
+					<div class="card-body text-center">
 						現在、登録された口コミはありません。
 					</div>
 				@endif
