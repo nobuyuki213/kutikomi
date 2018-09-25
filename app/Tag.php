@@ -16,7 +16,7 @@ class Tag extends Model
     // tagに該当する複数のplacesを取得
     public function places()
     {
-    	return $this->belongsToMany(place::class, 'place_tag', 'tag_id', 'place_id')->withTimestamps();
+    	return $this->belongsToMany(Place::class, 'place_tag', 'tag_id', 'place_id')->withTimestamps();
     }
 
     /**

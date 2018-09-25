@@ -28,7 +28,7 @@
 			<div class="card-body px-2">
 			@foreach ($tags as $tag)
 				<a href="{!! route('tags.show', ['tag' => $tag]) !!}" class="badge badge-pill badge-info p-2 m-1">
-					<h6 class="mb-0"># {{ $tag->name }} <span class="badge badge-pill badge-light align-top">{{ empty($tag->places) ? '0' : count($tag->only_places($tag)) }}</span></h6>
+					<h6 class="mb-0"># {{ $tag->name }} <span class="badge badge-pill badge-light align-top">{{ empty($tag->places) ? '0' : $tag->only_places($tag)->count() }}</span></h6>
 				</a>
 			@endforeach
 			</div>
