@@ -147,6 +147,53 @@
 		</div>
 	</div>
 </div>
+{{-- 確認用 --}}
+<div class="jumbotron jumbotron-fliud bg-info rounded-0 my-5">
+	<div class="container">
+		<div class="about card my-5 rounded-0 border-0">
+			<div class="card-header rounded-0">
+				<h3 class="mb-0 py-3 text-center font-weight-bold">about</h3>
+			</div>
+			<div class="card-body">
+				<div class="test-account">
+					<p>本アプリケーションは、一部ログインを必要とします。メールアドレス等で新規ユーザーご登録いただくか、以下のサンプルをご利用ください。</p>
+					<div class="table-responsive text-nowrap">
+						<table class="table w-auto">
+							<thead>
+								<tr>
+									<th colspan="2" scope="col" class="text-center table-primary">ログイン用サンプルアカウント</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<th scope="row">メールアドレス</th>
+									<td>boy@test.com</td>
+								</tr>
+								<tr>
+									<th scope="row">パスワード</th>
+									<td>boy0000</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="">
+					<h5 class="border-secondary border-bottom border-top py-2">■ 実装内容</h5>
+					<ul>
+						<li>口コミ(投稿)機能 ※同時に画像アップロード含む</li>
+						<li>口コミ下書き機能 ※セッション利用</li>
+						<li>閲覧履歴機能 ※セッション利用</li>
+						<li>検索履歴機能 ※セッション利用</li>
+						<li>お気に入り機能</li>
+						<li>スポットの検索機能及び絞り込み機能 ※ワード検索(複数ワード可)、エリア検索、タグ検索</li>
+						<li>SNSアカウントログイン機能</li>
+						<li>ユーザーアイコン機能</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 @endsection
 
 @section('script')
