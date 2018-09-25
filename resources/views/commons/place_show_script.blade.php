@@ -1,12 +1,14 @@
 <script>
     $(function () {
-        $(window).scroll(function () {
-            if ($(this).scrollTop() > 402) {
+        $(window).on('load scroll', function () {
+            if ($(this).scrollTop() > 500 && $('#nav-scroll').hasClass('is-fixed') == false) {
+                $('#container').css('margin-top','75px');
+                $('#nav-scroll').animate({"top": 47}, 500);
                 $('#nav-scroll').addClass('is-fixed');
-                $('#container').css('margin-top','5.6rem');
-            } else {
-                $('#nav-scroll').removeClass('is-fixed');
+            } else if($(this).scrollTop() < 500 && $('#nav-scroll').hasClass('is-fixed') == true) {
                 $('#container').css('margin-top','');
+                $('#nav-scroll').animate({"top": 0}, 0);
+                $('#nav-scroll').removeClass('is-fixed');
             }
         });
     });
