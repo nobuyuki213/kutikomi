@@ -30,33 +30,33 @@
 			<div class="card-body p-2 p-md-3 clearfix">
 				<span class="badge badge-pill badge-secondary my-1 align-top"><i class="fas fa-search"></i></span>
 				<h5 class="d-inline mx-1 mt-2 align-bottom">"{{ $keywords }}"</h5>
+
 				@if (!isset($message))
-					<button class="navbar-toggler float-right px-0 d-lg-none" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText"
-					aria-expanded="false" aria-label="Toggle navigation">
+					<button class="navbar-toggler float-right px-0 d-lg-none" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
 						<span class="badge badge-info font-weight-normal">＋条件変更</span>
 					</button>
 				@endif
 
 			</div>
 		</div>
-		@if (isset($keywords))
-			@if (isset($message))
-			<div class="bg-secondary offset-sm-1 col-sm-10 px-0 mb-3" style="border: 0.3rem solid #F3969A;">
-				<div class="card border-secondary mb-0">
-					<div class="card-header">{{ $message }}</div>
-				</div>
-			</div>
-			<div class="main-search-frame offset-sm-1 col-sm-10 px-0 d-lg-none">
 
-				@include('commons.main_search_frame')
+		@if (isset($message))
+		<div class="bg-secondary offset-sm-1 col-sm-10 px-0 mb-3" style="border: 0.3rem solid #F3969A;">
+			<div class="card border-secondary mb-0">
+				<div class="card-header">{{ $message }}</div>
+			</div>
+		</div>
+		<div class="main-search-frame offset-sm-1 col-sm-10 px-0 d-lg-none">
 
-			</div>
-			@else
-			<div class="places-item">
-				@include('commons.place_item', ['places' => $places])
-			</div>
-			@endif
+			@include('commons.main_search_frame')
+
+		</div>
+		@else
+		<div class="places-item">
+			@include('commons.place_item', ['places' => $places])
+		</div>
 		@endif
+
 	</div>
 </div>
 @endsection

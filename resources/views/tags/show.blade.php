@@ -23,7 +23,14 @@
 @section('content')
 <div class="container-fluid">
 	<div class="col px-0">
-		<h2 class="mx-1 mt-2"><i class="fas fa-tags"></i> {{ $tag->name }}タグ付きスポット</h2>
+		<div class="clearfix">
+			<h2 class="mx-1 mt-2"><i class="fas fa-tags"></i> {{ $tag->name }}タグ付きスポット</h2>
+
+			<button class="navbar-toggler float-right px-0 d-lg-none" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="badge badge-info font-weight-normal">＋条件変更</span>
+			</button>
+
+		</div>
 
 		@if (!empty($places))
 		<div class="places-item">

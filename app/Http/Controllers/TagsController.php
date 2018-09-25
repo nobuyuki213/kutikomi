@@ -57,11 +57,16 @@ class TagsController extends Controller
         $places = $tag->only_places($tag);
         // 1つ以上Plaseに存在するtagのみを取得-tag_side用
         $tags = Tag::has('places')->get();
-        // 全ての ciry を取得-city-side用
-        $cities = City::all();
+        // $tag->name と一致する places数と、全ての ciry を取得 <city-side用>
+        $cities = City::withCount(['places' => function ($query) use ($tag) {
+            $query->whereHas('tags', function ($query) use ($tag) {
+                $query->where('name', $tag->name);
+            });
+        }])->get();
 
         $data = [
             'tag' => $tag,
+            'tagword' => $tag->name,
             'places' => $places,
             'cities' => $cities,
         ];

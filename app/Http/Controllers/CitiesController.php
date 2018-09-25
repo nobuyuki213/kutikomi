@@ -64,13 +64,32 @@ class CitiesController extends Controller
         }
         $places = $places_query->paginate(10);
 
-        // 全ての city を取得-city-side用
-        $json_cities = Cache::remember('side_cities', 30, function(){
-            $data = City::with('places')->withCount('places')->withCount('places')->get();
-            return json_encode($data);
-        });
-        $cities = json_decode($json_cities);
-        \Debugbar::info(json_decode(Cache::get('side_cities')));
+        // 全ての city を取得-city-side用 キャッシュ版 ※以下のコードは、修正前のまま
+        // $json_cities = Cache::remember('side_cities', 30, function(){
+        //     $data = City::withCount('places')->get();
+        //     return json_encode($data);
+        // });
+        // $cities = json_decode($json_cities);
+
+        // $request に tagword が存在しているか確認->絞り込み条件
+        if ($request->has('tagword')) {
+            // tagword が存在していれば、tag.name と tagword が一致する tag に紐づく places が唯一属す city を取得 <city-side用>
+            $cities = City::whereHas('places', function ($query) use ($request) {
+                $query->whereHas('tags', function ($query) use ($request) {
+                    $query->where('tags.name', $request->tagword);
+                });
+            // 合わせて count数も取得
+            })->withCount(['places' => function ($query) use ($request) {
+                $query->whereHas('tags', function ($query) use ($request) {
+                    $query->where('tags.name', $request->tagword);
+                });
+            }])->get();
+
+        } else {
+            // tagword が存在しなければ、全ての city と count数を取得　<city-side用>
+            $cities = City::withCount('places')->get();
+
+        }
 
         // Cityに属するPlaseに、1つ以上存在するtagのみを取得-tag_side用
         $tags = Tag::whereHas('places', function ($query) use ($city) {
@@ -80,12 +99,16 @@ class CitiesController extends Controller
         $data = [
             'city' => $city, 'places' => $places, 'cities' => $cities,
         ];
+
         // plaseに該当するtagが空でなければ、$dataに tags を追加
         if (!empty($tags)){
             $data += ['tags' => $tags];
-            //$request に tagword が存在していれば、 $data に tagword を追加
+            //$request に tagword が存在していれば、 $data に tagword と $tag を追加
             if (!empty($request->tagword)){
-                $data += ['tagword' => $request->tagword];
+                $data += [
+                    'tagword' => $request->tagword,
+                    'tag' => $tags->where('name', $request->tagword)->first(),
+                ];
             }
         }
 

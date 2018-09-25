@@ -23,8 +23,15 @@
 @section('content')
 <div class="container-fluid">
 	<div class="col px-0">
-		<h2 class="mx-1 mt-2"><i class="fas fa-map-marker-alt"></i> {{ $city->name }}を探す</h2>
-		<small class="mx-1">{{ $city->name_furi }}</small>
+		<div class="clearfix">
+			<h2 class="mx-1 mt-2"><i class="fas fa-map-marker-alt"></i> {{ $city->name }}を探す</h2>
+			<small class="mx-1">{{ $city->name_furi }}</small>
+
+			<button class="navbar-toggler float-right px-0 d-lg-none" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="badge badge-info font-weight-normal">＋条件変更</span>
+			</button>
+
+		</div>
 
 		@if (!empty($places))
 		<div class="places-item">

@@ -149,4 +149,17 @@ class City extends Model
     		$q->where('name_furi', 'like', 'わ%');
     	});
     }
+
+    /**
+     * [scopehasCities place の $ids のいずれかを含む place が属する City のみを取得]
+     * @param  [type] $query [City]
+     * @param  [type] $ids   [Place]
+     * @return [type]        [description]
+     */
+    public function scopehasCities($query, $ids)
+    {
+        return self::whereHas('places', function ($query) use ($ids) {
+            $query->whereIn('id', $ids);
+        });
+    }
 }
