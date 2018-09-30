@@ -96,8 +96,7 @@
 											<span class="my-auto mr-2 py-2 btn btn-outline-secondary" id="undo1"><i class="fas fa-undo fa-lg"></i></span>
 										</div>
 										@if (!empty($errors->first('good_rating')))
-											<button type="button" class="close" data-dismiss="alert">&times;</button>
-											<small><i class="fas fa-exclamation-triangle"></i> {{ $errors->first('good_rating') }}</small>
+											<small class="invalid-feedback"><i class="fas fa-exclamation-triangle"></i> {{ $errors->first('good_rating') }}</small>
 										@endif
 									</div>
 								</div>
@@ -145,8 +144,7 @@
 											<span class="my-auto mr-2 py-2 btn btn-outline-secondary" id="undo2"><i class="fas fa-undo fa-lg"></i></span>
 										</div>
 										@if (!empty($errors->first('bad_rating')))
-											<button type="button" class="close" data-dismiss="alert">&times;</button>
-											<small><i class="fas fa-exclamation-triangle"></i> {{ $errors->first('bad_rating') }}</small>
+											<small class="invalid-feedback"><i class="fas fa-exclamation-triangle"></i> {{ $errors->first('bad_rating') }}</small>
 										@endif
 									</div>
 								</div>
