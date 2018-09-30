@@ -46,7 +46,7 @@ class ReviewsController extends Controller
 				]);
 			} else {
 				// $request の中にある place の値で特定の place 情報を取得
-				$place = Place::find($request->place);
+				$place = Place::findOrFail($request->place);
 				// $place インスタンスを使い review の下書き情報として session に保存
 				$this->create_draft_review($request, $place);
 				// place の draft review があれば取得
@@ -72,15 +72,21 @@ class ReviewsController extends Controller
 		// dd($request->all());
 		// $Place->id を持っている place か place を新規登録するための place_name のいずれかが $request に存在するか確認
 		if ($request->has('place') || $request->has('place_name')) {
+			$messages = [
+				'good_comment.required_if' => '「良かった点」、「気になる点」のいずれかのご入力が必須です',
+				'bad_comment.required_if'  => '「良かった点」、「気になる点」のいずれかのご入力が必須です',
+				'good_rating.required_unless'  => '「良かった点の評価」を上記のいずれかから選択が必須です',
+				'bad_rating.required_unless'  => '「気になる点の評価」を上記のいずれかから選択が必須です',
+			];
 			// バリデーションチェック
-			$this->validate($request, [
+			$validator = Validator::make($request->all(), [
 				'good_rating' => 'required_unless:good_comment,null,|integer',
 				'bad_rating' => 'required_unless:bad_comment,null,|integer',
 				//bad_comment フィールドの値が null(空＝未入力)なら このフィールドで required のバリデートを実行する|nullを許可|文字列であること|同一の内容じゃない|文字列が5文字以上（minの値は別途変更）
 				'good_comment' => 'required_if:bad_comment,null,|nullable|string|unique:reviews,comment|min:5',
 				'bad_comment' => 'required_if:good_comment,null,|nullable|string|unique:reviews,comment|min:5',
 				'tag_ids' => 'array',
-			]);
+			], $messages)->validate();
 
 			if ($request->has('place')) {
 				// $request の中にある place の値で特定の place インスタンスを取得
@@ -145,7 +151,7 @@ class ReviewsController extends Controller
 			// dd($data);
 			// $request に photo が 存在しているかを確認
 			if ($request->hasFile('photo')){
-				// 存在していれば photo の画像保存等を実行 $request と $data の中に reviewインスタンスを含めて渡している　
+				// 存在していれば photo の画像保存等を実行 $request と $data の中に reviewインスタンスを含めて渡している
 				app()->make('App\Http\Controllers\UploadController')->photo($request, $data, $placeId); // photo は UploadController に記述
 			}
 			// review の作成が完了した draft review を削除する
