@@ -50,7 +50,7 @@ class CitiesController extends Controller
     public function show(Request $request, $id)
     {
         // $id で city を取得する
-        $city = City::find($id);
+        $city = City::findOrFail($id);
         // city ページでの 検索絞り込みをするため place のクエリビルダクラスのインスタンスを作る
         $places_query = Place::query();
         // city に属する places を取得する
